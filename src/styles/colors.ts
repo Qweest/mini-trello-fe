@@ -1,4 +1,5 @@
 export default {
+  none: 'transparent',
   black: '#000',
   black1: '#0a0a0a',
   black2: '#151515',
@@ -10,6 +11,9 @@ export default {
   grey3: '#f6f6f6',
   white: '#fff',
   whiteA: 'rgba(255,255,255,0.5)',
-  whiteA1: 'rgba(255,255,255,0.25)',
+  whiteA1: 'rgba(255,255,255,0.35)',
+  whiteA2: 'rgba(255,255,255,0.25)',
   lightBlue: '#6c7fcb',
+  green: '#5aac44',
+  green1: '#61BD4E',
 };

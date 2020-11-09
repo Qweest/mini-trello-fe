@@ -35,6 +35,7 @@
         ],
         "import/prefer-default-export": "warn",
         "react/prop-types": 0,
-        "react/jsx-props-no-spreading": 0
+        "react/jsx-props-no-spreading": 0,
+        "react/jsx-fragments": 0
     }
 }

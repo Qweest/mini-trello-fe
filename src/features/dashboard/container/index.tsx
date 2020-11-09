@@ -11,6 +11,7 @@ import Column from '../components/Column';
 import { Row } from '../../../components';
 import { mockedDashboardData } from '../contants';
 import { Wrapper } from './styles';
+import AddColumnButton from '../components/AddColumnButton';
 
 const Dashboard = () => {
   const [columns, setColumns] = useState(mockedDashboardData.columns);
@@ -42,9 +43,9 @@ const Dashboard = () => {
                     <Draggable key={it.id} draggableId={it.id} index={index}>
                       {(providedDraggable) => (
                         <div
-                          ref={providedDraggable.innerRef}
                           {...providedDraggable.draggableProps}
                           {...providedDraggable.dragHandleProps}
+                          ref={providedDraggable.innerRef}
                         >
                           <Column data={it} />
                         </div>
@@ -58,6 +59,7 @@ const Dashboard = () => {
           }}
         </Droppable>
       </DragDropContext>
+      <AddColumnButton />
     </Wrapper>
   );
 };

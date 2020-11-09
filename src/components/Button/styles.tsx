@@ -2,6 +2,10 @@ import styled from 'styled-components';
 
 import { metrics, colors } from '../../styles';
 
+interface IconWrapperProps {
+  needMargin: boolean;
+}
+
 export const Wrapper = styled.div`
   display: flex;
   padding: ${metrics.spacing * 0.25}px;
@@ -12,8 +16,9 @@ export const Wrapper = styled.div`
   font-size: ${metrics.fontSize.medium}px;
 `;
 
-export const IconWrapper = styled.div`
+export const IconWrapper = styled.div<IconWrapperProps>`
   display: flex;
   align-items: center;
-  margin-right: ${metrics.spacing * 0.25}px;
+  margin-right: ${({ needMargin }) =>
+    needMargin ? metrics.spacing * 0.25 : 0}px;
 `;

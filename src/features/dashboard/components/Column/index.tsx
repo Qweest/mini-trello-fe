@@ -29,7 +29,7 @@ const Column: React.FC<Props> = ({ data }) => {
         {tasks.map((it) => (
           <Task key={it.id} data={it} />
         ))}
-        <AddButton Icon={<HiOutlinePlus />} text="Add another card" />
+        <AddButton Icon={<HiOutlinePlus />} text="Add card" />
       </Wrapper>
     </TransparentWrapper>
   );

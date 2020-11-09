@@ -11,7 +11,7 @@ export const Wrapper = styled.div<WrapperProps>`
   display: flex;
   flex-direction: row;
 
-  & > ${({ marginLast }) => (marginLast ? '*' : 'not(:last-child)')} {
+  & > ${({ marginLast }) => (marginLast ? '*' : ':not(:last-child)')} {
     margin-right: ${({ marginMultiplier }) =>
       metrics.spacing * marginMultiplier}px;
   }
