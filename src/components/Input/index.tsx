@@ -1,19 +1,25 @@
-import React from 'react';
+import React, { DetailedHTMLProps, InputHTMLAttributes } from 'react';
 
 import { Wrapper } from './styles';
 
-interface Props extends React.InputHTMLAttributes<HTMLInputElement> {
+interface Props
+  extends DetailedHTMLProps<
+    InputHTMLAttributes<HTMLInputElement>,
+    HTMLInputElement
+  > {
   value?: string;
+  innerRef?: any;
 }
 
 const Input: React.FC<Props> = (props) => {
-  const { value, placeholder, className, ...rest } = props;
+  const { value, placeholder, className, innerRef, ...rest } = props;
 
   return (
     <Wrapper
       value={value}
       placeholder={placeholder}
       className={className}
+      ref={innerRef}
       {...rest}
     />
   );

@@ -21,7 +21,10 @@ export const Wrapper = styled.div<WrapperProps>`
   cursor: pointer;
   ${({ focused }) =>
     focused
-      ? `background-color: ${colors.grey2};`
+      ? `
+        background-color: ${colors.grey2};
+        cursor: auto;   
+      `
       : `
         &:hover {
           background-color: ${colors.whiteA1};

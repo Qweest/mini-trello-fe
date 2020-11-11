@@ -1,4 +1,4 @@
-import React, { ReactElement, Fragment } from 'react';
+import React, { ReactElement, Fragment, SyntheticEvent } from 'react';
 
 import { Wrapper, IconWrapper } from './styles';
 
@@ -6,7 +6,7 @@ interface Props {
   text?: string;
   Icon?: ReactElement;
   className?: string;
-  onClick?: () => void;
+  onClick?: (e: SyntheticEvent) => void;
 }
 
 const Button: React.FC<Props> = (props) => {

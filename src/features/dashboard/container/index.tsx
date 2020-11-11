@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import {
   DragDropContext,
   Draggable,
@@ -9,12 +10,18 @@ import {
 import bg from '../../../assets/images/temp_bg.jpg';
 import Column from '../components/Column';
 import { Row } from '../../../components';
-import { mockedDashboardData } from '../contants';
-import { Wrapper } from './styles';
+import { State } from '../../../store/entities';
 import AddColumnButton from '../components/AddColumnButton';
+import { fetchBoardAction } from '../thunks';
+import { Wrapper } from './styles';
 
 const Dashboard = () => {
-  const [columns, setColumns] = useState(mockedDashboardData.columns);
+  const dispatch = useDispatch();
+  const { columns } = useSelector((state: State) => state.dashboard)
+
+  useEffect(() => {
+    dispatch(fetchBoardAction('5fabe8169f19e62e0835de01'));
+  }, []);
 
   const handleOnDragEnd = (result: DropResult) => {
     if (!result.destination) return;
@@ -24,8 +31,6 @@ const Dashboard = () => {
 
     nextColumns[destination?.index] = columns[source.index];
     nextColumns[source.index] = columns[destination?.index];
-
-    setColumns(nextColumns);
   };
 
   return (
