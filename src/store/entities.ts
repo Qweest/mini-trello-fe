@@ -1,5 +1,5 @@
-import { State as NotesState } from '../features/dashboard/entities';
+import { Board as BoardState } from '../features/dashboard/entities';
 
 export interface State {
-  dashboard: NotesState;
+  dashboard: BoardState;
 }

@@ -1,13 +1,12 @@
 import axios from 'axios';
 
-import { BASE_URL } from './constants';
+import { BASE_URL, SECURE } from './constants';
 
-const mainService = axios.create({
-  baseURL: `${BASE_URL}`,
-  headers: {
-    'Access-Control-Allow-Origin': '*',
-    'Access-Control-Allow-Headers': 'Origin, X-Requested-With, Content-Type, Accept'
-  }
+export const mainService = axios.create({
+  baseURL: `${BASE_URL}${SECURE}`,
 });
 
-export default mainService;
+export const authService = axios.create({
+  baseURL: `${BASE_URL}`,
+});
+

@@ -5,8 +5,8 @@ import { fetchBoard } from './api';
 export const fetchBoardAction = createAsyncThunk(
   'dashboard/fetchBoard',
   async (boardId: string) => {
-    const response = await fetchBoard(boardId);
+    const { data } = await fetchBoard(boardId);
 
-    return response.data;
+    return data;
   },
 );

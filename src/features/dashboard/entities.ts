@@ -1,16 +1,17 @@
-export interface Task {
-  id: string;
-  title: string;
-  description: string;
+export interface Board {
+  _id: string;
+  name: string;
+  taskColumns: Column[];
 }
 
 export interface Column {
-  id: string;
-  title: string;
+  _id: string;
+  name: string;
   tasks: Task[];
 }
 
-export interface State {
-  id: string;
-  columns: Column[];
+export interface Task {
+  _id: string;
+  title: string;
+  description: string;
 }

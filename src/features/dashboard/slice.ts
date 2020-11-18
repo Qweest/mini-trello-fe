@@ -1,11 +1,12 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-import { State } from './entities';
+import { Board } from './entities';
 import { fetchBoardAction } from './thunks';
 
-export const initialState: State = {
-  id: '',
-  columns: [],
+export const initialState: Board = {
+  _id: '',
+  name: '',
+  taskColumns: [],
 };
 
 const slice = createSlice({
@@ -16,8 +17,9 @@ const slice = createSlice({
   },
   extraReducers: builder => {
     builder.addCase(fetchBoardAction.fulfilled, (state, action) => {
-      state.id = action.payload._id;
-      state.columns = action.payload.taskColumns;
+      state._id = action.payload._id;
+      state.name = action.payload.name;
+      state.taskColumns = action.payload.taskColumns;
     })
   },
 });

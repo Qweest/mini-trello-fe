@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   DragDropContext,
@@ -17,7 +17,7 @@ import { Wrapper } from './styles';
 
 const Dashboard = () => {
   const dispatch = useDispatch();
-  const { columns } = useSelector((state: State) => state.dashboard)
+  const { taskColumns } = useSelector((state: State) => state.dashboard)
 
   useEffect(() => {
     dispatch(fetchBoardAction('5fabe8169f19e62e0835de01'));
@@ -27,10 +27,10 @@ const Dashboard = () => {
     if (!result.destination) return;
 
     const { destination, source } = result;
-    const nextColumns = [...columns];
+    const nextColumns = [...taskColumns];
 
-    nextColumns[destination?.index] = columns[source.index];
-    nextColumns[source.index] = columns[destination?.index];
+    nextColumns[destination?.index] = taskColumns[source.index];
+    nextColumns[source.index] = taskColumns[destination?.index];
   };
 
   return (
@@ -44,8 +44,8 @@ const Dashboard = () => {
                 ref={providedDroppable.innerRef}
               >
                 <Row marginMultiplier={0.5} marginLast>
-                  {columns.map((it, index) => (
-                    <Draggable key={it.id} draggableId={it.id} index={index}>
+                  {taskColumns.map((it, index) => (
+                    <Draggable key={it._id} draggableId={it._id} index={index}>
                       {(providedDraggable) => (
                         <div
                           {...providedDraggable.draggableProps}

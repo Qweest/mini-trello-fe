@@ -17,17 +17,17 @@ interface Props {
 }
 
 const Column: React.FC<Props> = ({ data }) => {
-  const { title, tasks } = data;
+  const { name, tasks } = data;
 
   return (
     <TransparentWrapper>
       <Wrapper>
         <Row marginMultiplier={0.5}>
-          <Title placeholder={title} type="text" />
+          <Title placeholder="Enter column name..." value={name} />
           <ActionIcon />
         </Row>
         {tasks.map((it) => (
-          <Task key={it.id} data={it} />
+          <Task key={it._id} data={it} />
         ))}
         <AddButton Icon={<HiOutlinePlus />} text="Add card" />
       </Wrapper>
