@@ -19,7 +19,14 @@ const Task: React.FC<Props> = ({ data }) => {
       <Title>{title}</Title>
       {showBadges && (
         <BadgesWrapper>
-          <Row>{description && <HiOutlineBookOpen color={colors.grey} />}</Row>
+          <Row>
+            {description && (
+              <HiOutlineBookOpen
+                title="This task has a description"
+                color={colors.grey}
+              />
+            )}
+          </Row>
         </BadgesWrapper>
       )}
     </Wrapper>

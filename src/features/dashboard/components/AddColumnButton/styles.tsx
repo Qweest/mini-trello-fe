@@ -3,7 +3,6 @@ import styled from 'styled-components';
 import {
   Button as UnstyledButton,
   Input as UnstyledInput,
-  Row as UnstyledRow,
 } from '../../../../components';
 import { colors, metrics } from '../../../../styles';
 
@@ -41,26 +40,5 @@ export const Input = styled(UnstyledInput)`
   width: 100%;
   background-color: ${colors.white};
   padding: ${metrics.spacing * 0.5}px;
-`;
-
-export const Row = styled(UnstyledRow)`
-  margin-top: ${metrics.spacing * 0.25}px;
-`;
-
-export const Add = styled(UnstyledButton)`
-  padding: ${metrics.spacing * 0.5}px ${metrics.spacing * 0.75}px;
-  background-color: ${colors.green};
-  &:hover {
-    background-color: ${colors.green1};
-  }
-`;
-
-export const Cancel = styled(UnstyledButton)`
-  padding: ${metrics.spacing * 0.25}px;
-  color: ${colors.grey};
-  background-color: ${colors.none};
-  &:hover {
-    color: ${colors.black4};
-    background-color: ${colors.grey1};
-  }
+  margin-bottom: ${metrics.spacing * 0.25}px;
 `;

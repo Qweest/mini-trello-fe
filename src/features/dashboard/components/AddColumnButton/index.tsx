@@ -1,7 +1,14 @@
-import React, { Fragment, useState, useRef, useEffect, SyntheticEvent } from 'react';
-import { HiOutlinePlus, HiOutlineX } from 'react-icons/hi';
+import React, {
+  Fragment,
+  useState,
+  useRef,
+  useEffect,
+  SyntheticEvent,
+} from 'react';
+import { HiOutlinePlus } from 'react-icons/hi';
 
-import { Wrapper, Button, Input, Row, Add, Cancel } from './styles';
+import { DefaultControls } from '../../../../components';
+import { Wrapper, Button, Input } from './styles';
 
 const AddColumnButton: React.FC = () => {
   const inputRef = useRef<HTMLInputElement>(null);
@@ -9,18 +16,13 @@ const AddColumnButton: React.FC = () => {
 
   useEffect(() => {
     if (focused && inputRef.current) {
-      const handleBlur = () => setFocused(false);
-
       inputRef.current.focus();
-      inputRef.current.addEventListener('blur', handleBlur);
-
-      return () => inputRef.current?.removeEventListener('blur', handleBlur);
     }
-
   }, [focused, inputRef]);
 
-  const handleBlockClick = () => {
+  const handleBlockClick = (e: SyntheticEvent) => {
     setFocused(true);
+    e.stopPropagation();
   };
 
   const handleCloseClick = (e: SyntheticEvent) => {
@@ -33,10 +35,10 @@ const AddColumnButton: React.FC = () => {
       {focused ? (
         <Fragment>
           <Input innerRef={inputRef} placeholder="Enter list title..." />
-          <Row marginMultiplier={0.25}>
-            <Add>Add List</Add>
-            <Cancel onClick={handleCloseClick} Icon={<HiOutlineX size={24} />} />
-          </Row>
+          <DefaultControls
+            proceedText="Add List"
+            onCloseClick={handleCloseClick}
+          />
         </Fragment>
       ) : (
         <Button

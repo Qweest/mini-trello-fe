@@ -1,22 +1,18 @@
 import React from 'react';
-import { HiOutlinePlus } from 'react-icons/hi';
 
 import { Row } from '../../../../components';
 import { Column as ColumnEntity } from '../../entities';
 import Task from '../Task';
-import {
-  TransparentWrapper,
-  Wrapper,
-  Title,
-  ActionIcon,
-  AddButton,
-} from './styles';
+import AddTaskButton from '../AddTaskButton';
+import { TransparentWrapper, Wrapper, Title, ActionIcon } from './styles';
 
 interface Props {
   data: ColumnEntity;
+  addTask: (title: string) => void;
 }
 
-const Column: React.FC<Props> = ({ data }) => {
+const Column: React.FC<Props> = (props) => {
+  const { data, addTask } = props;
   const { name, tasks } = data;
 
   return (
@@ -27,9 +23,9 @@ const Column: React.FC<Props> = ({ data }) => {
           <ActionIcon />
         </Row>
         {tasks.map((it) => (
-          <Task key={it._id} data={it} />
+          <Task key={it.id} data={it} />
         ))}
-        <AddButton Icon={<HiOutlinePlus />} text="Add card" />
+        <AddTaskButton addTask={addTask} />
       </Wrapper>
     </TransparentWrapper>
   );

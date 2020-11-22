@@ -1,5 +1,5 @@
 import { Board as BoardState } from '../features/dashboard/entities';
 
-export interface State {
+export interface RootState {
   dashboard: BoardState;
 }

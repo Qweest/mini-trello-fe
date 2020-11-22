@@ -9,4 +9,3 @@ export const mainService = axios.create({
 export const authService = axios.create({
   baseURL: `${BASE_URL}`,
 });
-

@@ -7,64 +7,78 @@ import {
   DropResult,
 } from 'react-beautiful-dnd';
 
-import bg from '../../../assets/images/temp_bg.jpg';
+import bg from '../../../assets/images/temp-bg.jpg';
 import Column from '../components/Column';
 import { Row } from '../../../components';
-import { State } from '../../../store/entities';
+import { RootState } from '../../../store/entities';
 import AddColumnButton from '../components/AddColumnButton';
-import { fetchBoardAction } from '../thunks';
-import { Wrapper } from './styles';
+import { addTaskAction, fetchBoardAction, moveColumnAction } from '../thunks';
+import { Wrapper, GradientWrapper } from './styles';
 
-const Dashboard = () => {
+const Dashboard: React.FC = () => {
   const dispatch = useDispatch();
-  const { taskColumns } = useSelector((state: State) => state.dashboard)
+  const { taskColumns, id } = useSelector(
+    (state: RootState) => state.dashboard,
+  );
 
   useEffect(() => {
-    dispatch(fetchBoardAction('5fabe8169f19e62e0835de01'));
+    if (!id) {
+      dispatch(fetchBoardAction({ boardId: '5fabe8169f19e62e0835de01' }));
+    }
   }, []);
+
+  const addTask = (columnId: string) => (title: string) => {
+    dispatch(addTaskAction({ boardId: id, taskColumnId: columnId, title }));
+  };
 
   const handleOnDragEnd = (result: DropResult) => {
     if (!result.destination) return;
 
     const { destination, source } = result;
-    const nextColumns = [...taskColumns];
 
-    nextColumns[destination?.index] = taskColumns[source.index];
-    nextColumns[source.index] = taskColumns[destination?.index];
+    dispatch(
+      moveColumnAction({
+        boardId: id,
+        currentPosition: source.index,
+        newPosition: destination?.index,
+      }),
+    );
   };
 
   return (
     <Wrapper background={bg}>
-      <DragDropContext onDragEnd={handleOnDragEnd}>
-        <Droppable droppableId="columns" direction="horizontal">
-          {(providedDroppable) => {
-            return (
-              <div
-                {...providedDroppable.droppableProps}
-                ref={providedDroppable.innerRef}
-              >
-                <Row marginMultiplier={0.5} marginLast>
-                  {taskColumns.map((it, index) => (
-                    <Draggable key={it._id} draggableId={it._id} index={index}>
-                      {(providedDraggable) => (
-                        <div
-                          {...providedDraggable.draggableProps}
-                          {...providedDraggable.dragHandleProps}
-                          ref={providedDraggable.innerRef}
-                        >
-                          <Column data={it} />
-                        </div>
-                      )}
-                    </Draggable>
-                  ))}
-                </Row>
-                {providedDroppable.placeholder}
-              </div>
-            );
-          }}
-        </Droppable>
-      </DragDropContext>
-      <AddColumnButton />
+      <GradientWrapper>
+        <DragDropContext onDragEnd={handleOnDragEnd}>
+          <Droppable droppableId="columns" direction="horizontal">
+            {(providedDroppable) => {
+              return (
+                <div
+                  {...providedDroppable.droppableProps}
+                  ref={providedDroppable.innerRef}
+                >
+                  <Row marginMultiplier={0.5} marginLast>
+                    {taskColumns.map((it, index) => (
+                      <Draggable key={it.id} draggableId={it.id} index={index}>
+                        {(providedDraggable) => (
+                          <div
+                            {...providedDraggable.draggableProps}
+                            {...providedDraggable.dragHandleProps}
+                            ref={providedDraggable.innerRef}
+                          >
+                            <Column addTask={addTask(it.id)} data={it} />
+                          </div>
+                        )}
+                      </Draggable>
+                    ))}
+                  </Row>
+                  {providedDroppable.placeholder}
+                </div>
+              );
+            }}
+          </Droppable>
+        </DragDropContext>
+        <AddColumnButton />
+      </GradientWrapper>
     </Wrapper>
   );
 };

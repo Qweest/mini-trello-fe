@@ -2,7 +2,7 @@ import styled from 'styled-components';
 import { HiOutlineDotsHorizontal } from 'react-icons/hi';
 
 import { colors, metrics } from '../../../../styles';
-import { Button, Input } from '../../../../components';
+import { Input } from '../../../../components';
 
 export const TransparentWrapper = styled.div`
   width: 250px;
@@ -38,16 +38,5 @@ export const ActionIcon = styled(HiOutlineDotsHorizontal)`
   &:hover {
     background-color: ${colors.grey1};
     color: ${colors.black3};
-  }
-`;
-
-export const AddButton = styled(Button)`
-  margin-top: ${metrics.spacing * 0.5}px;
-  padding-left: ${metrics.spacing * 0.5}px;
-  background-color: transparent;
-  color: ${colors.grey};
-  &:hover {
-    background-color: ${colors.grey1};
-    color: ${colors.black2};
   }
 `;

@@ -1,15 +1,11 @@
 import styled from 'styled-components';
 
+import { Card } from '../../../../components';
 import { colors, metrics } from '../../../../styles';
 
-export const Wrapper = styled.div`
-  display: flex;
+export const Wrapper = styled(Card)`
   flex-direction: column;
-  background-color: ${colors.white};
-  border-radius: 3px;
-  padding: ${metrics.spacing * 0.5}px;
   margin-top: ${metrics.spacing * 0.5}px;
-  box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.35);
   cursor: pointer;
   &:hover {
     background-color: ${colors.grey3};
