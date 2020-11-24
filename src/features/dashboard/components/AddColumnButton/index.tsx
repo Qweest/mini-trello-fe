@@ -9,10 +9,17 @@ import { HiOutlinePlus } from 'react-icons/hi';
 
 import { DefaultControls } from '../../../../components';
 import { Wrapper, Button, Input } from './styles';
+import { TitleArea } from '../AddTaskButton/styles';
 
-const AddColumnButton: React.FC = () => {
+interface Props {
+  addColumn: (title: string) => void;
+}
+
+const AddColumnButton: React.FC<Props> = (props) => {
+  const { addColumn } = props;
   const inputRef = useRef<HTMLInputElement>(null);
   const [focused, setFocused] = useState(false);
+  const [value, setValue] = useState('');
 
   useEffect(() => {
     if (focused && inputRef.current) {
@@ -27,17 +34,33 @@ const AddColumnButton: React.FC = () => {
 
   const handleCloseClick = (e: SyntheticEvent) => {
     setFocused(false);
+    setValue('');
     e.stopPropagation();
+  };
+
+  const handleProceedClick = (e: SyntheticEvent) => {
+    addColumn(value);
+    handleCloseClick(e);
+  };
+
+  const handleTextChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setValue(e.target.value);
   };
 
   return (
     <Wrapper focused={focused} onClick={handleBlockClick}>
       {focused ? (
         <Fragment>
-          <Input innerRef={inputRef} placeholder="Enter list title..." />
+          <Input
+            innerRef={inputRef}
+            value={value}
+            onChange={handleTextChange}
+            placeholder="Enter list title..."
+          />
           <DefaultControls
             proceedText="Add List"
             onCloseClick={handleCloseClick}
+            onProceedClick={handleProceedClick}
           />
         </Fragment>
       ) : (

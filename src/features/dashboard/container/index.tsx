@@ -12,7 +12,12 @@ import Column from '../components/Column';
 import { Row } from '../../../components';
 import { RootState } from '../../../store/entities';
 import AddColumnButton from '../components/AddColumnButton';
-import { addTaskAction, fetchBoardAction, moveColumnAction } from '../thunks';
+import {
+  addColumnAction,
+  addTaskAction,
+  fetchBoardAction,
+  moveColumnAction,
+} from '../thunks';
 import { Wrapper, GradientWrapper } from './styles';
 
 const Dashboard: React.FC = () => {
@@ -27,10 +32,6 @@ const Dashboard: React.FC = () => {
     }
   }, []);
 
-  const addTask = (columnId: string) => (title: string) => {
-    dispatch(addTaskAction({ boardId: id, taskColumnId: columnId, title }));
-  };
-
   const handleOnDragEnd = (result: DropResult) => {
     if (!result.destination) return;
 
@@ -43,6 +44,19 @@ const Dashboard: React.FC = () => {
         newPosition: destination?.index,
       }),
     );
+  };
+
+  const addColumn = (name: string) => {
+    dispatch(
+      addColumnAction({
+        boardId: id,
+        name,
+      }),
+    );
+  };
+
+  const addTask = (columnId: string) => (title: string) => {
+    dispatch(addTaskAction({ boardId: id, taskColumnId: columnId, title }));
   };
 
   return (
@@ -77,7 +91,7 @@ const Dashboard: React.FC = () => {
             }}
           </Droppable>
         </DragDropContext>
-        <AddColumnButton />
+        <AddColumnButton addColumn={addColumn} />
       </GradientWrapper>
     </Wrapper>
   );

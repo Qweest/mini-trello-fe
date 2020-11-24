@@ -1,8 +1,13 @@
 import { mainService } from '../../../api';
-import { BOARD, BOARDS_MOVE, TASKS } from './constants';
-import { BoardDTO, MoveDTO, TaskDTO } from './entities';
+import { BOARD, BOARDS_MOVE, COLUMNS, TASKS } from './constants';
+import {
+  FetchBoardDTO,
+  CreateColumnDTO,
+  MoveDTO,
+  CreateTaskDTO,
+} from './entities';
 
-export const fetchBoard = async ({ boardId }: BoardDTO) => {
+export const fetchBoard = async ({ boardId }: FetchBoardDTO) => {
   return await mainService.get(BOARD(boardId));
 };
 
@@ -17,6 +22,10 @@ export const moveColumn = async ({
   });
 };
 
-export const createTask = async (taskDTO: TaskDTO) => {
-  return await mainService.post(TASKS, taskDTO);
+export const createColumn = async (createColumnDTO: CreateColumnDTO) => {
+  return await mainService.post(COLUMNS, createColumnDTO);
+};
+
+export const createTask = async (createTaskDTO: CreateTaskDTO) => {
+  return await mainService.post(TASKS, createTaskDTO);
 };

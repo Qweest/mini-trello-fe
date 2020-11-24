@@ -1,6 +1,12 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-import { MoveDTO, TaskDTO, TaskLoaded } from './api/entities';
+import {
+  CreateColumnDTO,
+  MoveDTO,
+  CreateTaskDTO,
+  TaskLoaded,
+  ColumnLoaded,
+} from './api/entities';
 import { Board } from './entities';
 
 export const initialState: Board = {
@@ -51,7 +57,22 @@ const slice = createSlice({
       ];
     },
 
-    addTaskPending(state, action: PayloadAction<TaskDTO>) {
+    addColumnPending(state, action: PayloadAction<CreateColumnDTO>) {
+      const { name } = action.payload;
+
+      state.taskColumns.push({ name, id: name, tasks: [], boardId: state.id });
+    },
+    addColumnSuccess(state, action: PayloadAction<ColumnLoaded>) {
+      const { payload } = action;
+      const currentColumnIndex = state.taskColumns.findIndex(
+        ({ id }) => id === payload.name,
+      )!;
+
+      state.taskColumns[currentColumnIndex] = payload;
+    },
+    addColumnFailure() {},
+
+    addTaskPending(state, action: PayloadAction<CreateTaskDTO>) {
       const { taskColumnId, title } = action.payload;
       const currentColumn = state.taskColumns.find(
         ({ id }) => id === taskColumnId,

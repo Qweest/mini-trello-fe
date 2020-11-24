@@ -6,12 +6,13 @@ export interface Board {
 
 export interface Column {
   id: string;
+  boardId: string;
   name: string;
   tasks: Task[];
 }
 
 export interface Task {
-  id?: string;
+  id: string;
   title: string;
   description?: string;
   boardId?: string;

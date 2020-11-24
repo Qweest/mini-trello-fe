@@ -1,14 +1,19 @@
 import { AppThunk } from '../../store';
-import { BoardDTO, MoveDTO, TaskDTO } from './api/entities';
-import { createTask, fetchBoard, moveColumn } from './api';
+import {
+  FetchBoardDTO,
+  CreateColumnDTO,
+  MoveDTO,
+  CreateTaskDTO,
+} from './api/entities';
+import { createColumn, createTask, fetchBoard, moveColumn } from './api';
 import { actions } from './slice';
 
-export const fetchBoardAction = (boardDTO: BoardDTO): AppThunk => async (
-  dispatch,
-) => {
+export const fetchBoardAction = (
+  fetchBoardDTO: FetchBoardDTO,
+): AppThunk => async (dispatch) => {
   try {
     dispatch(actions.fetchBoardPending());
-    const { data } = await fetchBoard(boardDTO);
+    const { data } = await fetchBoard(fetchBoardDTO);
     dispatch(actions.fetchBoardSuccess(data));
   } catch (e) {
     dispatch(actions.fetchBoardFailure());
@@ -27,12 +32,24 @@ export const moveColumnAction = (moveDTO: MoveDTO): AppThunk => async (
   }
 };
 
-export const addTaskAction = (taskDTO: TaskDTO): AppThunk => async (
+export const addColumnAction = (
+  createColumnDTO: CreateColumnDTO,
+): AppThunk => async (dispatch) => {
+  try {
+    dispatch(actions.addColumnPending(createColumnDTO));
+    const { data } = await createColumn(createColumnDTO);
+    dispatch(actions.addColumnSuccess(data));
+  } catch (e) {
+    dispatch(actions.addColumnFailure());
+  }
+};
+
+export const addTaskAction = (createTaskDTO: CreateTaskDTO): AppThunk => async (
   dispatch,
 ) => {
   try {
-    dispatch(actions.addTaskPending(taskDTO));
-    const { data } = await createTask(taskDTO);
+    dispatch(actions.addTaskPending(createTaskDTO));
+    const { data } = await createTask(createTaskDTO);
     dispatch(actions.addTaskSuccess(data));
   } catch (e) {
     dispatch(actions.addTaskFailure());

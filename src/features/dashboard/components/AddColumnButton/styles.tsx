@@ -11,11 +11,11 @@ interface WrapperProps {
 }
 
 export const Wrapper = styled.div<WrapperProps>`
-  width: 250px;
+  min-width: 250px;
   height: fit-content;
   border-radius: 3px;
   background-color: ${colors.whiteA2};
-  transition: all 0.5s ease-out;
+  transition: all 0.25s ease-out;
   padding: ${metrics.spacing * 0.25}px;
   cursor: pointer;
   ${({ focused }) =>
