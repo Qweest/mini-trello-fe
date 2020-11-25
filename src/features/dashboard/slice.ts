@@ -30,10 +30,10 @@ const slice = createSlice({
     fetchBoardFailure() {},
 
     moveColumnPending(state, action: PayloadAction<MoveDTO>) {
-      const { currentPosition, newPosition } = action.payload;
-      const currentColumn = state.taskColumns[currentPosition];
+      const { oldPosition, newPosition } = action.payload;
+      const currentColumn = state.taskColumns[oldPosition];
       const filteredColumns = state.taskColumns.filter(
-        (it, index) => index !== currentPosition,
+        (it, index) => index !== oldPosition,
       );
 
       state.taskColumns = [
@@ -44,10 +44,10 @@ const slice = createSlice({
     },
     moveColumnSuccess() {},
     moveColumnFailure(state, action: PayloadAction<MoveDTO>) {
-      const { currentPosition, newPosition } = action.payload;
-      const currentColumn = state.taskColumns[currentPosition];
+      const { oldPosition, newPosition } = action.payload;
+      const currentColumn = state.taskColumns[oldPosition];
       const filteredColumns = state.taskColumns.filter(
-        (it, index) => index !== currentPosition,
+        (it, index) => index !== oldPosition,
       );
 
       state.taskColumns = [

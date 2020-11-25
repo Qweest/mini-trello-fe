@@ -13,11 +13,11 @@ export const fetchBoard = async ({ boardId }: FetchBoardDTO) => {
 
 export const moveColumn = async ({
   boardId,
-  currentPosition,
+  oldPosition,
   newPosition,
 }: MoveDTO) => {
   return await mainService.put(BOARDS_MOVE(boardId), {
-    currentPosition,
+    oldPosition,
     newPosition,
   });
 };

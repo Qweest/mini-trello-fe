@@ -4,7 +4,7 @@ export interface FetchBoardDTO {
 
 export interface MoveDTO {
   boardId: string;
-  currentPosition: number;
+  oldPosition: number;
   newPosition: number;
 }
 

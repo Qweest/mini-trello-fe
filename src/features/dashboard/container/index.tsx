@@ -40,7 +40,7 @@ const Dashboard: React.FC = () => {
     dispatch(
       moveColumnAction({
         boardId: id,
-        currentPosition: source.index,
+        oldPosition: source.index,
         newPosition: destination?.index,
       }),
     );
