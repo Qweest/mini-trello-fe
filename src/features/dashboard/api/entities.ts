@@ -13,6 +13,12 @@ export interface CreateColumnDTO {
   name: string;
 }
 
+export interface UpdateColumnDTO {
+  id: string;
+  boardId: string;
+  name: string;
+}
+
 export interface ColumnLoaded extends CreateColumnDTO {
   id: string;
   tasks: TaskLoaded[];

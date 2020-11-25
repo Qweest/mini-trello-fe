@@ -9,7 +9,6 @@ import { HiOutlinePlus } from 'react-icons/hi';
 
 import { DefaultControls } from '../../../../components';
 import { Wrapper, Button, Input } from './styles';
-import { TitleArea } from '../AddTaskButton/styles';
 
 interface Props {
   addColumn: (title: string) => void;

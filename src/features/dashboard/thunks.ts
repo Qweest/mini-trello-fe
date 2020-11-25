@@ -4,8 +4,15 @@ import {
   CreateColumnDTO,
   MoveDTO,
   CreateTaskDTO,
+  UpdateColumnDTO,
 } from './api/entities';
-import { createColumn, createTask, fetchBoard, moveColumn } from './api';
+import {
+  createColumn,
+  createTask,
+  fetchBoard,
+  moveColumn,
+  updateColumn,
+} from './api';
 import { actions } from './slice';
 
 export const fetchBoardAction = (
@@ -41,6 +48,18 @@ export const addColumnAction = (
     dispatch(actions.addColumnSuccess(data));
   } catch (e) {
     dispatch(actions.addColumnFailure());
+  }
+};
+
+export const updateColumnAction = (
+  updateColumnDTO: UpdateColumnDTO,
+): AppThunk => async (dispatch) => {
+  try {
+    dispatch(actions.updateColumnPending(updateColumnDTO));
+    await updateColumn(updateColumnDTO);
+    dispatch(actions.updateColumnSuccess());
+  } catch (e) {
+    dispatch(actions.updateColumnFailure());
   }
 };
 

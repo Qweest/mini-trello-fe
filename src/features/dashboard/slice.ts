@@ -6,6 +6,7 @@ import {
   CreateTaskDTO,
   TaskLoaded,
   ColumnLoaded,
+  UpdateColumnDTO,
 } from './api/entities';
 import { Board } from './entities';
 
@@ -71,6 +72,17 @@ const slice = createSlice({
       state.taskColumns[currentColumnIndex] = payload;
     },
     addColumnFailure() {},
+
+    updateColumnPending(state, action: PayloadAction<UpdateColumnDTO>) {
+      const { name, id: currentId } = action.payload;
+      const currentColumn = state.taskColumns.find(
+        ({ id }) => id === currentId,
+      )!;
+
+      currentColumn.name = name;
+    },
+    updateColumnSuccess() {},
+    updateColumnFailure() {},
 
     addTaskPending(state, action: PayloadAction<CreateTaskDTO>) {
       const { taskColumnId, title } = action.payload;

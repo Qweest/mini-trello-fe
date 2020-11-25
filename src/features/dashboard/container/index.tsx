@@ -17,6 +17,7 @@ import {
   addTaskAction,
   fetchBoardAction,
   moveColumnAction,
+  updateColumnAction,
 } from '../thunks';
 import { Wrapper, GradientWrapper } from './styles';
 
@@ -55,6 +56,16 @@ const Dashboard: React.FC = () => {
     );
   };
 
+  const updateColumn = (columnId: string) => (name: string) => {
+    dispatch(
+      updateColumnAction({
+        id: columnId,
+        boardId: id,
+        name,
+      }),
+    );
+  };
+
   const addTask = (columnId: string) => (title: string) => {
     dispatch(addTaskAction({ boardId: id, taskColumnId: columnId, title }));
   };
@@ -79,7 +90,11 @@ const Dashboard: React.FC = () => {
                             {...providedDraggable.dragHandleProps}
                             ref={providedDraggable.innerRef}
                           >
-                            <Column addTask={addTask(it.id)} data={it} />
+                            <Column
+                              updateColumn={updateColumn(it.id)}
+                              addTask={addTask(it.id)}
+                              data={it}
+                            />
                           </div>
                         )}
                       </Draggable>

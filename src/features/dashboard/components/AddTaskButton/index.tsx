@@ -7,9 +7,9 @@ import React, {
 } from 'react';
 import { HiOutlinePlus } from 'react-icons/hi';
 
+import { validation } from '../../../../utils';
 import { DefaultControls } from '../../../../components';
 import { Wrapper, Button, TitleArea, AreaCard } from './styles';
-import validator from 'validator';
 
 interface Props {
   addTask: (title: string) => void;
@@ -60,7 +60,7 @@ const AddTaskButton: React.FC<Props> = (props) => {
             />
           </AreaCard>
           <DefaultControls
-            disabled={validator.isEmpty(value, { ignore_whitespace: true })}
+            disabled={validation.isEmpty(value)}
             proceedText="Add task"
             onCloseClick={handleCloseClick}
             onProceedClick={handleProceedClick}
