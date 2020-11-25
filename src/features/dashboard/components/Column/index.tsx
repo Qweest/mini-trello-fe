@@ -32,7 +32,7 @@ const Column: React.FC<Props> = (props) => {
 
   const handleTitleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter') {
-      handleSubmitName();
+      e.currentTarget.blur();
     }
   };
 
