@@ -1,35 +1,49 @@
-export interface FetchBoardDTO {
-  boardId: string;
+export interface BoardRequest {
+  id: string;
 }
 
-export interface MoveDTO {
-  boardId: string;
+export interface BoardResponse {
+  id: string;
+  name: string;
+  lists: ListResponse[];
+}
+
+export interface MoveRequest {
   oldPosition: number;
   newPosition: number;
 }
 
-export interface CreateColumnDTO {
+export interface MoveListRequest extends MoveRequest {
+  boardId: string;
+}
+
+export interface ListResponse {
+  id: string;
+  boardId: string;
+  name: string;
+  cards: CardResponse[];
+}
+
+export interface CreateListRequest {
   boardId: string;
   name: string;
 }
 
-export interface UpdateColumnDTO {
+export interface UpdateListRequest {
   id: string;
   boardId: string;
   name: string;
 }
 
-export interface ColumnLoaded extends CreateColumnDTO {
-  id: string;
-  tasks: TaskLoaded[];
-}
-
-export interface CreateTaskDTO {
+export interface CardResponse {
   boardId: string;
-  taskColumnId: string;
+  listId: string;
+  id: string;
   title: string;
 }
 
-export interface TaskLoaded extends CreateTaskDTO {
-  id: string;
+export interface CreateCardRequest {
+  boardId: string;
+  listId: string;
+  title: string;
 }

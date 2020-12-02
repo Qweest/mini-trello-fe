@@ -3,14 +3,14 @@ import { HiOutlineBookOpen } from 'react-icons/hi';
 
 import { colors } from '../../../../styles';
 import { Row } from '../../../../components';
-import { Task as TaskEntity } from '../../entities';
+import { Card as CardEntity } from '../../entities';
 import { Wrapper, Title, BadgesWrapper } from './styles';
 
 interface Props {
-  data: TaskEntity;
+  data: CardEntity;
 }
 
-const Task: React.FC<Props> = ({ data }) => {
+const Card: React.FC<Props> = ({ data }) => {
   const { title, description } = data;
   const showBadges = !!description;
 
@@ -22,7 +22,7 @@ const Task: React.FC<Props> = ({ data }) => {
           <Row>
             {description && (
               <HiOutlineBookOpen
-                title="This task has a description"
+                title="This card has a description"
                 color={colors.grey}
               />
             )}
@@ -33,4 +33,4 @@ const Task: React.FC<Props> = ({ data }) => {
   );
 };
 
-export default Task;
+export default Card;

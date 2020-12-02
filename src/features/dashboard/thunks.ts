@@ -1,76 +1,77 @@
 import { AppThunk } from '../../store';
 import {
-  FetchBoardDTO,
-  CreateColumnDTO,
-  MoveDTO,
-  CreateTaskDTO,
-  UpdateColumnDTO,
+  BoardRequest,
+  BoardResponse,
+  MoveListRequest,
+  CreateListRequest,
+  UpdateListRequest,
+  CreateCardRequest,
 } from './api/entities';
 import {
-  createColumn,
-  createTask,
   fetchBoard,
-  moveColumn,
-  updateColumn,
+  moveList,
+  createList,
+  updateList,
+  createCard,
 } from './api';
 import { actions } from './slice';
 
 export const fetchBoardAction = (
-  fetchBoardDTO: FetchBoardDTO,
+  boardRequest: BoardRequest,
 ): AppThunk => async (dispatch) => {
   try {
     dispatch(actions.fetchBoardPending());
-    const { data } = await fetchBoard(fetchBoardDTO);
+    const { data } = await fetchBoard(boardRequest);
     dispatch(actions.fetchBoardSuccess(data));
   } catch (e) {
     dispatch(actions.fetchBoardFailure());
   }
 };
 
-export const moveColumnAction = (moveDTO: MoveDTO): AppThunk => async (
-  dispatch,
-) => {
-  try {
-    dispatch(actions.moveColumnPending(moveDTO));
-    await moveColumn(moveDTO);
-    dispatch(actions.moveColumnSuccess());
-  } catch (e) {
-    dispatch(actions.moveColumnFailure(moveDTO));
-  }
-};
-
-export const addColumnAction = (
-  createColumnDTO: CreateColumnDTO,
+export const moveListAction = (
+  moveListRequest: MoveListRequest,
 ): AppThunk => async (dispatch) => {
   try {
-    dispatch(actions.addColumnPending(createColumnDTO));
-    const { data } = await createColumn(createColumnDTO);
-    dispatch(actions.addColumnSuccess(data));
+    dispatch(actions.moveListPending(moveListRequest));
+    await moveList(moveListRequest);
+    dispatch(actions.moveListSuccess());
   } catch (e) {
-    dispatch(actions.addColumnFailure());
+    dispatch(actions.moveListFailure(moveListRequest));
   }
 };
 
-export const updateColumnAction = (
-  updateColumnDTO: UpdateColumnDTO,
+export const createListAction = (
+  createListRequest: CreateListRequest,
 ): AppThunk => async (dispatch) => {
   try {
-    dispatch(actions.updateColumnPending(updateColumnDTO));
-    await updateColumn(updateColumnDTO);
-    dispatch(actions.updateColumnSuccess());
+    dispatch(actions.createListPending(createListRequest));
+    const { data } = await createList(createListRequest);
+    dispatch(actions.createListSuccess(data));
   } catch (e) {
-    dispatch(actions.updateColumnFailure());
+    dispatch(actions.createListFailure());
   }
 };
 
-export const addTaskAction = (createTaskDTO: CreateTaskDTO): AppThunk => async (
-  dispatch,
-) => {
+export const updateListAction = (
+  updateListRequest: UpdateListRequest,
+): AppThunk => async (dispatch) => {
   try {
-    dispatch(actions.addTaskPending(createTaskDTO));
-    const { data } = await createTask(createTaskDTO);
-    dispatch(actions.addTaskSuccess(data));
+    dispatch(actions.updateListPending(updateListRequest));
+    await updateList(updateListRequest);
+    dispatch(actions.updateListSuccess());
   } catch (e) {
-    dispatch(actions.addTaskFailure());
+    dispatch(actions.updateListFailure());
+  }
+};
+
+export const createCardAction = (
+  createCardRequest: CreateCardRequest,
+): AppThunk => async (dispatch) => {
+  try {
+    dispatch(actions.createCardPending(createCardRequest));
+    const { data } = await createCard(createCardRequest);
+    dispatch(actions.createCardSuccess(data));
+  } catch (e) {
+    dispatch(actions.createCardFailure());
   }
 };

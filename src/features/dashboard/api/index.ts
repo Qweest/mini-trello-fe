@@ -1,36 +1,38 @@
 import { mainService } from '../../../api';
-import { BOARD, BOARDS_MOVE_COLUMN, COLUMN, COLUMNS, TASKS } from './constants';
+import { BOARD, BOARDS_MOVE_LIST, LIST, LISTS, CARDS } from './constants';
 import {
-  FetchBoardDTO,
-  CreateColumnDTO,
-  MoveDTO,
-  CreateTaskDTO,
-  UpdateColumnDTO,
+  BoardRequest,
+  MoveListRequest,
+  CreateListRequest,
+  UpdateListRequest,
+  CreateCardRequest,
 } from './entities';
 
-export const fetchBoard = async ({ boardId }: FetchBoardDTO) => {
-  return await mainService.get(BOARD(boardId));
+export const fetchBoard = async (boardRequest: BoardRequest) => {
+  const { id } = boardRequest;
+
+  return await mainService.get(BOARD(id));
 };
 
-export const moveColumn = async (moveDTO: MoveDTO) => {
-  const { boardId, newPosition, oldPosition } = moveDTO;
+export const moveList = async (moveListRequest: MoveListRequest) => {
+  const { boardId, newPosition, oldPosition } = moveListRequest;
 
-  return await mainService.put(BOARDS_MOVE_COLUMN(boardId), {
+  return await mainService.put(BOARDS_MOVE_LIST(boardId), {
     oldPosition,
     newPosition,
   });
 };
 
-export const createColumn = async (createColumnDTO: CreateColumnDTO) => {
-  return await mainService.post(COLUMNS, createColumnDTO);
+export const createList = async (createListRequest: CreateListRequest) => {
+  return await mainService.post(LISTS, createListRequest);
 };
 
-export const updateColumn = async (updateColumnDTO: UpdateColumnDTO) => {
-  const { boardId, id, name } = updateColumnDTO;
+export const updateList = async (updateListRequest: UpdateListRequest) => {
+  const { boardId, id, name } = updateListRequest;
 
-  return await mainService.put(COLUMN(id), { boardId, name });
+  return await mainService.put(LIST(id), { boardId, name });
 };
 
-export const createTask = async (createTaskDTO: CreateTaskDTO) => {
-  return await mainService.post(TASKS, createTaskDTO);
+export const createCard = async (createCardRequest: CreateCardRequest) => {
+  return await mainService.post(CARDS, createCardRequest);
 };

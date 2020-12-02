@@ -1,20 +1,20 @@
 export interface Board {
   id: string;
   name: string;
-  taskColumns: Column[];
+  lists: List[];
 }
 
-export interface Column {
+export interface List {
   id: string;
   boardId: string;
   name: string;
-  tasks: Task[];
+  cards: Card[];
 }
 
-export interface Task {
+export interface Card {
   id: string;
+  listId?: string;
+  boardId?: string;
   title: string;
   description?: string;
-  boardId?: string;
-  taskColumnId?: string;
 }

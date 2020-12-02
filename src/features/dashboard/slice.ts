@@ -1,19 +1,20 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 import {
-  CreateColumnDTO,
-  MoveDTO,
-  CreateTaskDTO,
-  TaskLoaded,
-  ColumnLoaded,
-  UpdateColumnDTO,
+  BoardResponse,
+  MoveListRequest,
+  CreateListRequest,
+  UpdateListRequest,
+  ListResponse,
+  CreateCardRequest,
+  CardResponse,
 } from './api/entities';
 import { Board } from './entities';
 
 export const initialState: Board = {
   id: '',
   name: '',
-  taskColumns: [],
+  lists: [],
 };
 
 const slice = createSlice({
@@ -21,89 +22,71 @@ const slice = createSlice({
   initialState,
   reducers: {
     fetchBoardPending() {},
-    fetchBoardSuccess(state, action: PayloadAction<Board>) {
-      const { id, name, taskColumns } = action.payload;
+    fetchBoardSuccess(state, action: PayloadAction<BoardResponse>) {
+      const { id, name, lists } = action.payload;
 
       state.id = id;
       state.name = name;
-      state.taskColumns = taskColumns;
+      state.lists = lists;
     },
     fetchBoardFailure() {},
 
-    moveColumnPending(state, action: PayloadAction<MoveDTO>) {
+    moveListPending(state, action: PayloadAction<MoveListRequest>) {
       const { oldPosition, newPosition } = action.payload;
-      const currentColumn = state.taskColumns[oldPosition];
-      const filteredColumns = state.taskColumns.filter(
-        (it, index) => index !== oldPosition,
-      );
+      const { lists } = state;
 
-      state.taskColumns = [
-        ...filteredColumns.slice(0, newPosition),
-        currentColumn,
-        ...filteredColumns.slice(newPosition),
-      ];
+      lists.splice(newPosition, 0, lists.splice(oldPosition, 1)[0]);
     },
-    moveColumnSuccess() {},
-    moveColumnFailure(state, action: PayloadAction<MoveDTO>) {
+    moveListSuccess() {},
+    moveListFailure(state, action: PayloadAction<MoveListRequest>) {
       const { oldPosition, newPosition } = action.payload;
-      const currentColumn = state.taskColumns[oldPosition];
-      const filteredColumns = state.taskColumns.filter(
-        (it, index) => index !== oldPosition,
-      );
+      const { lists } = state;
 
-      state.taskColumns = [
-        ...filteredColumns.slice(0, newPosition),
-        currentColumn,
-        ...filteredColumns.slice(newPosition),
-      ];
+      lists.splice(newPosition, 0, lists.splice(oldPosition, 1)[0]);
     },
 
-    addColumnPending(state, action: PayloadAction<CreateColumnDTO>) {
+    createListPending(state, action: PayloadAction<CreateListRequest>) {
       const { name } = action.payload;
+      const pendingList = {
+        id: name,
+        name,
+        cards: [],
+        boardId: state.id,
+      };
 
-      state.taskColumns.push({ name, id: name, tasks: [], boardId: state.id });
+      state.lists.push(pendingList);
     },
-    addColumnSuccess(state, action: PayloadAction<ColumnLoaded>) {
+    createListSuccess(state, action: PayloadAction<ListResponse>) {
       const { payload } = action;
-      const currentColumnIndex = state.taskColumns.findIndex(
-        ({ id }) => id === payload.name,
-      )!;
+      const listIndex = state.lists.findIndex(({ id }) => id === payload.name)!;
 
-      state.taskColumns[currentColumnIndex] = payload;
+      state.lists[listIndex] = payload;
     },
-    addColumnFailure() {},
+    createListFailure() {},
 
-    updateColumnPending(state, action: PayloadAction<UpdateColumnDTO>) {
+    updateListPending(state, action: PayloadAction<UpdateListRequest>) {
       const { name, id: currentId } = action.payload;
-      const currentColumn = state.taskColumns.find(
-        ({ id }) => id === currentId,
-      )!;
+      const list = state.lists.find(({ id }) => id === currentId)!;
 
-      currentColumn.name = name;
+      list.name = name;
     },
-    updateColumnSuccess() {},
-    updateColumnFailure() {},
+    updateListSuccess() {},
+    updateListFailure() {},
 
-    addTaskPending(state, action: PayloadAction<CreateTaskDTO>) {
-      const { taskColumnId, title } = action.payload;
-      const currentColumn = state.taskColumns.find(
-        ({ id }) => id === taskColumnId,
-      )!;
+    createCardPending(state, action: PayloadAction<CreateCardRequest>) {
+      const { listId, title } = action.payload;
+      const list = state.lists.find(({ id }) => id === listId)!;
 
-      currentColumn.tasks.push({ id: title, title });
+      list.cards.push({ id: title, title });
     },
-    addTaskSuccess(state, action: PayloadAction<TaskLoaded>) {
-      const { taskColumnId, title } = action.payload;
-      const currentColumn = state.taskColumns.find(
-        ({ id }) => id === taskColumnId,
-      )!;
-      const currentTaskIndex = currentColumn.tasks.findIndex(
-        ({ id }) => id === title,
-      )!;
+    createCardSuccess(state, action: PayloadAction<CardResponse>) {
+      const { listId, title } = action.payload;
+      const list = state.lists.find(({ id }) => id === listId)!;
+      const cardIndex = list.cards.findIndex(({ id }) => id === title)!;
 
-      currentColumn.tasks[currentTaskIndex] = action.payload;
+      list.cards[cardIndex] = action.payload;
     },
-    addTaskFailure() {},
+    createCardFailure() {},
   },
 });
 

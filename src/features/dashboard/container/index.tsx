@@ -8,28 +8,26 @@ import {
 } from 'react-beautiful-dnd';
 
 import bg from '../../../assets/images/temp-bg.jpg';
-import Column from '../components/Column';
+import List from '../components/List';
 import { Row } from '../../../components';
 import { RootState } from '../../../store/entities';
-import AddColumnButton from '../components/AddColumnButton';
+import CreateListButton from '../components/CreateListButton';
 import {
-  addColumnAction,
-  addTaskAction,
   fetchBoardAction,
-  moveColumnAction,
-  updateColumnAction,
+  moveListAction,
+  createListAction,
+  updateListAction,
+  createCardAction,
 } from '../thunks';
 import { Wrapper, GradientWrapper } from './styles';
 
 const Dashboard: React.FC = () => {
   const dispatch = useDispatch();
-  const { taskColumns, id } = useSelector(
-    (state: RootState) => state.dashboard,
-  );
+  const { lists, id } = useSelector((state: RootState) => state.dashboard);
 
   useEffect(() => {
     if (!id) {
-      dispatch(fetchBoardAction({ boardId: '5fabe8169f19e62e0835de01' }));
+      dispatch(fetchBoardAction({ id: '5fabe8169f19e62e0835de01' }));
     }
   }, []);
 
@@ -39,7 +37,7 @@ const Dashboard: React.FC = () => {
     const { destination, source } = result;
 
     dispatch(
-      moveColumnAction({
+      moveListAction({
         boardId: id,
         oldPosition: source.index,
         newPosition: destination?.index,
@@ -47,34 +45,34 @@ const Dashboard: React.FC = () => {
     );
   };
 
-  const addColumn = (name: string) => {
+  const createList = (name: string) => {
     dispatch(
-      addColumnAction({
+      createListAction({
         boardId: id,
         name,
       }),
     );
   };
 
-  const updateColumn = (columnId: string) => (name: string) => {
+  const updateList = (listId: string) => (name: string) => {
     dispatch(
-      updateColumnAction({
-        id: columnId,
+      updateListAction({
+        id: listId,
         boardId: id,
         name,
       }),
     );
   };
 
-  const addTask = (columnId: string) => (title: string) => {
-    dispatch(addTaskAction({ boardId: id, taskColumnId: columnId, title }));
+  const createCard = (listId: string) => (title: string) => {
+    dispatch(createCardAction({ boardId: id, listId, title }));
   };
 
   return (
     <Wrapper background={bg}>
       <GradientWrapper>
         <DragDropContext onDragEnd={handleOnDragEnd}>
-          <Droppable droppableId="columns" direction="horizontal">
+          <Droppable droppableId="lists" direction="horizontal">
             {(providedDroppable) => {
               return (
                 <div
@@ -82,7 +80,7 @@ const Dashboard: React.FC = () => {
                   ref={providedDroppable.innerRef}
                 >
                   <Row marginMultiplier={0.5} marginLast>
-                    {taskColumns.map((it, index) => (
+                    {lists.map((it, index) => (
                       <Draggable key={it.id} draggableId={it.id} index={index}>
                         {(providedDraggable) => (
                           <div
@@ -90,9 +88,9 @@ const Dashboard: React.FC = () => {
                             {...providedDraggable.dragHandleProps}
                             ref={providedDraggable.innerRef}
                           >
-                            <Column
-                              updateColumn={updateColumn(it.id)}
-                              addTask={addTask(it.id)}
+                            <List
+                              updateList={updateList(it.id)}
+                              createCard={createCard(it.id)}
                               data={it}
                             />
                           </div>
@@ -106,7 +104,7 @@ const Dashboard: React.FC = () => {
             }}
           </Droppable>
         </DragDropContext>
-        <AddColumnButton addColumn={addColumn} />
+        <CreateListButton createList={createList} />
       </GradientWrapper>
     </Wrapper>
   );

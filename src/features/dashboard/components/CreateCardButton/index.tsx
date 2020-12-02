@@ -7,16 +7,17 @@ import React, {
 } from 'react';
 import { HiOutlinePlus } from 'react-icons/hi';
 
+import { validation } from '../../../../utils';
 import { DefaultControls } from '../../../../components';
-import { Wrapper, Button, Input } from './styles';
+import { Wrapper, Button, TitleArea, AreaCard } from './styles';
 
 interface Props {
-  addColumn: (title: string) => void;
+  createCard: (title: string) => void;
 }
 
-const AddColumnButton: React.FC<Props> = (props) => {
-  const { addColumn } = props;
-  const inputRef = useRef<HTMLInputElement>(null);
+const CreateCardButton: React.FC<Props> = (props) => {
+  const { createCard } = props;
+  const inputRef = useRef<HTMLTextAreaElement>(null);
   const [focused, setFocused] = useState(false);
   const [value, setValue] = useState('');
 
@@ -38,33 +39,36 @@ const AddColumnButton: React.FC<Props> = (props) => {
   };
 
   const handleProceedClick = (e: SyntheticEvent) => {
-    addColumn(value);
+    createCard(value);
     handleCloseClick(e);
   };
 
-  const handleTextChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleTextChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setValue(e.target.value);
   };
 
   return (
-    <Wrapper focused={focused} onClick={handleBlockClick}>
+    <Wrapper>
       {focused ? (
         <Fragment>
-          <Input
-            innerRef={inputRef}
-            value={value}
-            onChange={handleTextChange}
-            placeholder="Enter list title..."
-          />
+          <AreaCard>
+            <TitleArea
+              value={value}
+              onChange={handleTextChange}
+              innerRef={inputRef}
+              placeholder="Enter card title..."
+            />
+          </AreaCard>
           <DefaultControls
-            proceedText="Add List"
+            disabled={validation.isEmpty(value)}
+            proceedText="Create card"
             onCloseClick={handleCloseClick}
             onProceedClick={handleProceedClick}
           />
         </Fragment>
       ) : (
         <Button
-          text="Add list"
+          text="Create card"
           Icon={<HiOutlinePlus />}
           onClick={handleBlockClick}
         />
@@ -73,4 +77,4 @@ const AddColumnButton: React.FC<Props> = (props) => {
   );
 };
 
-export default AddColumnButton;
+export default CreateCardButton;

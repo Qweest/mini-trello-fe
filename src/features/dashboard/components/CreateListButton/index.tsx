@@ -7,16 +7,15 @@ import React, {
 } from 'react';
 import { HiOutlinePlus } from 'react-icons/hi';
 
-import { validation } from '../../../../utils';
 import { DefaultControls } from '../../../../components';
-import { Wrapper, Button, TitleArea, AreaCard } from './styles';
+import { Wrapper, Button, Input } from './styles';
 
 interface Props {
-  addTask: (title: string) => void;
+  createList: (title: string) => void;
 }
 
-const AddTaskButton: React.FC<Props> = (props) => {
-  const { addTask } = props;
+const CreateListButton: React.FC<Props> = (props) => {
+  const { createList } = props;
   const inputRef = useRef<HTMLInputElement>(null);
   const [focused, setFocused] = useState(false);
   const [value, setValue] = useState('');
@@ -39,36 +38,33 @@ const AddTaskButton: React.FC<Props> = (props) => {
   };
 
   const handleProceedClick = (e: SyntheticEvent) => {
-    addTask(value);
+    createList(value);
     handleCloseClick(e);
   };
 
-  const handleTextChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+  const handleTextChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setValue(e.target.value);
   };
 
   return (
-    <Wrapper>
+    <Wrapper focused={focused} onClick={handleBlockClick}>
       {focused ? (
         <Fragment>
-          <AreaCard>
-            <TitleArea
-              value={value}
-              onChange={handleTextChange}
-              innerRef={inputRef}
-              placeholder="Enter task title..."
-            />
-          </AreaCard>
+          <Input
+            innerRef={inputRef}
+            value={value}
+            onChange={handleTextChange}
+            placeholder="Enter list title..."
+          />
           <DefaultControls
-            disabled={validation.isEmpty(value)}
-            proceedText="Add task"
+            proceedText="Create list"
             onCloseClick={handleCloseClick}
             onProceedClick={handleProceedClick}
           />
         </Fragment>
       ) : (
         <Button
-          text="Add task"
+          text="Create list"
           Icon={<HiOutlinePlus />}
           onClick={handleBlockClick}
         />
@@ -77,4 +73,4 @@ const AddTaskButton: React.FC<Props> = (props) => {
   );
 };
 
-export default AddTaskButton;
+export default CreateListButton;

@@ -4,11 +4,10 @@ interface RouteWithId {
 
 export const BOARD: RouteWithId = (id) => `/boards/${id}`;
 export const BOARDS = '/boards';
-export const BOARDS_MOVE_COLUMN: RouteWithId = (id) =>
-  `/boards/${id}/task-column-move`;
+export const BOARDS_MOVE_LIST: RouteWithId = (id) => `/boards/${id}/list-move`;
 
-export const COLUMN: RouteWithId = (id) => `/taskColumns/${id}`;
-export const COLUMNS = '/taskColumns';
+export const LIST: RouteWithId = (id) => `/lists/${id}`;
+export const LISTS = '/lists';
 
-export const TASK: RouteWithId = (id) => `/tasks/${id}`;
-export const TASKS = '/tasks';
+export const CARD: RouteWithId = (id) => `/cards/${id}`;
+export const CARDS = '/tasks';
