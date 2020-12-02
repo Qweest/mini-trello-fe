@@ -1,22 +1,38 @@
 import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
 
 import { validation } from '../../../../utils';
 import { Row } from '../../../../components';
 import { List as ListEntity } from '../../entities';
 import Card from '../Card';
 import CreateCardButton from '../CreateCardButton';
+import { createCardAction, updateListAction } from '../../thunks';
 import { TransparentWrapper, Wrapper, Title, ActionIcon } from './styles';
 
 interface Props {
   data: ListEntity;
-  createCard: (title: string) => void;
-  updateList: (name: string) => void;
+  boardId: string;
 }
 
 const List: React.FC<Props> = (props) => {
-  const { data, createCard, updateList } = props;
-  const { name, cards } = data;
+  const { data, boardId } = props;
+  const { id, name, cards } = data;
+  const dispatch = useDispatch();
   const [title, setTitle] = useState(name);
+
+  const updateList = (name: string) => {
+    dispatch(
+      updateListAction({
+        id: id,
+        boardId,
+        name,
+      }),
+    );
+  };
+
+  const createCard = (title: string) => {
+    dispatch(createCardAction({ boardId, listId: id, title }));
+  };
 
   const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setTitle(e.target.value);

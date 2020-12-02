@@ -10,4 +10,4 @@ export const LIST: RouteWithId = (id) => `/lists/${id}`;
 export const LISTS = '/lists';
 
 export const CARD: RouteWithId = (id) => `/cards/${id}`;
-export const CARDS = '/tasks';
+export const CARDS = '/cards';

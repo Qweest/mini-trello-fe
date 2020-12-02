@@ -8,17 +8,11 @@ import {
 } from 'react-beautiful-dnd';
 
 import bg from '../../../assets/images/temp-bg.jpg';
-import List from '../components/List';
 import { Row } from '../../../components';
 import { RootState } from '../../../store/entities';
+import List from '../components/List';
 import CreateListButton from '../components/CreateListButton';
-import {
-  fetchBoardAction,
-  moveListAction,
-  createListAction,
-  updateListAction,
-  createCardAction,
-} from '../thunks';
+import { fetchBoardAction, moveListAction, createListAction } from '../thunks';
 import { Wrapper, GradientWrapper } from './styles';
 
 const Dashboard: React.FC = () => {
@@ -27,14 +21,14 @@ const Dashboard: React.FC = () => {
 
   useEffect(() => {
     if (!id) {
-      dispatch(fetchBoardAction({ id: '5fabe8169f19e62e0835de01' }));
+      dispatch(fetchBoardAction({ id: '5fc7c3c35ffb70097740344b' }));
     }
   }, []);
 
   const handleOnDragEnd = (result: DropResult) => {
-    if (!result.destination) return;
-
     const { destination, source } = result;
+
+    if (!destination || destination.index === source.index) return;
 
     dispatch(
       moveListAction({
@@ -54,25 +48,11 @@ const Dashboard: React.FC = () => {
     );
   };
 
-  const updateList = (listId: string) => (name: string) => {
-    dispatch(
-      updateListAction({
-        id: listId,
-        boardId: id,
-        name,
-      }),
-    );
-  };
-
-  const createCard = (listId: string) => (title: string) => {
-    dispatch(createCardAction({ boardId: id, listId, title }));
-  };
-
   return (
     <Wrapper background={bg}>
       <GradientWrapper>
         <DragDropContext onDragEnd={handleOnDragEnd}>
-          <Droppable droppableId="lists" direction="horizontal">
+          <Droppable droppableId="board" direction="horizontal">
             {(providedDroppable) => {
               return (
                 <div
@@ -88,11 +68,7 @@ const Dashboard: React.FC = () => {
                             {...providedDraggable.dragHandleProps}
                             ref={providedDraggable.innerRef}
                           >
-                            <List
-                              updateList={updateList(it.id)}
-                              createCard={createCard(it.id)}
-                              data={it}
-                            />
+                            <List boardId={id} data={it} />
                           </div>
                         )}
                       </Draggable>
