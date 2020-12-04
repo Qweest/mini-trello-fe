@@ -73,8 +73,8 @@ const Dashboard: React.FC = () => {
                         )}
                       </Draggable>
                     ))}
+                    {providedDroppable.placeholder}
                   </Row>
-                  {providedDroppable.placeholder}
                 </div>
               );
             }}
