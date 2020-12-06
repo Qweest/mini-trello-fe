@@ -78,7 +78,7 @@ export const moveListAction = (
     await moveList(moveRequest);
     dispatch(actions.moveListSuccess());
   } catch (e) {
-    dispatch(actions.moveListFailure(moveRequest));
+    dispatch(actions.moveListFailure(moveListActionData));
   }
 };
 
