@@ -4,7 +4,6 @@ interface RouteWithId {
 
 export const BOARD: RouteWithId = (id) => `/boards/${id}`;
 export const BOARDS = '/boards';
-export const BOARDS_MOVE_LIST: RouteWithId = (id) => `/boards/${id}/list-move`;
 
 export const LIST: RouteWithId = (id) => `/lists/${id}`;
 export const LISTS = '/lists';

@@ -77,4 +77,4 @@ const CreateCardButton: React.FC<Props> = (props) => {
   );
 };
 
-export default CreateCardButton;
+export default React.memo(CreateCardButton);

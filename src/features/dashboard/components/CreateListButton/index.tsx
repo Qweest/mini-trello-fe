@@ -73,4 +73,4 @@ const CreateListButton: React.FC<Props> = (props) => {
   );
 };
 
-export default CreateListButton;
+export default React.memo(CreateListButton);

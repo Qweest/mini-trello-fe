@@ -8,6 +8,7 @@ export interface List {
   id: string;
   boardId: string;
   name: string;
+  position: number;
   cards: Card[];
 }
 
@@ -17,4 +18,14 @@ export interface Card {
   boardId?: string;
   title: string;
   description?: string;
+}
+
+export interface CreateListAction {
+  boardId: string;
+  name: string;
+}
+
+export interface MoveListAction {
+  id: string;
+  newIndex: number;
 }

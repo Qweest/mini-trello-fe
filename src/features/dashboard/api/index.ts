@@ -1,10 +1,10 @@
 import { mainService } from '../../../api';
-import { BOARD, BOARDS_MOVE_LIST, LIST, LISTS, CARDS } from './constants';
+import { BOARD, LIST, LISTS, CARDS } from './constants';
 import {
   BoardRequest,
-  MoveListRequest,
   CreateListRequest,
   UpdateListRequest,
+  MoveRequest,
   CreateCardRequest,
 } from './entities';
 
@@ -14,23 +14,22 @@ export const fetchBoard = async (boardRequest: BoardRequest) => {
   return await mainService.get(BOARD(id));
 };
 
-export const moveList = async (moveListRequest: MoveListRequest) => {
-  const { boardId, newPosition, oldPosition } = moveListRequest;
-
-  return await mainService.put(BOARDS_MOVE_LIST(boardId), {
-    oldPosition,
-    newPosition,
-  });
-};
-
 export const createList = async (createListRequest: CreateListRequest) => {
   return await mainService.post(LISTS, createListRequest);
 };
 
 export const updateList = async (updateListRequest: UpdateListRequest) => {
-  const { boardId, id, name } = updateListRequest;
+  const { id, name } = updateListRequest;
 
-  return await mainService.put(LIST(id), { boardId, name });
+  return await mainService.put(LIST(id), { name });
+};
+
+export const moveList = async (moveRequest: MoveRequest) => {
+  const { position, id } = moveRequest;
+
+  return await mainService.put(LIST(id), {
+    position,
+  });
 };
 
 export const createCard = async (createCardRequest: CreateCardRequest) => {

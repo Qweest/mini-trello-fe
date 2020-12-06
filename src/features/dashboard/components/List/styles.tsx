@@ -4,17 +4,21 @@ import { HiOutlineDotsHorizontal } from 'react-icons/hi';
 import { colors, metrics } from '../../../../styles';
 import { Input } from '../../../../components';
 
-export const TransparentWrapper = styled.div`
-  width: 250px;
-  height: 100%;
-`;
+interface WrapperProps {
+  isDragging: boolean;
+}
 
-export const Wrapper = styled.div`
+export const Wrapper = styled.div<WrapperProps>`
+  width: 250px;
+  height: fit-content;
   display: flex;
   flex-direction: column;
   background-color: ${colors.grey2};
   border-radius: 3px;
   padding: ${metrics.spacing * 0.5}px;
+  box-sizing: border-box;
+  box-shadow: 0 0 30px
+    ${({ isDragging }) => (isDragging ? colors.blackA : colors.none)};
 `;
 
 export const Title = styled(Input)`

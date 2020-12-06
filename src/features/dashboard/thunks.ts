@@ -2,9 +2,9 @@ import { AppThunk } from '../../store';
 import {
   BoardRequest,
   BoardResponse,
-  MoveListRequest,
   CreateListRequest,
   UpdateListRequest,
+  MoveRequest,
   CreateCardRequest,
 } from './api/entities';
 import {
@@ -15,6 +15,8 @@ import {
   createCard,
 } from './api';
 import { actions } from './slice';
+import { CreateListAction, MoveListAction } from './entities';
+import { getNewPosition, getNextPosition } from './helpers';
 
 export const fetchBoardAction = (
   boardRequest: BoardRequest,
@@ -28,21 +30,18 @@ export const fetchBoardAction = (
   }
 };
 
-export const moveListAction = (
-  moveListRequest: MoveListRequest,
-): AppThunk => async (dispatch) => {
-  try {
-    dispatch(actions.moveListPending(moveListRequest));
-    await moveList(moveListRequest);
-    dispatch(actions.moveListSuccess());
-  } catch (e) {
-    dispatch(actions.moveListFailure(moveListRequest));
-  }
-};
-
 export const createListAction = (
-  createListRequest: CreateListRequest,
-): AppThunk => async (dispatch) => {
+  createListActionData: CreateListAction,
+): AppThunk => async (dispatch, getState) => {
+  const { dashboard } = getState();
+  const { boardId, name } = createListActionData;
+  const newPosition = getNewPosition(dashboard.lists);
+  const createListRequest: CreateListRequest = {
+    boardId,
+    name,
+    position: newPosition,
+  };
+
   try {
     dispatch(actions.createListPending(createListRequest));
     const { data } = await createList(createListRequest);
@@ -61,6 +60,25 @@ export const updateListAction = (
     dispatch(actions.updateListSuccess());
   } catch (e) {
     dispatch(actions.updateListFailure());
+  }
+};
+
+export const moveListAction = (
+  moveListActionData: MoveListAction,
+): AppThunk => async (dispatch, getState) => {
+  const { dashboard } = getState();
+  const { id, newIndex } = moveListActionData;
+  const moveRequest: MoveRequest = {
+    id,
+    position: getNextPosition(dashboard.lists, newIndex),
+  };
+
+  try {
+    dispatch(actions.moveListPending(moveListActionData));
+    await moveList(moveRequest);
+    dispatch(actions.moveListSuccess());
+  } catch (e) {
+    dispatch(actions.moveListFailure(moveRequest));
   }
 };
 

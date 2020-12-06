@@ -8,31 +8,28 @@ export interface BoardResponse {
   lists: ListResponse[];
 }
 
-export interface MoveRequest {
-  oldPosition: number;
-  newPosition: number;
-}
-
-export interface MoveListRequest extends MoveRequest {
-  boardId: string;
-}
-
 export interface ListResponse {
   id: string;
   boardId: string;
   name: string;
+  position: number;
   cards: CardResponse[];
 }
 
 export interface CreateListRequest {
   boardId: string;
   name: string;
+  position: number;
 }
 
 export interface UpdateListRequest {
   id: string;
-  boardId: string;
   name: string;
+}
+
+export interface MoveRequest {
+  id: string;
+  position: number;
 }
 
 export interface CardResponse {

@@ -1,15 +1,16 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import sortBy from 'lodash/sortBy';
 
 import {
   BoardResponse,
-  MoveListRequest,
   CreateListRequest,
   UpdateListRequest,
   ListResponse,
+  MoveRequest,
   CreateCardRequest,
   CardResponse,
 } from './api/entities';
-import { Board } from './entities';
+import { Board, MoveListAction } from './entities';
 
 export const initialState: Board = {
   id: '',
@@ -27,31 +28,18 @@ const slice = createSlice({
 
       state.id = id;
       state.name = name;
-      state.lists = lists;
+      state.lists = sortBy(lists, 'position');
     },
     fetchBoardFailure() {},
 
-    moveListPending(state, action: PayloadAction<MoveListRequest>) {
-      const { oldPosition, newPosition } = action.payload;
-      const { lists } = state;
-
-      lists.splice(newPosition, 0, lists.splice(oldPosition, 1)[0]);
-    },
-    moveListSuccess() {},
-    moveListFailure(state, action: PayloadAction<MoveListRequest>) {
-      const { oldPosition, newPosition } = action.payload;
-      const { lists } = state;
-
-      lists.splice(newPosition, 0, lists.splice(oldPosition, 1)[0]);
-    },
-
     createListPending(state, action: PayloadAction<CreateListRequest>) {
-      const { name } = action.payload;
+      const { name, position } = action.payload;
       const pendingList = {
         id: name,
         name,
         cards: [],
         boardId: state.id,
+        position,
       };
 
       state.lists.push(pendingList);
@@ -72,6 +60,21 @@ const slice = createSlice({
     },
     updateListSuccess() {},
     updateListFailure() {},
+
+    moveListPending(state, action: PayloadAction<MoveListAction>) {
+      const { newIndex } = action.payload;
+      const { lists } = state;
+      const sliceLists = lists.slice(newIndex);
+
+      // BE CAREFUL! HIGH QUALITY CODE AHEAD!
+      for (
+        let i = 0;
+        sliceLists[i].position === sliceLists[i - 1].position;
+        sliceLists[i++].position++
+      ) {}
+    },
+    moveListSuccess() {},
+    moveListFailure(state, action: PayloadAction<MoveListAction>) {},
 
     createCardPending(state, action: PayloadAction<CreateCardRequest>) {
       const { listId, title } = action.payload;
