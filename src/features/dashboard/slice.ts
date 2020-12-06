@@ -6,11 +6,10 @@ import {
   CreateListRequest,
   UpdateListRequest,
   ListResponse,
-  MoveRequest,
   CreateCardRequest,
   CardResponse,
 } from './api/entities';
-import { Board, MoveListAction } from './entities';
+import { Board, MoveListAction, MoveListActionPending } from './entities';
 
 export const initialState: Board = {
   id: '',
@@ -61,20 +60,28 @@ const slice = createSlice({
     updateListSuccess() {},
     updateListFailure() {},
 
-    moveListPending(state, action: PayloadAction<MoveListAction>) {
-      const { newIndex } = action.payload;
+    moveListPending(state, action: PayloadAction<MoveListActionPending>) {
+      const { oldIndex, position, adjacentIndex } = action.payload;
       const { lists } = state;
-      const sliceLists = lists.slice(newIndex);
 
-      // BE CAREFUL! HIGH QUALITY CODE AHEAD!
-      for (
-        let i = 0;
-        sliceLists[i].position === sliceLists[i - 1].position;
-        sliceLists[i++].position++
-      ) {}
+      lists[oldIndex].position = position;
+
+      if (lists[adjacentIndex] && position === lists[adjacentIndex].position) {
+        lists[adjacentIndex].position++;
+
+        for (
+          let i = adjacentIndex;
+          lists[i].position === lists[i + 1]?.position;
+          i++
+        ) {
+          lists[i + 1].position++;
+        }
+      }
+
+      state.lists = sortBy(lists, 'position');
     },
     moveListSuccess() {},
-    moveListFailure(state, action: PayloadAction<MoveListAction>) {},
+    moveListFailure() {},
 
     createCardPending(state, action: PayloadAction<CreateCardRequest>) {
       const { listId, title } = action.payload;

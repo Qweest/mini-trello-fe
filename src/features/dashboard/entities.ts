@@ -28,4 +28,11 @@ export interface CreateListAction {
 export interface MoveListAction {
   id: string;
   newIndex: number;
+  oldIndex: number;
+}
+
+export interface MoveListActionPending extends MoveListAction {
+  position: number;
+  isPositive: boolean;
+  adjacentIndex: number;
 }

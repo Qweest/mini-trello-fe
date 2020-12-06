@@ -6,15 +6,30 @@ interface EntityWithPosition {
   position: number;
 }
 
+interface NextPositionConfig {
+  isPositive: boolean;
+  adjacentIndex: number;
+  position: number;
+}
+
 export const getNewPosition = (entities: EntityWithPosition[]): number => {
   const newPosition = last(entities)?.position || 0;
 
   return newPosition + MOVE_STEP;
 };
 
-export const getNextPosition = (
+export const getNextPositionConfig = (
   entities: EntityWithPosition[],
   newIndex: number,
-): number => {
-  return entities[newIndex].position + 1;
+  oldIndex: number,
+): NextPositionConfig => {
+  const isPositive = newIndex - oldIndex > 0;
+  const adjacentIndex = isPositive ? newIndex + 1 : newIndex;
+  const targetPosition = entities[newIndex].position;
+
+  return {
+    isPositive,
+    position: isPositive ? targetPosition + 1 : targetPosition,
+    adjacentIndex,
+  };
 };

@@ -1,7 +1,6 @@
 import { AppThunk } from '../../store';
 import {
   BoardRequest,
-  BoardResponse,
   CreateListRequest,
   UpdateListRequest,
   MoveRequest,
@@ -15,8 +14,12 @@ import {
   createCard,
 } from './api';
 import { actions } from './slice';
-import { CreateListAction, MoveListAction } from './entities';
-import { getNewPosition, getNextPosition } from './helpers';
+import {
+  CreateListAction,
+  MoveListAction,
+  MoveListActionPending,
+} from './entities';
+import { getNewPosition, getNextPositionConfig } from './helpers';
 
 export const fetchBoardAction = (
   boardRequest: BoardRequest,
@@ -67,18 +70,29 @@ export const moveListAction = (
   moveListActionData: MoveListAction,
 ): AppThunk => async (dispatch, getState) => {
   const { dashboard } = getState();
-  const { id, newIndex } = moveListActionData;
+  const { id, newIndex, oldIndex } = moveListActionData;
+  const { position, isPositive, adjacentIndex } = getNextPositionConfig(
+    dashboard.lists,
+    newIndex,
+    oldIndex,
+  );
   const moveRequest: MoveRequest = {
     id,
-    position: getNextPosition(dashboard.lists, newIndex),
+    position,
+  };
+  const moveListActionPending: MoveListActionPending = {
+    ...moveListActionData,
+    position,
+    isPositive,
+    adjacentIndex,
   };
 
   try {
-    dispatch(actions.moveListPending(moveListActionData));
-    await moveList(moveRequest);
+    dispatch(actions.moveListPending(moveListActionPending));
+    // await moveList(moveRequest);
     dispatch(actions.moveListSuccess());
   } catch (e) {
-    dispatch(actions.moveListFailure(moveListActionData));
+    dispatch(actions.moveListFailure());
   }
 };
 

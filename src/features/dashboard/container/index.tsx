@@ -50,6 +50,7 @@ const Dashboard: React.FC = () => {
       moveListAction({
         id: draggableId,
         newIndex: destination.index,
+        oldIndex: source.index,
       }),
     );
   };
