@@ -71,7 +71,7 @@ export const moveListAction = (
 ): AppThunk => async (dispatch, getState) => {
   const { dashboard } = getState();
   const { id, newIndex, oldIndex } = moveListActionData;
-  const { position, isPositive, adjacentIndex } = getNextPositionConfig(
+  const { position, adjacentIndex } = getNextPositionConfig(
     dashboard.lists,
     newIndex,
     oldIndex,
@@ -83,13 +83,12 @@ export const moveListAction = (
   const moveListActionPending: MoveListActionPending = {
     ...moveListActionData,
     position,
-    isPositive,
     adjacentIndex,
   };
 
   try {
     dispatch(actions.moveListPending(moveListActionPending));
-    // await moveList(moveRequest);
+    await moveList(moveRequest);
     dispatch(actions.moveListSuccess());
   } catch (e) {
     dispatch(actions.moveListFailure());

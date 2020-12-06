@@ -33,6 +33,5 @@ export interface MoveListAction {
 
 export interface MoveListActionPending extends MoveListAction {
   position: number;
-  isPositive: boolean;
   adjacentIndex: number;
 }

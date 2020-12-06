@@ -7,7 +7,6 @@ interface EntityWithPosition {
 }
 
 interface NextPositionConfig {
-  isPositive: boolean;
   adjacentIndex: number;
   position: number;
 }
@@ -28,7 +27,6 @@ export const getNextPositionConfig = (
   const targetPosition = entities[newIndex].position;
 
   return {
-    isPositive,
     position: isPositive ? targetPosition + 1 : targetPosition,
     adjacentIndex,
   };
