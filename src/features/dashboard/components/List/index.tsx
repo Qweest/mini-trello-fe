@@ -1,4 +1,4 @@
-import React, { ReactElement, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { Draggable, Droppable } from 'react-beautiful-dnd';
 
@@ -37,7 +37,6 @@ const List: React.FC<Props> = (props) => {
     dispatch(
       updateListAction({
         id,
-        boardId,
         name,
       }),
     );
