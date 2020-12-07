@@ -6,6 +6,16 @@ export interface BoardResponse {
   id: string;
   name: string;
   lists: ListResponse[];
+  cards: CardResponse[];
+}
+
+export interface MoveRequest {
+  id: string;
+  position: number;
+}
+
+export interface MoveCardRequest extends MoveRequest {
+  listId: string;
 }
 
 export interface ListResponse {
@@ -13,7 +23,6 @@ export interface ListResponse {
   boardId: string;
   name: string;
   position: number;
-  cards: CardResponse[];
 }
 
 export interface CreateListRequest {
@@ -27,20 +36,17 @@ export interface UpdateListRequest {
   name: string;
 }
 
-export interface MoveRequest {
-  id: string;
-  position: number;
-}
-
 export interface CardResponse {
   boardId: string;
   listId: string;
   id: string;
   title: string;
+  position: number;
 }
 
 export interface CreateCardRequest {
   boardId: string;
   listId: string;
   title: string;
+  position: number;
 }

@@ -1,1 +1,4 @@
-export const MOVE_STEP = 1;
+export const DROPPABLE_TYPES = {
+  list: 'list',
+  card: 'card',
+};

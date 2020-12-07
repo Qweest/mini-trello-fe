@@ -1,5 +1,4 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import sortBy from 'lodash/sortBy';
 
 import {
   BoardResponse,
@@ -9,12 +8,21 @@ import {
   CreateCardRequest,
   CardResponse,
 } from './api/entities';
-import { Board, MoveListAction, MoveListActionPending } from './entities';
+import {
+  Board,
+  List,
+  Card,
+  MoveActionPending,
+  MoveAction,
+  MoveCardAction,
+} from './entities';
+import { getListSortedCards, sortByPosition } from './helpers';
 
 export const initialState: Board = {
   id: '',
   name: '',
   lists: [],
+  cards: [],
 };
 
 const slice = createSlice({
@@ -23,20 +31,20 @@ const slice = createSlice({
   reducers: {
     fetchBoardPending() {},
     fetchBoardSuccess(state, action: PayloadAction<BoardResponse>) {
-      const { id, name, lists } = action.payload;
+      const { id, name, lists, cards } = action.payload;
 
       state.id = id;
       state.name = name;
-      state.lists = sortBy(lists, 'position');
+      state.lists = sortByPosition(lists);
+      state.cards = cards;
     },
     fetchBoardFailure() {},
 
     createListPending(state, action: PayloadAction<CreateListRequest>) {
       const { name, position } = action.payload;
-      const pendingList = {
+      const pendingList: List = {
         id: name,
         name,
-        cards: [],
         boardId: state.id,
         position,
       };
@@ -60,43 +68,79 @@ const slice = createSlice({
     updateListSuccess() {},
     updateListFailure() {},
 
-    moveListPending(state, action: PayloadAction<MoveListActionPending>) {
+    moveListPending(
+      state,
+      action: PayloadAction<MoveActionPending<MoveAction>>,
+    ) {
       const { oldIndex, position, adjacentIndex } = action.payload;
       const { lists } = state;
 
       lists[oldIndex].position = position;
 
-      if (lists[adjacentIndex] && position === lists[adjacentIndex].position) {
+      // BEWARE! HIGH QUALITY CODE AHEAD!
+      if (position === lists[adjacentIndex]?.position) {
         lists[adjacentIndex].position++;
 
         for (
-          let i = adjacentIndex;
-          lists[i].position === lists[i + 1]?.position;
-          i++
-        ) {
-          lists[i + 1].position++;
-        }
+          let i = adjacentIndex + 1;
+          lists[i]?.position === lists[i - 1].position;
+          lists[i++].position++
+        ) {}
       }
 
-      state.lists = sortBy(lists, 'position');
+      state.lists = sortByPosition(lists);
     },
     moveListSuccess() {},
     moveListFailure() {},
 
     createCardPending(state, action: PayloadAction<CreateCardRequest>) {
-      const { listId, title } = action.payload;
-      const list = state.lists.find(({ id }) => id === listId)!;
+      const { listId, title, position, boardId } = action.payload;
+      const pendingCard: Card = {
+        id: title,
+        boardId,
+        listId,
+        title,
+        position,
+      };
 
-      list.cards.push({ id: title, title });
+      state.cards.push(pendingCard);
     },
     createCardSuccess(state, action: PayloadAction<CardResponse>) {
-      const { listId, title } = action.payload;
-      const list = state.lists.find(({ id }) => id === listId)!;
-      const cardIndex = list.cards.findIndex(({ id }) => id === title)!;
+      const { payload } = action;
+      const cardIndex = state.cards.findIndex(
+        ({ id }) => id === payload.title,
+      )!;
 
-      list.cards[cardIndex] = action.payload;
+      state.cards[cardIndex] = action.payload;
     },
     createCardFailure() {},
+
+    moveCardPending(
+      state,
+      action: PayloadAction<MoveActionPending<MoveCardAction>>,
+    ) {
+      const { id, toListId, position, adjacentIndex } = action.payload;
+      const { cards } = state;
+      const card = cards.find((it) => it.id === id)!;
+
+      // BEWARE! HIGH QUALITY CODE AHEAD!
+      const sortedCards = getListSortedCards(cards, toListId);
+
+      if (position === sortedCards[adjacentIndex]?.position) {
+        sortedCards[adjacentIndex].position++;
+
+        for (
+          let i = adjacentIndex + 1;
+          sortedCards[i]?.position === sortedCards[i - 1].position;
+          sortedCards[i++].position++
+        ) {}
+      }
+
+      card.listId = toListId;
+      card.position = position;
+    },
+    moveCardSuccess() {},
+    moveCardFailure() {},
   },
 });
 

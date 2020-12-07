@@ -3,24 +3,26 @@ import { useDispatch, useSelector } from 'react-redux';
 import { DragDropContext, Droppable, DropResult } from 'react-beautiful-dnd';
 
 import bg from '../../../assets/images/temp-bg.jpg';
-import { Row } from '../../../components';
 import { RootState } from '../../../store/entities';
+import { Row } from '../../../components';
 import List from '../components/List';
 import CreateListButton from '../components/CreateListButton';
-import { fetchBoardAction, moveListAction, createListAction } from '../thunks';
+import {
+  fetchBoardAction,
+  moveListAction,
+  createListAction,
+  moveCardAction,
+} from '../thunks';
 import { List as ListEntity } from '../entities';
+import { DROPPABLE_TYPES } from '../constants';
 import { Wrapper, GradientWrapper } from './styles';
 
 // eslint-disable-next-line react/display-name
-const InnerBoard = React.memo(
-  (props: { lists: ListEntity[]; boardId: string }): any => {
-    const { lists, boardId } = props;
+const InnerBoard = React.memo((props: { lists: ListEntity[] }): any => {
+  const { lists } = props;
 
-    return lists.map((it, index) => (
-      <List key={it.id} index={index} boardId={boardId} data={it} />
-    ));
-  },
-);
+  return lists.map((it, index) => <List key={it.id} index={index} data={it} />);
+});
 
 const Dashboard: React.FC = () => {
   const dispatch = useDispatch();
@@ -46,9 +48,23 @@ const Dashboard: React.FC = () => {
       return;
     }
 
+    if (type === DROPPABLE_TYPES.list) {
+      dispatch(
+        moveListAction({
+          id: draggableId,
+          newIndex: destination.index,
+          oldIndex: source.index,
+        }),
+      );
+
+      return;
+    }
+
     dispatch(
-      moveListAction({
+      moveCardAction({
         id: draggableId,
+        listId: source.droppableId,
+        toListId: destination.droppableId,
         newIndex: destination.index,
         oldIndex: source.index,
       }),
@@ -68,7 +84,11 @@ const Dashboard: React.FC = () => {
     <Wrapper background={bg}>
       <GradientWrapper>
         <DragDropContext onDragEnd={handleOnDragEnd}>
-          <Droppable droppableId="board" direction="horizontal" type="list">
+          <Droppable
+            droppableId="board"
+            direction="horizontal"
+            type={DROPPABLE_TYPES.list}
+          >
             {(providedDroppable) => {
               return (
                 <Row
@@ -77,7 +97,7 @@ const Dashboard: React.FC = () => {
                   marginMultiplier={0.5}
                   marginLast
                 >
-                  <InnerBoard lists={lists} boardId={id} />
+                  <InnerBoard lists={lists} />
                   {providedDroppable.placeholder}
                 </Row>
               );

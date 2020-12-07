@@ -1,6 +1,7 @@
 import last from 'lodash/last';
+import sortBy from 'lodash/sortBy';
 
-import { MOVE_STEP } from './constants';
+import { Card } from './entities';
 
 interface EntityWithPosition {
   position: number;
@@ -11,20 +12,30 @@ interface NextPositionConfig {
   position: number;
 }
 
+export const sortByPosition = <T>(entities: T[]): T[] =>
+  sortBy(entities, 'position');
+
+export const getListSortedCards = (cards: Card[], listId: string): Card[] => {
+  const listCards = cards.filter((it) => it.listId === listId);
+
+  return sortByPosition(listCards);
+};
+
 export const getNewPosition = (entities: EntityWithPosition[]): number => {
   const newPosition = last(entities)?.position || 0;
 
-  return newPosition + MOVE_STEP;
+  return newPosition + 1;
 };
 
 export const getNextPositionConfig = (
   entities: EntityWithPosition[],
   newIndex: number,
-  oldIndex: number,
+  oldIndex?: number,
 ): NextPositionConfig => {
-  const isPositive = newIndex - oldIndex > 0;
+  const isPositive = oldIndex === undefined ? false : newIndex - oldIndex > 0;
   const adjacentIndex = isPositive ? newIndex + 1 : newIndex;
-  const targetPosition = entities[newIndex].position;
+  const targetPosition =
+    entities[newIndex]?.position || getNewPosition(entities);
 
   return {
     position: isPositive ? targetPosition + 1 : targetPosition,

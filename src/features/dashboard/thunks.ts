@@ -5,6 +5,7 @@ import {
   UpdateListRequest,
   MoveRequest,
   CreateCardRequest,
+  MoveCardRequest,
 } from './api/entities';
 import {
   fetchBoard,
@@ -12,14 +13,21 @@ import {
   createList,
   updateList,
   createCard,
+  moveCard,
 } from './api';
 import { actions } from './slice';
 import {
+  CreateCardAction,
   CreateListAction,
-  MoveListAction,
-  MoveListActionPending,
+  MoveAction,
+  MoveActionPending,
+  MoveCardAction,
 } from './entities';
-import { getNewPosition, getNextPositionConfig } from './helpers';
+import {
+  getListSortedCards,
+  getNewPosition,
+  getNextPositionConfig,
+} from './helpers';
 
 export const fetchBoardAction = (
   boardRequest: BoardRequest,
@@ -66,25 +74,23 @@ export const updateListAction = (
   }
 };
 
-export const moveListAction = (
-  moveListActionData: MoveListAction,
-): AppThunk => async (dispatch, getState) => {
+export const moveListAction = (moveActionData: MoveAction): AppThunk => async (
+  dispatch,
+  getState,
+) => {
   const { dashboard } = getState();
-  const { id, newIndex, oldIndex } = moveListActionData;
+  const { id, newIndex, oldIndex } = moveActionData;
   const { position, adjacentIndex } = getNextPositionConfig(
     dashboard.lists,
     newIndex,
     oldIndex,
   );
-  const moveRequest: MoveRequest = {
-    id,
-    position,
-  };
-  const moveListActionPending: MoveListActionPending = {
-    ...moveListActionData,
+  const moveListActionPending: MoveActionPending<MoveAction> = {
+    ...moveActionData,
     position,
     adjacentIndex,
   };
+  const moveRequest: MoveRequest = { id, position };
 
   try {
     dispatch(actions.moveListPending(moveListActionPending));
@@ -96,13 +102,55 @@ export const moveListAction = (
 };
 
 export const createCardAction = (
-  createCardRequest: CreateCardRequest,
-): AppThunk => async (dispatch) => {
+  createCardActionData: CreateCardAction,
+): AppThunk => async (dispatch, getState) => {
+  const { dashboard } = getState();
+  const { boardId, listId, title } = createCardActionData;
+  const cards = getListSortedCards(dashboard.cards, listId);
+  const newPosition = getNewPosition(cards);
+  const createCardRequest: CreateCardRequest = {
+    boardId,
+    listId,
+    title,
+    position: newPosition,
+  };
+
   try {
     dispatch(actions.createCardPending(createCardRequest));
     const { data } = await createCard(createCardRequest);
     dispatch(actions.createCardSuccess(data));
   } catch (e) {
     dispatch(actions.createCardFailure());
+  }
+};
+
+export const moveCardAction = (
+  moveCardAction: MoveCardAction,
+): AppThunk => async (dispatch, getState) => {
+  const { dashboard } = getState();
+  const { id, listId, toListId, newIndex, oldIndex } = moveCardAction;
+  const cards = getListSortedCards(dashboard.cards, toListId);
+  const { position, adjacentIndex } = getNextPositionConfig(
+    cards,
+    newIndex,
+    listId === toListId ? oldIndex : undefined,
+  );
+  const moveCardActionPending: MoveActionPending<MoveCardAction> = {
+    ...moveCardAction,
+    position,
+    adjacentIndex,
+  };
+  const moveCardRequest: MoveCardRequest = {
+    id,
+    listId: toListId,
+    position,
+  };
+
+  try {
+    dispatch(actions.moveCardPending(moveCardActionPending));
+    await moveCard(moveCardRequest);
+    dispatch(actions.moveCardSuccess());
+  } catch (e) {
+    dispatch(actions.moveCardFailure());
   }
 };

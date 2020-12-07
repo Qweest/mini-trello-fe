@@ -1,11 +1,12 @@
 import { mainService } from '../../../api';
-import { BOARD, LIST, LISTS, CARDS } from './constants';
+import { BOARD, LIST, LISTS, CARDS, CARD } from './constants';
 import {
   BoardRequest,
   CreateListRequest,
   UpdateListRequest,
   MoveRequest,
   CreateCardRequest,
+  MoveCardRequest,
 } from './entities';
 
 export const fetchBoard = async (boardRequest: BoardRequest) => {
@@ -34,4 +35,13 @@ export const moveList = async (moveRequest: MoveRequest) => {
 
 export const createCard = async (createCardRequest: CreateCardRequest) => {
   return await mainService.post(CARDS, createCardRequest);
+};
+
+export const moveCard = async (moveCardRequest: MoveCardRequest) => {
+  const { position, id, listId } = moveCardRequest;
+
+  return await mainService.put(CARD(id), {
+    position,
+    listId,
+  });
 };

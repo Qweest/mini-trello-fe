@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Draggable, Droppable } from 'react-beautiful-dnd';
 
 import { validation } from '../../../../utils';
@@ -9,10 +9,12 @@ import { createCardAction, updateListAction } from '../../thunks';
 import Card from '../Card';
 import CreateCardButton from '../CreateCardButton';
 import { Wrapper, Title, ActionIcon } from './styles';
+import { DROPPABLE_TYPES } from '../../constants';
+import { RootState } from '../../../../store/entities';
+import { getListSortedCards } from '../../helpers';
 
 interface Props {
   data: ListEntity;
-  boardId: string;
   index: number;
 }
 
@@ -24,9 +26,13 @@ const InnerList = React.memo((props: { cards: CardEntity[] }): any => {
 });
 
 const List: React.FC<Props> = (props) => {
-  const { data, boardId, index } = props;
-  const { id, name, cards } = data;
+  const { data, index } = props;
+  const { id, name } = data;
   const dispatch = useDispatch();
+  const { cards, id: boardId } = useSelector(
+    (state: RootState) => state.dashboard,
+  );
+  const sortedCards = getListSortedCards(cards, id);
   const [title, setTitle] = useState(name);
 
   useEffect(() => {
@@ -82,13 +88,13 @@ const List: React.FC<Props> = (props) => {
             />
             <ActionIcon />
           </Row>
-          <Droppable droppableId={id} type="card">
+          <Droppable droppableId={id} type={DROPPABLE_TYPES.card}>
             {(providedDroppable) => (
               <div
                 ref={providedDroppable.innerRef}
                 {...providedDroppable.droppableProps}
               >
-                <InnerList cards={cards} />
+                <InnerList cards={sortedCards} />
                 {providedDroppable.placeholder}
               </div>
             )}
