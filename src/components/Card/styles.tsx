@@ -7,5 +7,5 @@ export const Wrapper = styled.div`
   background-color: ${colors.white};
   border-radius: 3px;
   padding: ${metrics.spacing * 0.5}px;
-  box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.35);
+  box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.25);
 `;

@@ -18,7 +18,7 @@ export const Wrapper = styled.div<WrapperProps>`
   padding: ${metrics.spacing * 0.5}px;
   box-sizing: border-box;
   box-shadow: 0 0 30px
-    ${({ isDragging }) => (isDragging ? colors.blackA : colors.none)};
+    ${({ isDragging }) => (isDragging ? colors.blackA2 : colors.none)};
 `;
 
 export const Title = styled(Input)`
