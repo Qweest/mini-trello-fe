@@ -4,14 +4,14 @@ import { Draggable, Droppable } from 'react-beautiful-dnd';
 
 import { validation } from '../../../../utils';
 import { Row } from '../../../../components';
+import { RootState } from '../../../../store/entities';
 import { List as ListEntity, Card as CardEntity } from '../../entities';
 import { createCardAction, updateListAction } from '../../thunks';
+import { DROPPABLE_TYPES } from '../../constants';
+import { getListSortedCards } from '../../helpers';
 import Card from '../Card';
 import CreateCardButton from '../CreateCardButton';
 import { Wrapper, Title, ActionIcon } from './styles';
-import { DROPPABLE_TYPES } from '../../constants';
-import { RootState } from '../../../../store/entities';
-import { getListSortedCards } from '../../helpers';
 
 interface Props {
   data: ListEntity;
@@ -96,10 +96,10 @@ const List: React.FC<Props> = (props) => {
               >
                 <InnerList cards={sortedCards} />
                 {providedDroppable.placeholder}
+                <CreateCardButton createCard={createCard} />
               </div>
             )}
           </Droppable>
-          <CreateCardButton createCard={createCard} />
         </Wrapper>
       )}
     </Draggable>
