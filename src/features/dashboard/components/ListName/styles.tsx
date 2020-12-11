@@ -17,6 +17,7 @@ export const InputCover = styled.div<Props>`
   position: absolute;
   width: 100%;
   height: 100%;
+  cursor: pointer;
   border-radius: 3px;
   background-color: ${colors.none};
   &:hover {
