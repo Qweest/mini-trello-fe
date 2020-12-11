@@ -28,6 +28,7 @@ export const AreaCard = styled(Card)`
 
 export const TitleArea = styled(TextArea)`
   width: 100%;
+  resize: vertical;
   background-color: ${colors.none};
   min-height: 55px;
   border: 0;
