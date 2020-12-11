@@ -17,6 +17,7 @@ export const Wrapper = styled.div<WrapperProps>`
   background-repeat: no-repeat;
   background-position: center;
   background-size: cover;
+  user-select: none;
 `;
 
 export const GradientWrapper = styled.div`
