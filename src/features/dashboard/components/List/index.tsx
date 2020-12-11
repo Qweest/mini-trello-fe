@@ -1,8 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Draggable, Droppable } from 'react-beautiful-dnd';
 
-import { validation } from '../../../../utils';
 import { Row } from '../../../../components';
 import { RootState } from '../../../../store/entities';
 import { List as ListEntity, Card as CardEntity } from '../../entities';
@@ -10,8 +9,9 @@ import { createCardAction, updateListAction } from '../../thunks';
 import { DROPPABLE_TYPES } from '../../constants';
 import { getListSortedCards } from '../../helpers';
 import Card from '../Card';
+import ListName from '../ListName';
 import CreateCardButton from '../CreateCardButton';
-import { Wrapper, Title, ActionIcon } from './styles';
+import { Wrapper, ActionIcon } from './styles';
 
 interface Props {
   data: ListEntity;
@@ -33,11 +33,6 @@ const List: React.FC<Props> = (props) => {
     (state: RootState) => state.dashboard,
   );
   const sortedCards = getListSortedCards(cards, id);
-  const [title, setTitle] = useState(name);
-
-  useEffect(() => {
-    setTitle(name);
-  }, [name]);
 
   const updateList = (name: string) => {
     dispatch(
@@ -52,24 +47,6 @@ const List: React.FC<Props> = (props) => {
     dispatch(createCardAction({ boardId, listId: id, title }));
   };
 
-  const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setTitle(e.target.value);
-  };
-
-  const handleSubmitTitle = () => {
-    if (!validation.isEmpty(title) && title !== name) {
-      updateList(title);
-    } else {
-      setTitle(name);
-    }
-  };
-
-  const handleTitleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === 'Enter') {
-      e.currentTarget.blur();
-    }
-  };
-
   return (
     <Draggable draggableId={id} index={index}>
       {(providedDraggable, snapshot) => (
@@ -79,13 +56,7 @@ const List: React.FC<Props> = (props) => {
           isDragging={snapshot.isDragging}
         >
           <Row marginMultiplier={0.5} {...providedDraggable.dragHandleProps}>
-            <Title
-              placeholder="Enter list title..."
-              value={title}
-              onKeyDown={handleTitleKeyDown}
-              onChange={handleTitleChange}
-              onBlur={handleSubmitTitle}
-            />
+            <ListName name={name} updateName={updateList} />
             <ActionIcon />
           </Row>
           <Droppable droppableId={id} type={DROPPABLE_TYPES.card}>
