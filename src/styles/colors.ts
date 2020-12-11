@@ -8,6 +8,7 @@ export default {
   blackA: 'rgba(0,0,0,0.5)',
   blackA1: 'rgba(0,0,0,0.35)',
   blackA2: 'rgba(0,0,0,0.25)',
+  blackA3: 'rgba(0,0,0,0.15)',
   grey: '#7a7a7a',
   grey1: '#d3d3d6',
   grey2: '#EBECF0',

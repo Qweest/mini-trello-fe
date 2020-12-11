@@ -121,20 +121,20 @@ const slice = createSlice({
     ) {
       const { id, toListId, position, adjacentIndex } = action.payload;
       const { cards } = state;
-      const card = cards.find((it) => it.id === id)!;
+      const sortedListCards = getListSortedCards(cards, toListId);
 
       // BEWARE! HIGH QUALITY CODE AHEAD!
-      const sortedCards = getListSortedCards(cards, toListId);
-
-      if (position === sortedCards[adjacentIndex]?.position) {
-        sortedCards[adjacentIndex].position++;
+      if (position === sortedListCards[adjacentIndex]?.position) {
+        sortedListCards[adjacentIndex].position++;
 
         for (
           let i = adjacentIndex + 1;
-          sortedCards[i]?.position === sortedCards[i - 1].position;
-          sortedCards[i++].position++
+          sortedListCards[i]?.position === sortedListCards[i - 1].position;
+          sortedListCards[i++].position++
         ) {}
       }
+
+      const card = cards.find((it) => it.id === id)!;
 
       card.listId = toListId;
       card.position = position;

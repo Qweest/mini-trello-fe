@@ -18,11 +18,12 @@ const Card: React.FC<Props> = ({ data, index }) => {
 
   return (
     <Draggable draggableId={id} index={index}>
-      {(providedDraggable) => (
+      {(providedDraggable, snapshot) => (
         <Wrapper
           {...providedDraggable.draggableProps}
           {...providedDraggable.dragHandleProps}
           innerRef={providedDraggable.innerRef}
+          isDragging={snapshot.isDragging}
         >
           <Title>{title}</Title>
           {showBadges && (
