@@ -58,7 +58,7 @@ export const createListAction = (
     const { data } = await createList(createListRequest);
     dispatch(actions.createListSuccess(data));
   } catch (e) {
-    dispatch(actions.createListFailure());
+    dispatch(actions.createListFailure(createListRequest));
   }
 };
 

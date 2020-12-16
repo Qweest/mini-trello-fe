@@ -8,11 +8,7 @@ interface WrapperProps {
 
 export const Wrapper = styled.div<WrapperProps>`
   display: flex;
-  position: absolute;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
+  height: 100%;
   background-image: ${({ background }) => `url(${background})`};
   background-repeat: no-repeat;
   background-position: center;
@@ -22,11 +18,6 @@ export const Wrapper = styled.div<WrapperProps>`
 
 export const GradientWrapper = styled.div`
   display: flex;
-  position: absolute;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
   padding: ${metrics.spacing}px;
   background-image: linear-gradient(
     rgba(0, 0, 0, 0.6),

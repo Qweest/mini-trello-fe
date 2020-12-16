@@ -43,7 +43,7 @@ const slice = createSlice({
     createListPending(state, action: PayloadAction<CreateListRequest>) {
       const { name, position } = action.payload;
       const pendingList: List = {
-        id: name,
+        id: `${name}_${position}`,
         name,
         boardId: state.id,
         position,
@@ -57,7 +57,14 @@ const slice = createSlice({
 
       state.lists[listIndex] = payload;
     },
-    createListFailure() {},
+    createListFailure(state, action: PayloadAction<CreateListRequest>) {
+      const { name, position } = action.payload;
+      const listIndex = state.lists.findIndex(
+        ({ id }) => id === `${name}_${position}`,
+      );
+
+      state.lists.splice(listIndex, 1);
+    },
 
     updateListPending(state, action: PayloadAction<UpdateListRequest>) {
       const { name, id: currentId } = action.payload;
