@@ -19,7 +19,7 @@ interface Props {
 }
 
 // eslint-disable-next-line react/display-name
-const InnerList = React.memo((props: { cards: CardEntity[] }): any => {
+const Cards = React.memo((props: { cards: CardEntity[] }): any => {
   const { cards } = props;
 
   return cards.map((it, index) => <Card key={it.id} data={it} index={index} />);
@@ -65,7 +65,7 @@ const List: React.FC<Props> = (props) => {
                 ref={providedDroppable.innerRef}
                 {...providedDroppable.droppableProps}
               >
-                <InnerList cards={sortedCards} />
+                <Cards cards={sortedCards} />
                 {providedDroppable.placeholder}
                 <CreateCardButton createCard={createCard} />
               </div>

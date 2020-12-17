@@ -18,7 +18,7 @@ import { DROPPABLE_TYPES } from '../constants';
 import { Wrapper, GradientWrapper } from './styles';
 
 // eslint-disable-next-line react/display-name
-const InnerBoard = React.memo((props: { lists: ListEntity[] }): any => {
+const Lists = React.memo((props: { lists: ListEntity[] }): any => {
   const { lists } = props;
 
   return lists.map((it, index) => <List key={it.id} index={index} data={it} />);
@@ -97,7 +97,7 @@ const Dashboard: React.FC = () => {
                   marginMultiplier={0.5}
                   marginLast
                 >
-                  <InnerBoard lists={lists} />
+                  <Lists lists={lists} />
                   {providedDroppable.placeholder}
                 </Row>
               );
