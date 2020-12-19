@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Draggable, Droppable } from 'react-beautiful-dnd';
 
@@ -11,6 +11,7 @@ import { getListSortedCards } from '../../helpers';
 import Card from '../Card';
 import ListName from '../ListName';
 import CreateCardButton from '../CreateCardButton';
+import ListActions from '../ListActions';
 import { Wrapper, ActionIcon, ContentWrapper, DroppableArea } from './styles';
 
 interface Props {
@@ -33,6 +34,7 @@ const List: React.FC<Props> = (props) => {
     (state: RootState) => state.dashboard,
   );
   const sortedCards = getListSortedCards(cards, id);
+  const [actionsOpened, setActionsOpened] = useState(false);
 
   const updateList = (name: string) => {
     dispatch(
@@ -47,6 +49,14 @@ const List: React.FC<Props> = (props) => {
     dispatch(createCardAction({ boardId, listId: id, title }));
   };
 
+  const handleActionIconClick = () => {
+    setActionsOpened(true);
+  };
+
+  const handleCloseActions = () => {
+    setActionsOpened(false);
+  };
+
   return (
     <Draggable draggableId={id} index={index}>
       {(providedDraggable, snapshot) => (
@@ -55,9 +65,10 @@ const List: React.FC<Props> = (props) => {
           ref={providedDraggable.innerRef}
           isDragging={snapshot.isDragging}
         >
+          <ListActions opened={actionsOpened} close={handleCloseActions} />
           <Row marginMultiplier={0.5} {...providedDraggable.dragHandleProps}>
             <ListName name={name} updateName={updateList} />
-            <ActionIcon />
+            <ActionIcon onClick={handleActionIconClick} />
           </Row>
           <Droppable droppableId={id} type={DROPPABLE_TYPES.card}>
             {(providedDroppable) => (

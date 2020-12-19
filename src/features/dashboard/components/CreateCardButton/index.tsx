@@ -1,7 +1,7 @@
 import React, { Fragment, useState, useRef, useEffect } from 'react';
 import { HiOutlinePlus } from 'react-icons/hi';
 
-import { validation } from '../../../../utils';
+import { hooks, validation } from '../../../../utils';
 import { DefaultControls } from '../../../../components';
 import { Wrapper, Button, TitleArea, AreaCard } from './styles';
 
@@ -34,24 +34,13 @@ const CreateCardButton: React.FC<Props> = (props) => {
     setValue(e.target.value);
   };
 
-  const handleMouseDown = (e: MouseEvent) => {
-    if (wrapperRef.current?.contains(e.target as Node)) {
-      return;
-    }
-
-    handleCloseClick();
-  };
-
   useEffect(() => {
     if (focused) {
       inputRef.current?.focus();
-      document.addEventListener('mousedown', handleMouseDown);
     }
-
-    return () => {
-      document.removeEventListener('mousedown', handleMouseDown);
-    };
   }, [focused]);
+
+  hooks.useOutsideClick(wrapperRef, handleCloseClick, [focused]);
 
   return (
     <Wrapper ref={wrapperRef}>

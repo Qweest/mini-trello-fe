@@ -8,10 +8,11 @@ interface WrapperProps {
 }
 
 export const Wrapper = styled.div<WrapperProps>`
-  width: 250px;
-  height: fit-content;
+  position: relative;
   display: flex;
   flex-direction: column;
+  width: 250px;
+  height: fit-content;
   background-color: ${colors.grey2};
   border-radius: 3px;
   padding: ${metrics.spacing * 0.5}px;
