@@ -11,7 +11,7 @@ import { getListSortedCards } from '../../helpers';
 import Card from '../Card';
 import ListName from '../ListName';
 import CreateCardButton from '../CreateCardButton';
-import { Wrapper, ActionIcon } from './styles';
+import { Wrapper, ActionIcon, ContentWrapper, DroppableArea } from './styles';
 
 interface Props {
   data: ListEntity;
@@ -61,14 +61,15 @@ const List: React.FC<Props> = (props) => {
           </Row>
           <Droppable droppableId={id} type={DROPPABLE_TYPES.card}>
             {(providedDroppable) => (
-              <div
-                ref={providedDroppable.innerRef}
-                {...providedDroppable.droppableProps}
-              >
+              <ContentWrapper>
+                <DroppableArea
+                  ref={providedDroppable.innerRef}
+                  {...providedDroppable.droppableProps}
+                />
                 <Cards cards={sortedCards} />
                 {providedDroppable.placeholder}
                 <CreateCardButton createCard={createCard} />
-              </div>
+              </ContentWrapper>
             )}
           </Droppable>
         </Wrapper>

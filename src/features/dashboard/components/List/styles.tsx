@@ -20,6 +20,18 @@ export const Wrapper = styled.div<WrapperProps>`
     ${({ isDragging }) => (isDragging ? colors.blackA2 : colors.none)};
 `;
 
+export const ContentWrapper = styled.div`
+  position: relative;
+  width: 100%;
+`;
+
+export const DroppableArea = styled.div`
+  position: absolute;
+  width: 100%;
+  height: 100vh;
+  z-index: -1;
+`;
+
 export const ActionIcon = styled(HiOutlineDotsHorizontal)`
   padding: ${metrics.spacing * 0.5}px;
   border-radius: 3px;
