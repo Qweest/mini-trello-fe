@@ -19,4 +19,5 @@ export const Wrapper = styled.input`
     border-color: ${colors.blueberry};
     cursor: auto;
   }
+  transition: all 0.2s ease;
 `;

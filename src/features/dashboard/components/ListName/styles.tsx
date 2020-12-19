@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-import { Input as UnstyledInput } from '../../../../components';
+import { Button, Input as UnstyledInput } from '../../../../components';
 import { colors, metrics } from '../../../../styles';
 
 export interface Props {
@@ -12,15 +12,18 @@ export const Wrapper = styled.div`
   position: relative;
 `;
 
-export const InputCover = styled.div<Props>`
+export const InputCover = styled(Button)<Props>`
   display: ${({ focused }) => (focused ? 'none' : 'block')};
   position: absolute;
   width: 100%;
   height: 100%;
-  cursor: pointer;
-  border-radius: 3px;
+  padding: 0;
+  margin: 0;
   background-color: ${colors.none};
   &:hover {
+    background-color: ${colors.blackA5};
+  }
+  &:active {
     background-color: ${colors.blackA4};
   }
 `;

@@ -8,14 +8,13 @@ interface ProceedProps {
 }
 
 export const Proceed = styled(Button)<ProceedProps>`
-  padding: ${metrics.spacing * 0.5}px ${metrics.spacing * 0.75}px;
+  color: ${colors.white};
   background-color: ${colors.green};
   &:hover {
     background-color: ${colors.green1};
   }
   &:active {
     background-color: ${colors.grass};
-    transition: all 0.2s ease;
   }
 
   ${({ disabled }) => {
@@ -28,15 +27,13 @@ export const Proceed = styled(Button)<ProceedProps>`
 `;
 
 export const Close = styled(Button)`
-  padding: ${metrics.spacing * 0.25}px;
-  color: ${colors.grey};
   background-color: ${colors.none};
+  color: ${colors.grey};
   &:hover {
-    color: ${colors.black4};
     background-color: ${colors.grey1};
+    color: ${colors.black4};
   }
   &:active {
     background-color: ${colors.clay};
-    transition: all 0.2s ease;
   }
 `;

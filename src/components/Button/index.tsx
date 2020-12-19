@@ -1,5 +1,6 @@
-import React, { ReactElement, Fragment, SyntheticEvent } from 'react';
+import React, { ReactElement, SyntheticEvent } from 'react';
 
+import Row from '../Row';
 import { Wrapper, IconWrapper } from './styles';
 
 interface Props {
@@ -15,10 +16,10 @@ const Button: React.FC<Props> = (props) => {
   return (
     <Wrapper className={className} onClick={onClick}>
       {children || (
-        <Fragment>
-          {Icon && <IconWrapper needMargin={!!text}>{Icon}</IconWrapper>}
+        <Row marginMultiplier={text && Icon ? 0.25 : 0}>
+          <IconWrapper>{Icon}</IconWrapper>
           <span>{text}</span>
-        </Fragment>
+        </Row>
       )}
     </Wrapper>
   );

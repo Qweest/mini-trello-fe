@@ -26,7 +26,7 @@ const DefaultControls: React.FC<Props> = (props) => {
       <Proceed disabled={disabled} onClick={onProceedClick}>
         {proceedText}
       </Proceed>
-      <Close onClick={onCloseClick} Icon={<HiOutlineX size={24} />} />
+      <Close onClick={onCloseClick} Icon={<HiOutlineX size={18} />} />
     </Row>
   );
 };

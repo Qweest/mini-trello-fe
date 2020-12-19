@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Draggable, Droppable } from 'react-beautiful-dnd';
+import { HiOutlineDotsHorizontal } from 'react-icons/hi';
 
 import { Row } from '../../../../components';
 import { RootState } from '../../../../store/entities';
@@ -35,6 +36,7 @@ const List: React.FC<Props> = (props) => {
   );
   const sortedCards = getListSortedCards(cards, id);
   const [actionsOpened, setActionsOpened] = useState(false);
+  const [createCardOpened, setCreateCardOpened] = useState(false);
 
   const updateList = (name: string) => {
     dispatch(
@@ -57,6 +59,10 @@ const List: React.FC<Props> = (props) => {
     setActionsOpened(false);
   };
 
+  const handleOpenCreateCard = () => {
+    setCreateCardOpened(true);
+  };
+
   return (
     <Draggable draggableId={id} index={index}>
       {(providedDraggable, snapshot) => (
@@ -65,10 +71,17 @@ const List: React.FC<Props> = (props) => {
           ref={providedDraggable.innerRef}
           isDragging={snapshot.isDragging}
         >
-          <ListActions opened={actionsOpened} close={handleCloseActions} />
+          <ListActions
+            openCreateCard={handleOpenCreateCard}
+            opened={actionsOpened}
+            close={handleCloseActions}
+          />
           <Row marginMultiplier={0.5} {...providedDraggable.dragHandleProps}>
             <ListName name={name} updateName={updateList} />
-            <ActionIcon onClick={handleActionIconClick} />
+            <ActionIcon
+              onClick={handleActionIconClick}
+              Icon={<HiOutlineDotsHorizontal />}
+            />
           </Row>
           <Droppable droppableId={id} type={DROPPABLE_TYPES.card}>
             {(providedDroppable) => (
@@ -79,7 +92,11 @@ const List: React.FC<Props> = (props) => {
                 />
                 <Cards cards={sortedCards} />
                 {providedDroppable.placeholder}
-                <CreateCardButton createCard={createCard} />
+                <CreateCardButton
+                  focused={createCardOpened}
+                  setFocused={setCreateCardOpened}
+                  createCard={createCard}
+                />
               </ContentWrapper>
             )}
           </Droppable>

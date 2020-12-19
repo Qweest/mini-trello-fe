@@ -7,13 +7,14 @@ import { Wrapper, Button, TitleArea, AreaCard } from './styles';
 
 interface Props {
   createCard: (title: string) => void;
+  focused: boolean;
+  setFocused: (focused: boolean) => void;
 }
 
 const CreateCardButton: React.FC<Props> = (props) => {
-  const { createCard } = props;
+  const { createCard, focused, setFocused } = props;
   const wrapperRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLTextAreaElement>(null);
-  const [focused, setFocused] = useState(false);
   const [value, setValue] = useState('');
 
   const handleBlockClick = () => {

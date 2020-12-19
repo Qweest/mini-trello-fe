@@ -1,7 +1,7 @@
 import styled from 'styled-components';
-import { HiOutlineDotsHorizontal } from 'react-icons/hi';
 
 import { colors, metrics } from '../../../../styles';
+import { Button } from '../../../../components';
 
 interface WrapperProps {
   isDragging: boolean;
@@ -33,13 +33,14 @@ export const DroppableArea = styled.div`
   z-index: -1;
 `;
 
-export const ActionIcon = styled(HiOutlineDotsHorizontal)`
-  padding: ${metrics.spacing * 0.5}px;
-  border-radius: 3px;
-  cursor: pointer;
+export const ActionIcon = styled(Button)`
+  background-color: ${colors.none};
   color: ${colors.grey};
   &:hover {
     background-color: ${colors.grey1};
-    color: ${colors.black3};
+    color: ${colors.black4};
+  }
+  &:active {
+    background-color: ${colors.clay};
   }
 `;

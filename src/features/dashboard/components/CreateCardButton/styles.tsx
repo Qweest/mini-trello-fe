@@ -13,12 +13,14 @@ export const Wrapper = styled.div`
 `;
 
 export const Button = styled(UnstyledButton)`
-  padding: ${metrics.spacing * 0.5}px;
   background-color: ${colors.none};
   color: ${colors.grey};
   &:hover {
     background-color: ${colors.grey1};
-    color: ${colors.black2};
+    color: ${colors.black4};
+  }
+  &:active {
+    background-color: ${colors.clay};
   }
 `;
 

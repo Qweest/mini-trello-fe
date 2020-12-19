@@ -1,10 +1,11 @@
 import React, { useRef } from 'react';
+import { HiOutlineX } from 'react-icons/hi';
+
 import { hooks } from '../../../../utils';
 
 import {
   Wrapper,
   Content,
-  ActionsWrapper,
   Action,
   TitleWrapper,
   Separator,
@@ -14,11 +15,17 @@ import {
 interface Props {
   opened: boolean;
   close: () => void;
+  openCreateCard: () => void;
 }
 
 const ListActions: React.FC<Props> = (props) => {
-  const { opened, close } = props;
+  const { opened, close, openCreateCard } = props;
   const contentRef = useRef<HTMLDivElement>(null);
+
+  const handleCreateCard = () => {
+    openCreateCard();
+    close();
+  };
 
   hooks.useOutsideClick(contentRef, close, [opened]);
 
@@ -26,23 +33,17 @@ const ListActions: React.FC<Props> = (props) => {
     <Wrapper opened={opened}>
       <Content innerRef={contentRef} opened={opened}>
         <TitleWrapper>
-          <div>List Actions</div>
-          <CloseIcon onClick={close} />
+          <span>List Actions</span>
+          <CloseIcon onClick={close} Icon={<HiOutlineX size={18} />} />
         </TitleWrapper>
         <Separator />
-        <ActionsWrapper>
-          <Action>Rename list</Action>
-          <Action>Create card</Action>
-        </ActionsWrapper>
+        <Action>Create list</Action>
+        <Action onClick={handleCreateCard}>Create card</Action>
         <Separator />
-        <ActionsWrapper>
-          <Action>Rename list</Action>
-          <Action>Create card</Action>
-        </ActionsWrapper>
+        <Action>Some action</Action>
+        <Action>Another action</Action>
         <Separator />
-        <ActionsWrapper>
-          <Action>Remove list</Action>
-        </ActionsWrapper>
+        <Action danger>Remove list</Action>
       </Content>
     </Wrapper>
   );
