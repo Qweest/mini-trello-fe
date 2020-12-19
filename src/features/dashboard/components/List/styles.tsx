@@ -13,6 +13,7 @@ export const Wrapper = styled.div<WrapperProps>`
   flex-direction: column;
   width: 250px;
   height: fit-content;
+  max-height: 100%;
   background-color: ${colors.grey2};
   border-radius: 3px;
   padding: ${metrics.spacing * 0.5}px;

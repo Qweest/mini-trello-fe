@@ -26,4 +26,5 @@ export const GradientWrapper = styled.div`
     ${colors.none}
   );
   overflow-x: auto;
+  overflow-y: hidden;
 `;
