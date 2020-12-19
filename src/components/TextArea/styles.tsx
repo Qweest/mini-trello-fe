@@ -17,7 +17,7 @@ export const Wrapper = styled(TextareaAutosize)`
   border-style: solid;
   outline: none;
   &:focus {
-    border-color: ${colors.lightBlue};
+    border-color: ${colors.blueberry};
     cursor: auto;
   }
 `;

@@ -11,7 +11,7 @@ export const Wrapper = styled.div`
   padding: ${metrics.spacing * 0.25}px;
   border-radius: 3px;
   cursor: pointer;
-  background-color: ${colors.lightBlue};
+  background-color: ${colors.blueberry};
   color: ${colors.white};
   font-size: ${metrics.fontSize.medium}px;
 `;

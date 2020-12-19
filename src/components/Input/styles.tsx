@@ -16,7 +16,7 @@ export const Wrapper = styled.input`
   outline: none;
   text-overflow: ellipsis;
   &:focus {
-    border-color: ${colors.lightBlue};
+    border-color: ${colors.blueberry};
     cursor: auto;
   }
 `;

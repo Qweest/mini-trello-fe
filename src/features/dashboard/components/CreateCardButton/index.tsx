@@ -1,10 +1,4 @@
-import React, {
-  Fragment,
-  useState,
-  useRef,
-  useEffect,
-  SyntheticEvent,
-} from 'react';
+import React, { Fragment, useState, useRef, useEffect } from 'react';
 import { HiOutlinePlus } from 'react-icons/hi';
 
 import { validation } from '../../../../utils';
@@ -17,38 +11,50 @@ interface Props {
 
 const CreateCardButton: React.FC<Props> = (props) => {
   const { createCard } = props;
+  const wrapperRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLTextAreaElement>(null);
   const [focused, setFocused] = useState(false);
   const [value, setValue] = useState('');
 
-  useEffect(() => {
-    if (focused && inputRef.current) {
-      inputRef.current.focus();
-    }
-  }, [focused, inputRef]);
-
-  const handleBlockClick = (e: SyntheticEvent) => {
+  const handleBlockClick = () => {
     setFocused(true);
-    e.stopPropagation();
   };
 
-  const handleCloseClick = (e: SyntheticEvent) => {
+  const handleCloseClick = () => {
     setFocused(false);
     setValue('');
-    e.stopPropagation();
   };
 
-  const handleProceedClick = (e: SyntheticEvent) => {
+  const handleProceedClick = () => {
     createCard(value);
-    handleCloseClick(e);
+    handleCloseClick();
   };
 
   const handleTextChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setValue(e.target.value);
   };
 
+  const handleMouseDown = (e: MouseEvent) => {
+    if (wrapperRef.current?.contains(e.target as Node)) {
+      return;
+    }
+
+    handleCloseClick();
+  };
+
+  useEffect(() => {
+    if (focused) {
+      inputRef.current?.focus();
+      document.addEventListener('mousedown', handleMouseDown);
+    }
+
+    return () => {
+      document.removeEventListener('mousedown', handleMouseDown);
+    };
+  }, [focused]);
+
   return (
-    <Wrapper>
+    <Wrapper ref={wrapperRef}>
       {focused ? (
         <Fragment>
           <AreaCard>

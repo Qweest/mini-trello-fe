@@ -18,7 +18,10 @@ export default {
   whiteA: 'rgba(255,255,255,0.5)',
   whiteA1: 'rgba(255,255,255,0.35)',
   whiteA2: 'rgba(255,255,255,0.25)',
-  lightBlue: '#6c7fcb',
   green: '#5aac44',
   green1: '#61BD4E',
+
+  clay: '#c0c0c0',
+  blueberry: '#6c7fcb',
+  grass: '#559900',
 };
