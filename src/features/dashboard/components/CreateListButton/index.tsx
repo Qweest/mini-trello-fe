@@ -1,65 +1,57 @@
-import React, {
-  Fragment,
-  useState,
-  useRef,
-  useEffect,
-  SyntheticEvent,
-} from 'react';
+import React, { Fragment, useState, useRef } from 'react';
 import { HiOutlinePlus } from 'react-icons/hi';
 
+import { FocusableProps } from '../../../../common/entities';
 import { DefaultControls } from '../../../../components';
+import { hooks, validation } from '../../../../utils';
 import { Wrapper, Button, Input } from './styles';
 
-interface Props {
+interface Props extends FocusableProps {
   createList: (title: string) => void;
 }
 
 const CreateListButton: React.FC<Props> = (props) => {
-  const { createList } = props;
-  const inputRef = useRef<HTMLInputElement>(null);
-  const [focused, setFocused] = useState(false);
+  const { createList, focused, setFocused } = props;
+  const wrapperRef = useRef<HTMLDivElement>(null);
   const [value, setValue] = useState('');
+  const isEmpty = validation.isEmpty(value);
 
-  useEffect(() => {
-    if (focused && inputRef.current) {
-      inputRef.current.focus();
-    }
-  }, [focused, inputRef]);
-
-  const handleBlockClick = (e: SyntheticEvent) => {
+  const handleBlockClick = () => {
     setFocused(true);
-    e.stopPropagation();
   };
 
-  const handleCloseClick = (e: SyntheticEvent) => {
+  const handleClose = () => {
     setFocused(false);
     setValue('');
-    e.stopPropagation();
   };
 
-  const handleProceedClick = (e: SyntheticEvent) => {
+  const handleProceed = () => {
     createList(value);
-    handleCloseClick(e);
+    handleClose();
   };
 
   const handleTextChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setValue(e.target.value);
   };
 
+  hooks.useOutsideClick(wrapperRef, handleClose, focused);
+  hooks.useScrollOnFocus(wrapperRef, focused);
+
   return (
-    <Wrapper focused={focused} onClick={handleBlockClick}>
+    <Wrapper ref={wrapperRef} focused={focused} onClick={handleBlockClick}>
       {focused ? (
         <Fragment>
           <Input
-            innerRef={inputRef}
+            autoFocus
             value={value}
             onChange={handleTextChange}
             placeholder="Enter list title..."
           />
           <DefaultControls
+            disabled={isEmpty}
             proceedText="Create list"
-            onCloseClick={handleCloseClick}
-            onProceedClick={handleProceedClick}
+            onCloseClick={handleClose}
+            onProceedClick={handleProceed}
           />
         </Fragment>
       ) : (

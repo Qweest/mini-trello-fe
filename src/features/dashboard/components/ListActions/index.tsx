@@ -15,19 +15,25 @@ import {
 interface Props {
   opened: boolean;
   close: () => void;
-  openCreateCard: () => void;
+  focusCreateCard: () => void;
+  focusCreateList: () => void;
 }
 
 const ListActions: React.FC<Props> = (props) => {
-  const { opened, close, openCreateCard } = props;
+  const { opened, close, focusCreateCard, focusCreateList } = props;
   const contentRef = useRef<HTMLDivElement>(null);
 
-  const handleCreateCard = () => {
-    openCreateCard();
+  const handleCreateList = () => {
+    focusCreateList();
     close();
   };
 
-  hooks.useOutsideClick(contentRef, close, [opened]);
+  const handleCreateCard = () => {
+    focusCreateCard();
+    close();
+  };
+
+  hooks.useOutsideClick(contentRef, close, opened);
 
   return (
     <Wrapper opened={opened}>
@@ -37,7 +43,7 @@ const ListActions: React.FC<Props> = (props) => {
           <CloseIcon onClick={close} Icon={<HiOutlineX size={18} />} />
         </TitleWrapper>
         <Separator />
-        <Action>Create list</Action>
+        <Action onClick={handleCreateList}>Create list</Action>
         <Action onClick={handleCreateCard}>Create card</Action>
         <Separator />
         <Action>Some action</Action>

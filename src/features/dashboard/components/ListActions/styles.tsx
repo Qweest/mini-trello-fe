@@ -33,7 +33,7 @@ export const Content = styled(Card)<WrapperProps>`
   padding-bottom: ${metrics.spacing * 0.5}px;
   padding-top: ${metrics.spacing * 2}px;
   top: ${({ opened }) => (opened ? -metrics.spacing * 2 : -350)}px;
-  transition: all 0.25s cubic-bezier(0.195, 0.885, 0.32, 1.275);
+  transition: all 0.25s cubic-bezier(0.195, 0.585, 0.32, 1.275);
   box-shadow: 0 5px 25px ${colors.blackA};
   box-sizing: border-box;
   border-radius: 0;

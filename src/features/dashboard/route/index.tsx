@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { DragDropContext, Droppable, DropResult } from 'react-beautiful-dnd';
 
@@ -18,21 +18,25 @@ import { DROPPABLE_TYPES } from '../constants';
 import { Wrapper, GradientWrapper } from './styles';
 
 // eslint-disable-next-line react/display-name
-const Lists = React.memo((props: { lists: ListEntity[] }): any => {
-  const { lists } = props;
+const Lists = React.memo(
+  (props: { lists: ListEntity[]; focusCreateList: () => void }): any => {
+    const { lists, focusCreateList } = props;
 
-  return lists.map((it, index) => <List key={it.id} index={index} data={it} />);
-});
+    return lists.map((it, index) => (
+      <List
+        key={it.id}
+        index={index}
+        data={it}
+        focusCreateList={focusCreateList}
+      />
+    ));
+  },
+);
 
 const Dashboard: React.FC = () => {
   const dispatch = useDispatch();
   const { lists, id } = useSelector((state: RootState) => state.dashboard);
-
-  useEffect(() => {
-    if (!id) {
-      dispatch(fetchBoardAction({ id: '5fcba017016a2418235310aa' }));
-    }
-  }, []);
+  const [createListFlag, setCreateListFlag] = useState(false);
 
   const handleOnDragEnd = (result: DropResult) => {
     const { destination, source, type, draggableId } = result;
@@ -80,6 +84,16 @@ const Dashboard: React.FC = () => {
     );
   };
 
+  const focusCreateList = () => {
+    setCreateListFlag(true);
+  };
+
+  useEffect(() => {
+    if (!id) {
+      dispatch(fetchBoardAction({ id: '5fcba017016a2418235310aa' }));
+    }
+  }, []);
+
   return (
     <Wrapper background={bg}>
       <GradientWrapper>
@@ -97,14 +111,18 @@ const Dashboard: React.FC = () => {
                   marginMultiplier={0.5}
                   marginLast
                 >
-                  <Lists lists={lists} />
+                  <Lists lists={lists} focusCreateList={focusCreateList} />
                   {providedDroppable.placeholder}
                 </Row>
               );
             }}
           </Droppable>
         </DragDropContext>
-        <CreateListButton createList={createList} />
+        <CreateListButton
+          focused={createListFlag}
+          setFocused={setCreateListFlag}
+          createList={createList}
+        />
       </GradientWrapper>
     </Wrapper>
   );

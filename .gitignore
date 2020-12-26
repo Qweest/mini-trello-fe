@@ -18,6 +18,9 @@
 .env.test.local
 .env.production.local
 
+# editor
+/.vscode
+
 # pm
 .yarn/*
 !.yarn/releases

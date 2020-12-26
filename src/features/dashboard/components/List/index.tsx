@@ -18,6 +18,7 @@ import { Wrapper, ActionIcon, ContentWrapper, DroppableArea } from './styles';
 interface Props {
   data: ListEntity;
   index: number;
+  focusCreateList: () => void;
 }
 
 // eslint-disable-next-line react/display-name
@@ -28,7 +29,7 @@ const Cards = React.memo((props: { cards: CardEntity[] }): any => {
 });
 
 const List: React.FC<Props> = (props) => {
-  const { data, index } = props;
+  const { data, index, focusCreateList } = props;
   const { id, name } = data;
   const dispatch = useDispatch();
   const { cards, id: boardId } = useSelector(
@@ -36,7 +37,7 @@ const List: React.FC<Props> = (props) => {
   );
   const sortedCards = getListSortedCards(cards, id);
   const [actionsOpened, setActionsOpened] = useState(false);
-  const [createCardOpened, setCreateCardOpened] = useState(false);
+  const [createCardFlag, setCreateCardFlag] = useState(false);
 
   const updateList = (name: string) => {
     dispatch(
@@ -55,12 +56,12 @@ const List: React.FC<Props> = (props) => {
     setActionsOpened(true);
   };
 
-  const handleCloseActions = () => {
+  const closeActions = () => {
     setActionsOpened(false);
   };
 
-  const handleOpenCreateCard = () => {
-    setCreateCardOpened(true);
+  const focusCreateCard = () => {
+    setCreateCardFlag(true);
   };
 
   return (
@@ -72,9 +73,10 @@ const List: React.FC<Props> = (props) => {
           isDragging={snapshot.isDragging}
         >
           <ListActions
-            openCreateCard={handleOpenCreateCard}
             opened={actionsOpened}
-            close={handleCloseActions}
+            close={closeActions}
+            focusCreateCard={focusCreateCard}
+            focusCreateList={focusCreateList}
           />
           <Row marginMultiplier={0.5} {...providedDraggable.dragHandleProps}>
             <ListName name={name} updateName={updateList} />
@@ -93,8 +95,8 @@ const List: React.FC<Props> = (props) => {
                 <Cards cards={sortedCards} />
                 {providedDroppable.placeholder}
                 <CreateCardButton
-                  focused={createCardOpened}
-                  setFocused={setCreateCardOpened}
+                  focused={createCardFlag}
+                  setFocused={setCreateCardFlag}
                   createCard={createCard}
                 />
               </ContentWrapper>
