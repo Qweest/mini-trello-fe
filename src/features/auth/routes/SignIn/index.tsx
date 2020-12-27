@@ -2,7 +2,9 @@ import React, { useState } from 'react';
 import { GoogleLogin } from 'react-google-login';
 import { useDispatch } from 'react-redux';
 
+import { ReactComponent as TrelloLogo } from '../../../../assets/images/trello-logo-blue.svg';
 import { GOOGLE_CLIENT_ID } from '../../constants';
+import { signInAction } from '../../thunks';
 import {
   Form,
   Wrapper,
@@ -14,8 +16,6 @@ import {
   Content,
   Header,
 } from '../styles';
-import { ReactComponent as TrelloLogo } from '../../../../assets/images/trello-logo-blue.svg';
-import { signInAction } from '../../thunks';
 
 const SignIn: React.FC = () => {
   const [email, setEmail] = useState('');

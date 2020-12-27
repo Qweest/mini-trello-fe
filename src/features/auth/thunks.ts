@@ -1,7 +1,7 @@
+import { AppThunk } from '../../store';
 import { actions } from './slice';
 import { signUp, signIn } from './api';
 import { SignInRequest, SignUpRequest } from './api/entities';
-import { AppThunk } from '../../store';
 
 export const signUpAction = (boardRequest: SignUpRequest): AppThunk => async (
   dispatch,
