@@ -12,9 +12,10 @@ import {
   Board,
   List,
   Card,
-  MoveActionPending,
-  MoveAction,
-  MoveCardAction,
+  MovePending,
+  Move,
+  MoveCard,
+  FlagAction,
 } from './entities';
 import { getListSortedCards, sortByPosition } from './helpers';
 
@@ -23,6 +24,9 @@ export const initialState: Board = {
   name: '',
   lists: [],
   cards: [],
+  flags: {
+    createListFlag: false,
+  },
 };
 
 const slice = createSlice({
@@ -75,10 +79,7 @@ const slice = createSlice({
     updateListSuccess() {},
     updateListFailure() {},
 
-    moveListPending(
-      state,
-      action: PayloadAction<MoveActionPending<MoveAction>>,
-    ) {
+    moveListPending(state, action: PayloadAction<MovePending<Move>>) {
       const { oldIndex, position, adjacentIndex } = action.payload;
       const { lists } = state;
 
@@ -122,10 +123,7 @@ const slice = createSlice({
     },
     createCardFailure() {},
 
-    moveCardPending(
-      state,
-      action: PayloadAction<MoveActionPending<MoveCardAction>>,
-    ) {
+    moveCardPending(state, action: PayloadAction<MovePending<MoveCard>>) {
       const { id, toListId, position, adjacentIndex } = action.payload;
       const { cards } = state;
       const sortedListCards = getListSortedCards(cards, toListId);
@@ -148,6 +146,10 @@ const slice = createSlice({
     },
     moveCardSuccess() {},
     moveCardFailure() {},
+
+    setCreateListFlag(state, action: PayloadAction<FlagAction>) {
+      state.flags.createListFlag = action.payload.flag;
+    },
   },
 });
 

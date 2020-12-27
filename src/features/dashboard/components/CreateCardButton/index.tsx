@@ -1,19 +1,21 @@
-import React, { Fragment, useState, useRef } from 'react';
+import React, { Fragment, useState, useRef, useEffect } from 'react';
 import { HiOutlinePlus } from 'react-icons/hi';
 
 import { hooks, validation } from '../../../../utils';
 import { DefaultControls } from '../../../../components';
-import { FocusableProps } from '../../../../common/entities';
 import { Wrapper, Button, TitleArea, AreaCard } from './styles';
 
-interface Props extends FocusableProps {
+interface Props {
   createCard: (title: string) => void;
+  createCardFlag: boolean;
+  setCreateCardFlag: (flag: boolean) => void;
 }
 
 const CreateCardButton: React.FC<Props> = (props) => {
-  const { createCard, focused, setFocused } = props;
+  const { createCard, createCardFlag, setCreateCardFlag } = props;
   const wrapperRef = useRef<HTMLDivElement>(null);
   const [value, setValue] = useState('');
+  const [focused, setFocused] = useState(false);
   const isEmpty = validation.isEmpty(value);
 
   const handleBlockClick = () => {
@@ -35,6 +37,13 @@ const CreateCardButton: React.FC<Props> = (props) => {
   const handleTextChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setValue(e.target.value);
   };
+
+  useEffect(() => {
+    if (createCardFlag) {
+      setFocused(true);
+      setCreateCardFlag(false);
+    }
+  }, [createCardFlag]);
 
   hooks.useOutsideClick(wrapperRef, handleProceed, focused, [isEmpty, value]);
   hooks.useScrollOnFocus(wrapperRef, focused);

@@ -1,19 +1,27 @@
-import React, { Fragment, useState, useRef } from 'react';
+import React, { Fragment, useState, useRef, useEffect } from 'react';
 import { HiOutlinePlus } from 'react-icons/hi';
+import { useDispatch, useSelector } from 'react-redux';
 
-import { FocusableProps } from '../../../../common/entities';
 import { DefaultControls } from '../../../../components';
+import { RootState } from '../../../../store/entities';
 import { hooks, validation } from '../../../../utils';
+import { Flags } from '../../entities';
+import { actions } from '../../slice';
 import { Wrapper, Button, Input } from './styles';
 
-interface Props extends FocusableProps {
+interface Props {
   createList: (title: string) => void;
 }
 
 const CreateListButton: React.FC<Props> = (props) => {
-  const { createList, focused, setFocused } = props;
+  const { createList } = props;
+  const dispatch = useDispatch();
+  const { createListFlag } = useSelector<RootState, Flags>(
+    (state) => state.dashboard.flags,
+  );
   const wrapperRef = useRef<HTMLDivElement>(null);
   const [value, setValue] = useState('');
+  const [focused, setFocused] = useState(false);
   const isEmpty = validation.isEmpty(value);
 
   const handleBlockClick = () => {
@@ -33,6 +41,13 @@ const CreateListButton: React.FC<Props> = (props) => {
   const handleTextChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setValue(e.target.value);
   };
+
+  useEffect(() => {
+    if (createListFlag) {
+      setFocused(true);
+      dispatch(actions.setCreateListFlag({ flag: false }));
+    }
+  }, [createListFlag]);
 
   hooks.useOutsideClick(wrapperRef, handleClose, focused);
   hooks.useScrollOnFocus(wrapperRef, focused);

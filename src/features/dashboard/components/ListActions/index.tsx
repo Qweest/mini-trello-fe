@@ -1,8 +1,9 @@
 import React, { useRef } from 'react';
 import { HiOutlineX } from 'react-icons/hi';
+import { useDispatch } from 'react-redux';
 
 import { hooks } from '../../../../utils';
-
+import { actions } from '../../slice';
 import {
   Wrapper,
   Content,
@@ -15,21 +16,21 @@ import {
 interface Props {
   opened: boolean;
   close: () => void;
-  focusCreateCard: () => void;
-  focusCreateList: () => void;
+  setCreateCardFlag: (flag: boolean) => void;
 }
 
 const ListActions: React.FC<Props> = (props) => {
-  const { opened, close, focusCreateCard, focusCreateList } = props;
+  const { opened, close, setCreateCardFlag } = props;
+  const dispatch = useDispatch();
   const contentRef = useRef<HTMLDivElement>(null);
 
   const handleCreateList = () => {
-    focusCreateList();
+    dispatch(actions.setCreateListFlag({ flag: true }));
     close();
   };
 
   const handleCreateCard = () => {
-    focusCreateCard();
+    setCreateCardFlag(true);
     close();
   };
 

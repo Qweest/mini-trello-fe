@@ -18,7 +18,6 @@ import { Wrapper, ActionIcon, ContentWrapper, DroppableArea } from './styles';
 interface Props {
   data: ListEntity;
   index: number;
-  focusCreateList: () => void;
 }
 
 // eslint-disable-next-line react/display-name
@@ -29,7 +28,7 @@ const Cards = React.memo((props: { cards: CardEntity[] }): any => {
 });
 
 const List: React.FC<Props> = (props) => {
-  const { data, index, focusCreateList } = props;
+  const { data, index } = props;
   const { id, name } = data;
   const dispatch = useDispatch();
   const { cards, id: boardId } = useSelector(
@@ -52,16 +51,12 @@ const List: React.FC<Props> = (props) => {
     dispatch(createCardAction({ boardId, listId: id, title }));
   };
 
-  const handleActionIconClick = () => {
+  const openActions = () => {
     setActionsOpened(true);
   };
 
   const closeActions = () => {
     setActionsOpened(false);
-  };
-
-  const focusCreateCard = () => {
-    setCreateCardFlag(true);
   };
 
   return (
@@ -75,13 +70,12 @@ const List: React.FC<Props> = (props) => {
           <ListActions
             opened={actionsOpened}
             close={closeActions}
-            focusCreateCard={focusCreateCard}
-            focusCreateList={focusCreateList}
+            setCreateCardFlag={setCreateCardFlag}
           />
           <Row marginMultiplier={0.5} {...providedDraggable.dragHandleProps}>
             <ListName name={name} updateName={updateList} />
             <ActionIcon
-              onClick={handleActionIconClick}
+              onClick={openActions}
               Icon={<HiOutlineDotsHorizontal />}
             />
           </Row>
@@ -95,9 +89,9 @@ const List: React.FC<Props> = (props) => {
                 <Cards cards={sortedCards} />
                 {providedDroppable.placeholder}
                 <CreateCardButton
-                  focused={createCardFlag}
-                  setFocused={setCreateCardFlag}
                   createCard={createCard}
+                  createCardFlag={createCardFlag}
+                  setCreateCardFlag={setCreateCardFlag}
                 />
               </ContentWrapper>
             )}
