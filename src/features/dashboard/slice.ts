@@ -7,6 +7,7 @@ import {
   ListResponse,
   CreateCardRequest,
   CardResponse,
+  RemoveListRequest,
 } from './api/entities';
 import {
   Board,
@@ -47,7 +48,7 @@ const slice = createSlice({
     createListPending(state, action: PayloadAction<CreateListRequest>) {
       const { name, position } = action.payload;
       const pendingList: List = {
-        id: `${name}_${position}`,
+        id: name,
         name,
         boardId: state.id,
         position,
@@ -62,10 +63,8 @@ const slice = createSlice({
       state.lists[listIndex] = payload;
     },
     createListFailure(state, action: PayloadAction<CreateListRequest>) {
-      const { name, position } = action.payload;
-      const listIndex = state.lists.findIndex(
-        ({ id }) => id === `${name}_${position}`,
-      );
+      const { name } = action.payload;
+      const listIndex = state.lists.findIndex(({ id }) => id === name);
 
       state.lists.splice(listIndex, 1);
     },
@@ -100,6 +99,16 @@ const slice = createSlice({
     },
     moveListSuccess() {},
     moveListFailure() {},
+
+    removeListPending(state, action: PayloadAction<RemoveListRequest>) {
+      const { id } = action.payload;
+      const { lists } = state;
+      const listIndex = lists.findIndex((it) => it.id === id);
+
+      lists.splice(listIndex, 1);
+    },
+    removeListSuccess() {},
+    removeListFailure() {},
 
     createCardPending(state, action: PayloadAction<CreateCardRequest>) {
       const { listId, title, position, boardId } = action.payload;

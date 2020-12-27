@@ -20,19 +20,24 @@ const Button: React.FC<Props> = (props) => {
     setLongPressed(true);
   };
 
+  const handleLongUnpressed = () => {
+    setLongPressed(false);
+  };
+
   const handleClick = (e: SyntheticEvent) => {
-    if (!longPressTimeout) {
-      onClick(e);
+    if (longPressTimeout && !longPressed) {
       return;
     }
 
-    if (longPressed) {
-      onClick(e);
-      setLongPressed(false);
-    }
+    onClick(e);
+    handleLongUnpressed();
   };
 
-  const longPressProps = useLongPress(handleLongPressed, longPressTimeout);
+  const longPressProps = useLongPress(
+    handleLongPressed,
+    longPressTimeout,
+    handleLongUnpressed,
+  );
 
   return (
     <Wrapper className={className} onClick={handleClick} {...longPressProps}>

@@ -6,7 +6,11 @@ import { HiOutlineDotsHorizontal } from 'react-icons/hi';
 import { Row } from '../../../../components';
 import { RootState } from '../../../../store/entities';
 import { List as ListEntity, Card as CardEntity } from '../../entities';
-import { createCardAction, updateListAction } from '../../thunks';
+import {
+  createCardAction,
+  updateListAction,
+  removeListAction,
+} from '../../thunks';
 import { DROPPABLE_TYPES } from '../../constants';
 import { getListSortedCards } from '../../helpers';
 import Card from '../Card';
@@ -59,6 +63,10 @@ const List: React.FC<Props> = (props) => {
     setActionsOpened(false);
   };
 
+  const handleRemoveList = () => {
+    dispatch(removeListAction({ id }));
+  };
+
   return (
     <Draggable draggableId={id} index={index}>
       {(providedDraggable, snapshot) => (
@@ -71,6 +79,7 @@ const List: React.FC<Props> = (props) => {
             opened={actionsOpened}
             close={closeActions}
             setCreateCardFlag={setCreateCardFlag}
+            onRemoveClick={handleRemoveList}
           />
           <Row marginMultiplier={0.5} {...providedDraggable.dragHandleProps}>
             <ListName name={name} updateName={updateList} />

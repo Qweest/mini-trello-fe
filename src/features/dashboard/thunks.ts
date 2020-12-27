@@ -6,6 +6,7 @@ import {
   MoveRequest,
   CreateCardRequest,
   MoveCardRequest,
+  RemoveListRequest,
 } from './api/entities';
 import {
   fetchBoard,
@@ -14,6 +15,7 @@ import {
   updateList,
   createCard,
   moveCard,
+  removeList,
 } from './api';
 import { actions } from './slice';
 import {
@@ -98,6 +100,18 @@ export const moveListAction = (moveData: Move): AppThunk => async (
     dispatch(actions.moveListSuccess());
   } catch (e) {
     dispatch(actions.moveListFailure());
+  }
+};
+
+export const removeListAction = (
+  removeListRequest: RemoveListRequest,
+): AppThunk => async (dispatch) => {
+  try {
+    dispatch(actions.removeListPending(removeListRequest));
+    await removeList(removeListRequest);
+    dispatch(actions.removeListSuccess());
+  } catch (e) {
+    dispatch(actions.removeListFailure());
   }
 };
 

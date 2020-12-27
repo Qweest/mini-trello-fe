@@ -12,6 +12,7 @@ interface WrapperProps {
 
 export const Wrapper = styled.div<WrapperProps>`
   min-width: 250px;
+  box-sizing: border-box;
   height: fit-content;
   border-radius: 3px;
   background-color: ${colors.whiteA2};

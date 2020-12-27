@@ -19,10 +19,11 @@ interface Props {
   opened: boolean;
   close: () => void;
   setCreateCardFlag: (flag: boolean) => void;
+  onRemoveClick: () => void;
 }
 
 const ListActions: React.FC<Props> = (props) => {
-  const { opened, close, setCreateCardFlag } = props;
+  const { opened, close, setCreateCardFlag, onRemoveClick } = props;
   const dispatch = useDispatch();
   const contentRef = useRef<HTMLDivElement>(null);
 
@@ -53,7 +54,7 @@ const ListActions: React.FC<Props> = (props) => {
         <Action onClick={() => console.log('click')}>Another action</Action>
         <Separator />
         <DangerAction
-          onClick={() => console.log('long press')}
+          onClick={onRemoveClick}
           longPressTimeout={REMOVE_LIST_TIMEOUT}
         >
           Remove list

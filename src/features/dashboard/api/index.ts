@@ -7,6 +7,7 @@ import {
   MoveRequest,
   CreateCardRequest,
   MoveCardRequest,
+  RemoveListRequest,
 } from './entities';
 
 export const fetchBoard = async (boardRequest: BoardRequest) => {
@@ -31,6 +32,12 @@ export const moveList = async (moveRequest: MoveRequest) => {
   return await mainService.put(LIST(id), {
     position,
   });
+};
+
+export const removeList = async (removeListRequest: RemoveListRequest) => {
+  const { id } = removeListRequest;
+
+  return await mainService.delete(LIST(id));
 };
 
 export const createCard = async (createCardRequest: CreateCardRequest) => {
