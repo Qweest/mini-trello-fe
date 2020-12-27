@@ -1,9 +1,9 @@
 import { combineReducers } from '@reduxjs/toolkit';
 
 import { dashboardSlice } from '../features/dashboard';
-import { SignUpSlice } from '../features/signUp';
+import { authSlice } from '../features/auth';
 
 export default combineReducers({
   dashboard: dashboardSlice,
-  signUp: SignUpSlice,
+  auth: authSlice,
 });

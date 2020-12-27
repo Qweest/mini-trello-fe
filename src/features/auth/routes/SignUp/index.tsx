@@ -2,25 +2,27 @@ import React, { useState } from 'react';
 import { GoogleLogin } from 'react-google-login';
 import { useDispatch } from 'react-redux';
 
-import { GOOGLE_CLIENT_ID } from '../constants';
+import { GOOGLE_CLIENT_ID } from '../../constants';
 import {
-  SignUpForm,
+  Form,
   Wrapper,
   Title,
   Input,
-  SignUpButton,
+  Button,
   SocialLogin,
   TextDivider,
   Content,
   Header,
-} from './styles';
-import { ReactComponent as TrelloLogo } from '../../../assets/images/trello-logo-blue.svg';
-import { signUpAction } from '../thunks';
+} from '../styles';
+import { ReactComponent as TrelloLogo } from '../../../../assets/images/trello-logo-blue.svg';
+import { signUpAction } from '../../thunks';
 
 const SignUp: React.FC = () => {
   const [email, setEmail] = useState('');
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
+
   const dispatch = useDispatch();
 
   const handleInputChange = (
@@ -30,7 +32,7 @@ const SignUp: React.FC = () => {
   };
 
   const onSubmit = () => {
-    dispatch(signUpAction({ email, username, password }));
+    dispatch(signUpAction({ email, username, password, confirmPassword }));
   };
 
   return (
@@ -40,7 +42,7 @@ const SignUp: React.FC = () => {
       </Header>
       <Content>
         <Title>Sign up for your account</Title>
-        <SignUpForm>
+        <Form>
           <Input
             value={email}
             onChange={handleInputChange(setEmail)}
@@ -52,12 +54,19 @@ const SignUp: React.FC = () => {
             placeholder={'Enter username'}
           />
           <Input
+            type="password"
             value={password}
             onChange={handleInputChange(setPassword)}
             placeholder={'Create password'}
           />
-          <SignUpButton onClick={onSubmit}>Sign Up</SignUpButton>
-        </SignUpForm>
+          <Input
+            type="password"
+            value={confirmPassword}
+            onChange={handleInputChange(setConfirmPassword)}
+            placeholder={'Confirm password'}
+          />
+          <Button onClick={onSubmit}>Sign Up</Button>
+        </Form>
         <TextDivider>OR</TextDivider>
         <SocialLogin>
           <GoogleLogin

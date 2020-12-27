@@ -27,7 +27,7 @@ export const Header = styled.header`
   justify-content: center;
 `;
 
-export const SignUpForm = styled.div``;
+export const Form = styled.div``;
 
 export const Title = styled.h1`
   text-align: center;
@@ -55,7 +55,7 @@ export const Input = styled(UnstyledInput)`
   }
 `;
 
-export const SignUpButton = styled(UnstyledButton)`
+export const Button = styled(UnstyledButton)`
   display: flex;
   background-color: ${colors.blue1};
   color: ${colors.white};
