@@ -1,5 +1,6 @@
-import React, { ReactElement, SyntheticEvent } from 'react';
+import React, { ReactElement, SyntheticEvent, useState } from 'react';
 
+import { useLongPress } from '../../utils/hooks';
 import Row from '../Row';
 import { Wrapper, IconWrapper } from './styles';
 
@@ -7,14 +8,34 @@ interface Props {
   text?: string;
   Icon?: ReactElement;
   className?: string;
-  onClick?: (e: SyntheticEvent) => void;
+  onClick: (e: SyntheticEvent) => void;
+  longPressTimeout?: number;
 }
 
 const Button: React.FC<Props> = (props) => {
-  const { children, text, Icon, className, onClick } = props;
+  const { children, text, Icon, className, onClick, longPressTimeout } = props;
+  const [longPressed, setLongPressed] = useState(false);
+
+  const handleLongPressed = () => {
+    setLongPressed(true);
+  };
+
+  const handleClick = (e: SyntheticEvent) => {
+    if (!longPressTimeout) {
+      onClick(e);
+      return;
+    }
+
+    if (longPressed) {
+      onClick(e);
+      setLongPressed(false);
+    }
+  };
+
+  const longPressProps = useLongPress(handleLongPressed, longPressTimeout);
 
   return (
-    <Wrapper className={className} onClick={onClick}>
+    <Wrapper className={className} onClick={handleClick} {...longPressProps}>
       {children || (
         <Row marginMultiplier={text && Icon ? 0.25 : 0}>
           <IconWrapper>{Icon}</IconWrapper>

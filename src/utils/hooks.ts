@@ -1,4 +1,10 @@
-import { RefObject, useEffect } from 'react';
+import {
+  RefObject,
+  SyntheticEvent,
+  useCallback,
+  useEffect,
+  useState,
+} from 'react';
 
 export const useOutsideClick = (
   ref: RefObject<HTMLElement>,
@@ -34,4 +40,39 @@ export const useScrollOnFocus = (
       ref.current?.scrollIntoView(false);
     }
   }, [focused]);
+};
+
+export const useLongPress = (
+  cb: (e: SyntheticEvent) => void,
+  ms = 300,
+): any => {
+  const [startLongPress, setStartLongPress] = useState(false);
+
+  const start = useCallback(() => {
+    setStartLongPress(true);
+  }, []);
+
+  const stop = useCallback(() => {
+    setStartLongPress(false);
+  }, []);
+
+  useEffect(() => {
+    let timerId: number | undefined;
+
+    if (startLongPress) {
+      timerId = setTimeout(cb, ms);
+    } else {
+      clearTimeout(timerId);
+    }
+
+    return () => clearTimeout(timerId);
+  }, [startLongPress]);
+
+  return {
+    onMouseDown: start,
+    onMouseUp: stop,
+    onMouseLeave: stop,
+    onTouchStart: start,
+    onTouchEnd: stop,
+  };
 };

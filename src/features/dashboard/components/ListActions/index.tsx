@@ -3,11 +3,13 @@ import { HiOutlineX } from 'react-icons/hi';
 import { useDispatch } from 'react-redux';
 
 import { hooks } from '../../../../utils';
+import { REMOVE_LIST_TIMEOUT } from '../../constants';
 import { actions } from '../../slice';
 import {
   Wrapper,
   Content,
   Action,
+  DangerAction,
   TitleWrapper,
   Separator,
   CloseIcon,
@@ -47,10 +49,15 @@ const ListActions: React.FC<Props> = (props) => {
         <Action onClick={handleCreateList}>Create list</Action>
         <Action onClick={handleCreateCard}>Create card</Action>
         <Separator />
-        <Action>Some action</Action>
-        <Action>Another action</Action>
+        <Action onClick={() => {}}>Some action</Action>
+        <Action onClick={() => console.log('click')}>Another action</Action>
         <Separator />
-        <Action danger>Remove list</Action>
+        <DangerAction
+          onClick={() => console.log('long press')}
+          longPressTimeout={REMOVE_LIST_TIMEOUT}
+        >
+          Remove list
+        </DangerAction>
       </Content>
     </Wrapper>
   );

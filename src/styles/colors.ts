@@ -29,4 +29,5 @@ export default {
   blueberry: '#6c7fcb',
   grass: '#559900',
   danger: '#E13700',
+  dangerA: 'rgba(225, 55, 0, 0.25)',
 };
