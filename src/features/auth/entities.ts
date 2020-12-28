@@ -10,3 +10,9 @@ export interface Tokens {
   accessToken: string;
   refreshToken: string;
 }
+
+export interface Auth {
+  user?: User;
+  pending: boolean;
+  error: string;
+}

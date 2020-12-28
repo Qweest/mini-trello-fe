@@ -1,17 +1,10 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 import { SignInResponse, SignUpResponse } from './api/entities';
-import { Tokens, User } from './entities';
+import { Auth } from './entities';
 
-interface InitialState extends Pick<Tokens, 'accessToken'> {
-  user?: User;
-  pending: boolean;
-  error: string;
-}
-
-export const initialState: InitialState = {
+export const initialState: Auth = {
   user: undefined,
-  accessToken: '',
   pending: false,
   error: '',
 };
@@ -29,7 +22,7 @@ const slice = createSlice({
 
       state.pending = false;
       state.user = user;
-      state.accessToken = accessToken;
+      localStorage.setItem('accessToken', accessToken);
       localStorage.setItem('refreshToken', refreshToken);
     },
     signUpFailure(state) {
@@ -44,7 +37,7 @@ const slice = createSlice({
 
       state.pending = false;
       state.user = user;
-      state.accessToken = accessToken;
+      localStorage.setItem('accessToken', accessToken);
       localStorage.setItem('refreshToken', refreshToken);
     },
     signInFailure(state) {
