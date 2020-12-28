@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-import { SignInResponse, SignUpResponse } from './api/entities';
-import { Auth } from './entities';
+import { AuthResponse } from './api/entities';
+import { Auth, User } from './entities';
 
 export const initialState: Auth = {
   user: undefined,
@@ -10,40 +10,30 @@ export const initialState: Auth = {
 };
 
 const slice = createSlice({
-  name: 'signUp',
+  name: 'auth',
   initialState,
   reducers: {
-    signUpPending(state) {
+    authPending(state) {
       state.pending = true;
       state.error = '';
     },
-    signUpSuccess(state, action: PayloadAction<SignUpResponse>) {
-      const { user, accessToken, refreshToken } = action.payload;
+    authSuccess(state, action: PayloadAction<AuthResponse>) {
+      const { user } = action.payload;
 
       state.pending = false;
       state.user = user;
-      localStorage.setItem('accessToken', accessToken);
-      localStorage.setItem('refreshToken', refreshToken);
     },
-    signUpFailure(state) {
+    authFailure(state) {
       state.pending = false;
     },
-    signInPending(state) {
-      state.pending = true;
-      state.error = '';
-    },
-    signInSuccess(state, action: PayloadAction<SignInResponse>) {
-      const { user, accessToken, refreshToken } = action.payload;
 
-      state.pending = false;
+    fetchMePending() {},
+    fetchMeSuccess(state, action: PayloadAction<User>) {
+      const user = action.payload;
+
       state.user = user;
-      localStorage.setItem('accessToken', accessToken);
-      localStorage.setItem('refreshToken', refreshToken);
     },
-    signInFailure(state) {
-      state.pending = false;
-      state.error = '';
-    },
+    fetchMeFailure() {},
   },
 });
 

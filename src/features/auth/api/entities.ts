@@ -1,5 +1,4 @@
 import { Tokens, User } from '../entities';
-
 export interface SignUpRequest {
   email: string;
   username: string;
@@ -7,15 +6,11 @@ export interface SignUpRequest {
   confirmPassword: string;
 }
 
-export interface SignUpResponse extends Tokens {
-  user: User;
-}
-
 export interface SignInRequest {
   email: string;
   password: string;
 }
 
-export interface SignInResponse extends Tokens {
+export interface AuthResponse extends Tokens {
   user: User;
 }

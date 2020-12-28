@@ -1,30 +1,51 @@
 import { AppThunk } from '../../store';
-import { actions } from './slice';
-import { signUp, signIn } from './api';
 import { SignInRequest, SignUpRequest } from './api/entities';
+import { ACCESS_TOKEN, REFRESH_TOKEN } from './constants';
+import { signUp, signIn, fetchMe } from './api';
+import { actions } from './slice';
 
-export const signUpAction = (boardRequest: SignUpRequest): AppThunk => async (
+export const signUpAction = (signUpRequest: SignUpRequest): AppThunk => async (
   dispatch,
 ) => {
   try {
-    dispatch(actions.signUpPending());
-    const { data } = await signUp(boardRequest);
+    dispatch(actions.authPending());
 
-    dispatch(actions.signUpSuccess(data));
+    const { data } = await signUp(signUpRequest);
+    const { accessToken, refreshToken } = data;
+
+    localStorage.setItem(ACCESS_TOKEN, accessToken);
+    localStorage.setItem(REFRESH_TOKEN, refreshToken);
+
+    dispatch(actions.authSuccess(data));
   } catch (e) {
-    dispatch(actions.signUpFailure());
+    dispatch(actions.authFailure());
   }
 };
 
-export const signInAction = (boardRequest: SignInRequest): AppThunk => async (
+export const signInAction = (signInRequest: SignInRequest): AppThunk => async (
   dispatch,
 ) => {
   try {
-    dispatch(actions.signInPending());
-    const { data } = await signIn(boardRequest);
+    dispatch(actions.authPending());
 
-    dispatch(actions.signInSuccess(data));
+    const { data } = await signIn(signInRequest);
+    const { accessToken, refreshToken } = data;
+
+    localStorage.setItem(ACCESS_TOKEN, accessToken);
+    localStorage.setItem(REFRESH_TOKEN, refreshToken);
+
+    dispatch(actions.authSuccess(data));
   } catch (e) {
-    dispatch(actions.signInFailure());
+    dispatch(actions.authFailure());
+  }
+};
+
+export const fetchMeAction = (): AppThunk => async (dispatch) => {
+  try {
+    dispatch(actions.fetchMePending());
+    const { data } = await fetchMe();
+    dispatch(actions.fetchMeSuccess(data));
+  } catch (e) {
+    dispatch(actions.fetchMeFailure());
   }
 };

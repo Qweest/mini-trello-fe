@@ -28,12 +28,6 @@ const Dashboard: React.FC = () => {
   const dispatch = useDispatch();
   const { lists, id } = useSelector((state: RootState) => state.dashboard);
 
-  useEffect(() => {
-    if (!id) {
-      dispatch(fetchBoardAction({ id: '5fcba017016a2418235310aa' }));
-    }
-  }, []);
-
   const handleOnDragEnd = (result: DropResult) => {
     const { destination, source, type, draggableId } = result;
 
@@ -79,6 +73,12 @@ const Dashboard: React.FC = () => {
       }),
     );
   };
+
+  useEffect(() => {
+    if (!id) {
+      dispatch(fetchBoardAction({ id: '5fea5896e3eba044de59349d' }));
+    }
+  }, []);
 
   return (
     <Wrapper background={bg}>
