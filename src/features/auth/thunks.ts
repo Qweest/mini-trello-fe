@@ -19,6 +19,7 @@ export const signUpAction = (signUpRequest: SignUpRequest): AppThunk => async (
     dispatch(actions.authSuccess(data));
   } catch (e) {
     dispatch(actions.authFailure());
+    throw e;
   }
 };
 
@@ -37,6 +38,7 @@ export const signInAction = (signInRequest: SignInRequest): AppThunk => async (
     dispatch(actions.authSuccess(data));
   } catch (e) {
     dispatch(actions.authFailure());
+    throw e;
   }
 };
 
@@ -47,5 +49,6 @@ export const fetchMeAction = (): AppThunk => async (dispatch) => {
     dispatch(actions.fetchMeSuccess(data));
   } catch (e) {
     dispatch(actions.fetchMeFailure());
+    throw e;
   }
 };

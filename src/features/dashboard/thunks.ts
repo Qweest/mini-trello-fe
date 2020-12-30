@@ -38,6 +38,7 @@ export const fetchBoardAction = (
     dispatch(actions.fetchBoardSuccess(data));
   } catch (e) {
     dispatch(actions.fetchBoardFailure());
+    throw e;
   }
 };
 
@@ -59,6 +60,7 @@ export const createListAction = (
     dispatch(actions.createListSuccess(data));
   } catch (e) {
     dispatch(actions.createListFailure(createListRequest));
+    throw e;
   }
 };
 
@@ -71,6 +73,7 @@ export const updateListAction = (
     dispatch(actions.updateListSuccess());
   } catch (e) {
     dispatch(actions.updateListFailure());
+    throw e;
   }
 };
 
@@ -98,6 +101,7 @@ export const moveListAction = (moveActionData: MoveAction): AppThunk => async (
     dispatch(actions.moveListSuccess());
   } catch (e) {
     dispatch(actions.moveListFailure());
+    throw e;
   }
 };
 
@@ -121,6 +125,7 @@ export const createCardAction = (
     dispatch(actions.createCardSuccess(data));
   } catch (e) {
     dispatch(actions.createCardFailure());
+    throw e;
   }
 };
 
@@ -152,5 +157,6 @@ export const moveCardAction = (
     dispatch(actions.moveCardSuccess());
   } catch (e) {
     dispatch(actions.moveCardFailure());
+    throw e;
   }
 };
