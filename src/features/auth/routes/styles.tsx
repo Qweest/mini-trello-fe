@@ -57,11 +57,14 @@ export const Input = styled(UnstyledInput)`
 
 export const Button = styled(UnstyledButton)`
   display: flex;
-  background-color: ${colors.blue1};
+  background-color: ${colors.blue2};
   color: ${colors.white};
   align-items: center;
   justify-content: center;
   &:hover {
+    background-color: ${colors.blue1};
+  }
+  &:active {
     background-color: ${colors.blue};
   }
 `;
