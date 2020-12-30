@@ -3,6 +3,7 @@ export interface Board {
   name: string;
   lists: List[];
   cards: Card[];
+  flags: Flags;
 }
 
 export interface List {
@@ -21,29 +22,37 @@ export interface Card {
   position: number;
 }
 
-export interface CreateListAction {
+export interface CreateList {
   boardId: string;
   name: string;
 }
 
-export interface CreateCardAction {
+export interface CreateCard {
   boardId: string;
   listId: string;
   title: string;
 }
 
-export interface MoveAction {
+export interface Move {
   id: string;
   newIndex: number;
   oldIndex: number;
 }
 
-export interface MoveCardAction extends MoveAction {
+export interface MoveCard extends Move {
   listId: string;
   toListId: string;
 }
 
-export type MoveActionPending<T> = T & {
+export type MovePending<T> = T & {
   position: number;
   adjacentIndex: number;
 };
+
+export interface Flags {
+  createListFlag: boolean;
+}
+
+export interface FlagAction {
+  flag: boolean;
+}

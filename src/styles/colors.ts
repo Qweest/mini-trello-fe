@@ -34,4 +34,5 @@ export default {
   grass: '#559900',
   danger: '#E13700',
   shuttleGray: '#5e6c84',
+  dangerA: 'rgba(225, 55, 0, 0.25)',
 };

@@ -7,28 +7,31 @@ import { Wrapper, Button, TitleArea, AreaCard } from './styles';
 
 interface Props {
   createCard: (title: string) => void;
-  focused: boolean;
-  setFocused: (focused: boolean) => void;
+  createCardFlag: boolean;
+  setCreateCardFlag: (flag: boolean) => void;
 }
 
 const CreateCardButton: React.FC<Props> = (props) => {
-  const { createCard, focused, setFocused } = props;
+  const { createCard, createCardFlag, setCreateCardFlag } = props;
   const wrapperRef = useRef<HTMLDivElement>(null);
-  const inputRef = useRef<HTMLTextAreaElement>(null);
   const [value, setValue] = useState('');
+  const [focused, setFocused] = useState(false);
+  const isEmpty = validation.isEmpty(value);
 
   const handleBlockClick = () => {
     setFocused(true);
   };
 
-  const handleCloseClick = () => {
+  const handleClose = () => {
     setFocused(false);
     setValue('');
   };
 
-  const handleProceedClick = () => {
-    createCard(value);
-    handleCloseClick();
+  const handleProceed = () => {
+    if (!isEmpty) {
+      createCard(value);
+    }
+    handleClose();
   };
 
   const handleTextChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
@@ -36,12 +39,14 @@ const CreateCardButton: React.FC<Props> = (props) => {
   };
 
   useEffect(() => {
-    if (focused) {
-      inputRef.current?.focus();
+    if (createCardFlag) {
+      setFocused(true);
+      setCreateCardFlag(false);
     }
-  }, [focused]);
+  }, [createCardFlag]);
 
-  hooks.useOutsideClick(wrapperRef, handleCloseClick, [focused]);
+  hooks.useOutsideClick(wrapperRef, handleProceed, focused, [isEmpty, value]);
+  hooks.useScrollOnFocus(wrapperRef, focused);
 
   return (
     <Wrapper ref={wrapperRef}>
@@ -51,15 +56,15 @@ const CreateCardButton: React.FC<Props> = (props) => {
             <TitleArea
               value={value}
               onChange={handleTextChange}
-              innerRef={inputRef}
               placeholder="Enter card title..."
+              autoFocus
             />
           </AreaCard>
           <DefaultControls
-            disabled={validation.isEmpty(value)}
+            disabled={isEmpty}
             proceedText="Create card"
-            onCloseClick={handleCloseClick}
-            onProceedClick={handleProceedClick}
+            onCloseClick={handleClose}
+            onProceedClick={handleProceed}
           />
         </Fragment>
       ) : (

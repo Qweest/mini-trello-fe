@@ -1,13 +1,12 @@
-import React, {
-  Fragment,
-  useState,
-  useRef,
-  useEffect,
-  SyntheticEvent,
-} from 'react';
+import React, { Fragment, useState, useRef, useEffect } from 'react';
 import { HiOutlinePlus } from 'react-icons/hi';
+import { useDispatch, useSelector } from 'react-redux';
 
 import { DefaultControls } from '../../../../components';
+import { RootState } from '../../../../store/entities';
+import { hooks, validation } from '../../../../utils';
+import { Flags } from '../../entities';
+import { actions } from '../../slice';
 import { Wrapper, Button, Input } from './styles';
 
 interface Props {
@@ -16,50 +15,58 @@ interface Props {
 
 const CreateListButton: React.FC<Props> = (props) => {
   const { createList } = props;
-  const inputRef = useRef<HTMLInputElement>(null);
-  const [focused, setFocused] = useState(false);
+  const dispatch = useDispatch();
+  const { createListFlag } = useSelector<RootState, Flags>(
+    (state) => state.dashboard.flags,
+  );
+  const wrapperRef = useRef<HTMLDivElement>(null);
   const [value, setValue] = useState('');
+  const [focused, setFocused] = useState(false);
+  const isEmpty = validation.isEmpty(value);
 
-  useEffect(() => {
-    if (focused && inputRef.current) {
-      inputRef.current.focus();
-    }
-  }, [focused, inputRef]);
-
-  const handleBlockClick = (e: SyntheticEvent) => {
+  const handleBlockClick = () => {
     setFocused(true);
-    e.stopPropagation();
   };
 
-  const handleCloseClick = (e: SyntheticEvent) => {
+  const handleClose = () => {
     setFocused(false);
     setValue('');
-    e.stopPropagation();
   };
 
-  const handleProceedClick = (e: SyntheticEvent) => {
+  const handleProceed = () => {
     createList(value);
-    handleCloseClick(e);
+    handleClose();
   };
 
   const handleTextChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setValue(e.target.value);
   };
 
+  useEffect(() => {
+    if (createListFlag) {
+      setFocused(true);
+      dispatch(actions.setCreateListFlag({ flag: false }));
+    }
+  }, [createListFlag]);
+
+  hooks.useOutsideClick(wrapperRef, handleClose, focused);
+  hooks.useScrollOnFocus(wrapperRef, focused);
+
   return (
-    <Wrapper focused={focused} onClick={handleBlockClick}>
+    <Wrapper ref={wrapperRef} focused={focused} onClick={handleBlockClick}>
       {focused ? (
         <Fragment>
           <Input
-            innerRef={inputRef}
+            autoFocus
             value={value}
             onChange={handleTextChange}
             placeholder="Enter list title..."
           />
           <DefaultControls
+            disabled={isEmpty}
             proceedText="Create list"
-            onCloseClick={handleCloseClick}
-            onProceedClick={handleProceedClick}
+            onCloseClick={handleClose}
+            onProceedClick={handleProceed}
           />
         </Fragment>
       ) : (

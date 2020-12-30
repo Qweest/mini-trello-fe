@@ -7,14 +7,16 @@ import {
   ListResponse,
   CreateCardRequest,
   CardResponse,
+  RemoveListRequest,
 } from './api/entities';
 import {
   Board,
   List,
   Card,
-  MoveActionPending,
-  MoveAction,
-  MoveCardAction,
+  MovePending,
+  Move,
+  MoveCard,
+  FlagAction,
 } from './entities';
 import { getListSortedCards, sortByPosition } from './helpers';
 
@@ -23,6 +25,9 @@ export const initialState: Board = {
   name: '',
   lists: [],
   cards: [],
+  flags: {
+    createListFlag: false,
+  },
 };
 
 const slice = createSlice({
@@ -43,7 +48,7 @@ const slice = createSlice({
     createListPending(state, action: PayloadAction<CreateListRequest>) {
       const { name, position } = action.payload;
       const pendingList: List = {
-        id: `${name}_${position}`,
+        id: name,
         name,
         boardId: state.id,
         position,
@@ -58,10 +63,8 @@ const slice = createSlice({
       state.lists[listIndex] = payload;
     },
     createListFailure(state, action: PayloadAction<CreateListRequest>) {
-      const { name, position } = action.payload;
-      const listIndex = state.lists.findIndex(
-        ({ id }) => id === `${name}_${position}`,
-      );
+      const { name } = action.payload;
+      const listIndex = state.lists.findIndex(({ id }) => id === name);
 
       state.lists.splice(listIndex, 1);
     },
@@ -75,10 +78,7 @@ const slice = createSlice({
     updateListSuccess() {},
     updateListFailure() {},
 
-    moveListPending(
-      state,
-      action: PayloadAction<MoveActionPending<MoveAction>>,
-    ) {
+    moveListPending(state, action: PayloadAction<MovePending<Move>>) {
       const { oldIndex, position, adjacentIndex } = action.payload;
       const { lists } = state;
 
@@ -99,6 +99,16 @@ const slice = createSlice({
     },
     moveListSuccess() {},
     moveListFailure() {},
+
+    removeListPending(state, action: PayloadAction<RemoveListRequest>) {
+      const { id } = action.payload;
+      const { lists } = state;
+      const listIndex = lists.findIndex((it) => it.id === id);
+
+      lists.splice(listIndex, 1);
+    },
+    removeListSuccess() {},
+    removeListFailure() {},
 
     createCardPending(state, action: PayloadAction<CreateCardRequest>) {
       const { listId, title, position, boardId } = action.payload;
@@ -122,10 +132,7 @@ const slice = createSlice({
     },
     createCardFailure() {},
 
-    moveCardPending(
-      state,
-      action: PayloadAction<MoveActionPending<MoveCardAction>>,
-    ) {
+    moveCardPending(state, action: PayloadAction<MovePending<MoveCard>>) {
       const { id, toListId, position, adjacentIndex } = action.payload;
       const { cards } = state;
       const sortedListCards = getListSortedCards(cards, toListId);
@@ -148,6 +155,10 @@ const slice = createSlice({
     },
     moveCardSuccess() {},
     moveCardFailure() {},
+
+    setCreateListFlag(state, action: PayloadAction<FlagAction>) {
+      state.flags.createListFlag = action.payload.flag;
+    },
   },
 });
 

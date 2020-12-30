@@ -7,10 +7,6 @@ export interface WrapperProps {
   opened: boolean;
 }
 
-export interface ActionProps {
-  danger?: boolean;
-}
-
 export const Wrapper = styled.div<WrapperProps>`
   display: flex;
   justify-content: center;
@@ -33,7 +29,7 @@ export const Content = styled(Card)<WrapperProps>`
   padding-bottom: ${metrics.spacing * 0.5}px;
   padding-top: ${metrics.spacing * 2}px;
   top: ${({ opened }) => (opened ? -metrics.spacing * 2 : -350)}px;
-  transition: all 0.25s cubic-bezier(0.195, 0.885, 0.32, 1.275);
+  transition: all 0.25s cubic-bezier(0.195, 0.585, 0.32, 1.275);
   box-shadow: 0 5px 25px ${colors.blackA};
   box-sizing: border-box;
   border-radius: 0;
@@ -73,14 +69,31 @@ export const Separator = styled.div`
   margin: ${metrics.spacing * 0.5}px;
 `;
 
-export const Action = styled(Button)<ActionProps>`
+export const Action = styled(Button)`
   border-radius: 0;
   background-color: ${colors.none};
-  color: ${({ danger = false }) => (danger ? colors.danger : colors.black4)};
+  color: ${colors.black4};
   &:hover {
     background-color: ${colors.grey2};
   }
   &:active {
     background-color: ${colors.grey1};
+  }
+`;
+
+export const DangerAction = styled(Action)`
+  color: ${colors.danger};
+  &:hover {
+    background: linear-gradient(
+      90deg,
+      ${colors.dangerA} 50%,
+      ${colors.grey2} 50%
+    );
+    background-size: 200% 100%;
+    background-position: right;
+  }
+  &:active {
+    background-position: left;
+    transition: all ${({ longPressTimeout }) => longPressTimeout}ms ease-in;
   }
 `;

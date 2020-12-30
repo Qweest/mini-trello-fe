@@ -6,7 +6,11 @@ import { HiOutlineDotsHorizontal } from 'react-icons/hi';
 import { Row } from '../../../../components';
 import { RootState } from '../../../../store/entities';
 import { List as ListEntity, Card as CardEntity } from '../../entities';
-import { createCardAction, updateListAction } from '../../thunks';
+import {
+  createCardAction,
+  updateListAction,
+  removeListAction,
+} from '../../thunks';
 import { DROPPABLE_TYPES } from '../../constants';
 import { getListSortedCards } from '../../helpers';
 import Card from '../Card';
@@ -36,7 +40,7 @@ const List: React.FC<Props> = (props) => {
   );
   const sortedCards = getListSortedCards(cards, id);
   const [actionsOpened, setActionsOpened] = useState(false);
-  const [createCardOpened, setCreateCardOpened] = useState(false);
+  const [createCardFlag, setCreateCardFlag] = useState(false);
 
   const updateList = (name: string) => {
     dispatch(
@@ -51,16 +55,16 @@ const List: React.FC<Props> = (props) => {
     dispatch(createCardAction({ boardId, listId: id, title }));
   };
 
-  const handleActionIconClick = () => {
+  const openActions = () => {
     setActionsOpened(true);
   };
 
-  const handleCloseActions = () => {
+  const closeActions = () => {
     setActionsOpened(false);
   };
 
-  const handleOpenCreateCard = () => {
-    setCreateCardOpened(true);
+  const handleRemoveList = () => {
+    dispatch(removeListAction({ id }));
   };
 
   return (
@@ -72,14 +76,15 @@ const List: React.FC<Props> = (props) => {
           isDragging={snapshot.isDragging}
         >
           <ListActions
-            openCreateCard={handleOpenCreateCard}
             opened={actionsOpened}
-            close={handleCloseActions}
+            close={closeActions}
+            setCreateCardFlag={setCreateCardFlag}
+            onRemoveClick={handleRemoveList}
           />
           <Row marginMultiplier={0.5} {...providedDraggable.dragHandleProps}>
             <ListName name={name} updateName={updateList} />
             <ActionIcon
-              onClick={handleActionIconClick}
+              onClick={openActions}
               Icon={<HiOutlineDotsHorizontal />}
             />
           </Row>
@@ -93,9 +98,9 @@ const List: React.FC<Props> = (props) => {
                 <Cards cards={sortedCards} />
                 {providedDroppable.placeholder}
                 <CreateCardButton
-                  focused={createCardOpened}
-                  setFocused={setCreateCardOpened}
                   createCard={createCard}
+                  createCardFlag={createCardFlag}
+                  setCreateCardFlag={setCreateCardFlag}
                 />
               </ContentWrapper>
             )}

@@ -36,6 +36,10 @@ export interface UpdateListRequest {
   name: string;
 }
 
+export interface RemoveListRequest {
+  id: string;
+}
+
 export interface CardResponse {
   boardId: string;
   listId: string;

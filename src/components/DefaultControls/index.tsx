@@ -5,8 +5,8 @@ import Row from '../Row';
 import { Proceed, Close } from './styles';
 
 interface Props {
-  onProceedClick?: (e: SyntheticEvent) => void;
-  onCloseClick?: (e: SyntheticEvent) => void;
+  onProceedClick: (e: SyntheticEvent) => void;
+  onCloseClick: (e: SyntheticEvent) => void;
   proceedText: string;
   className?: string;
   disabled?: boolean;
@@ -21,12 +21,22 @@ const DefaultControls: React.FC<Props> = (props) => {
     disabled = false,
   } = props;
 
+  const handleClose = (e: SyntheticEvent) => {
+    onCloseClick(e);
+    e.stopPropagation();
+  };
+
+  const handleProceed = (e: SyntheticEvent) => {
+    onProceedClick(e);
+    e.stopPropagation();
+  };
+
   return (
     <Row className={className} marginMultiplier={0.25}>
-      <Proceed disabled={disabled} onClick={onProceedClick}>
+      <Proceed disabled={disabled} onClick={handleProceed}>
         {proceedText}
       </Proceed>
-      <Close onClick={onCloseClick} Icon={<HiOutlineX size={18} />} />
+      <Close onClick={handleClose} Icon={<HiOutlineX size={18} />} />
     </Row>
   );
 };

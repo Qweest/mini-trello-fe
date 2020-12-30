@@ -1,12 +1,15 @@
 import React, { useRef } from 'react';
 import { HiOutlineX } from 'react-icons/hi';
+import { useDispatch } from 'react-redux';
 
 import { hooks } from '../../../../utils';
-
+import { REMOVE_LIST_TIMEOUT } from '../../constants';
+import { actions } from '../../slice';
 import {
   Wrapper,
   Content,
   Action,
+  DangerAction,
   TitleWrapper,
   Separator,
   CloseIcon,
@@ -15,19 +18,26 @@ import {
 interface Props {
   opened: boolean;
   close: () => void;
-  openCreateCard: () => void;
+  setCreateCardFlag: (flag: boolean) => void;
+  onRemoveClick: () => void;
 }
 
 const ListActions: React.FC<Props> = (props) => {
-  const { opened, close, openCreateCard } = props;
+  const { opened, close, setCreateCardFlag, onRemoveClick } = props;
+  const dispatch = useDispatch();
   const contentRef = useRef<HTMLDivElement>(null);
 
-  const handleCreateCard = () => {
-    openCreateCard();
+  const handleCreateList = () => {
+    dispatch(actions.setCreateListFlag({ flag: true }));
     close();
   };
 
-  hooks.useOutsideClick(contentRef, close, [opened]);
+  const handleCreateCard = () => {
+    setCreateCardFlag(true);
+    close();
+  };
+
+  hooks.useOutsideClick(contentRef, close, opened);
 
   return (
     <Wrapper opened={opened}>
@@ -37,13 +47,18 @@ const ListActions: React.FC<Props> = (props) => {
           <CloseIcon onClick={close} Icon={<HiOutlineX size={18} />} />
         </TitleWrapper>
         <Separator />
-        <Action>Create list</Action>
+        <Action onClick={handleCreateList}>Create list</Action>
         <Action onClick={handleCreateCard}>Create card</Action>
         <Separator />
-        <Action>Some action</Action>
-        <Action>Another action</Action>
+        <Action onClick={() => {}}>Some action</Action>
+        <Action onClick={() => console.log('click')}>Another action</Action>
         <Separator />
-        <Action danger>Remove list</Action>
+        <DangerAction
+          onClick={onRemoveClick}
+          longPressTimeout={REMOVE_LIST_TIMEOUT}
+        >
+          Remove list
+        </DangerAction>
       </Content>
     </Wrapper>
   );
