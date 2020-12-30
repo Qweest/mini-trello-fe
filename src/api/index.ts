@@ -1,22 +1,31 @@
 import axios from 'axios';
-import { STATUS_CODES } from 'http';
 
 import { ACCESS_TOKEN, REFRESH_TOKEN } from '../features/auth/constants';
 import { refreshTokens } from '../features/auth/api';
-import { AUTH, BASE_URL, SECURE } from './constants';
+import { AUTH, BASE_URL, SECURE, STATUS_CODES } from './constants';
 
+//TODO: refactor and split services
 export const mainService = axios.create({
   baseURL: `${BASE_URL}${SECURE}`,
-  headers: {
-    Authorization: `Bearer ${localStorage.getItem(ACCESS_TOKEN)}`,
-  },
 });
+
+mainService.interceptors.request.use(
+  async (config) => {
+    const accessToken = localStorage.getItem(ACCESS_TOKEN);
+    config.headers = {
+      Authorization: `Bearer ${accessToken}`,
+    };
+    return config;
+  },
+  async (error) => {
+    throw error;
+  },
+);
 
 mainService.interceptors.response.use(
   (response) => response,
   async (error) => {
     const originalRequest = error.config;
-
     if (
       error.response.status === STATUS_CODES.UNAUTHORIZED &&
       !originalRequest._retry
@@ -24,7 +33,6 @@ mainService.interceptors.response.use(
       originalRequest._retry = true;
 
       const oldRefreshToken = localStorage.getItem(REFRESH_TOKEN);
-
       if (!oldRefreshToken) {
         throw error;
       }
@@ -34,9 +42,6 @@ mainService.interceptors.response.use(
 
       localStorage.setItem(ACCESS_TOKEN, accessToken);
       localStorage.setItem(REFRESH_TOKEN, refreshToken);
-
-      mainService.defaults.headers.common['Authorization'] =
-        'Bearer ' + accessToken;
 
       return mainService(originalRequest);
     }
