@@ -34,6 +34,10 @@ const slice = createSlice({
       state.user = user;
     },
     fetchMeFailure() {},
+
+    logout(state) {
+      state.user = undefined;
+    },
   },
 });
 
