@@ -76,7 +76,7 @@ const Dashboard: React.FC = () => {
 
   useEffect(() => {
     if (!id) {
-      dispatch(fetchBoardAction({ id: '5fcba017016a2418235310aa' }));
+      dispatch(fetchBoardAction({ id: '5fea5896e3eba044de59349d' }));
     }
   }, []);
 

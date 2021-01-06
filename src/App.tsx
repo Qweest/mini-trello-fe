@@ -5,7 +5,7 @@ import { Provider } from 'react-redux';
 import Navigation from './navigation';
 import store from './store';
 
-const App = () => {
+const App: React.FC = () => {
   return (
     <BrowserRouter>
       <Provider store={store}>
