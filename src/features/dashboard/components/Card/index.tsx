@@ -14,7 +14,7 @@ interface Props {
 
 const Card: React.FC<Props> = ({ data, index }) => {
   const { id, title, description } = data;
-  const showBadges = !!description;
+  const showBadges = !!description; // FIXME
 
   return (
     <Draggable draggableId={id} index={index}>

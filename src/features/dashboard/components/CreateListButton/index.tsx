@@ -1,4 +1,4 @@
-import React, { Fragment, useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { HiOutlinePlus } from 'react-icons/hi';
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -7,7 +7,7 @@ import { RootState } from '../../../../store/entities';
 import { hooks, validation } from '../../../../utils';
 import { Flags } from '../../entities';
 import { actions } from '../../slice';
-import { Wrapper, Button, Input } from './styles';
+import { Wrapper, Button, InputBlockWrapper, Input } from './styles';
 
 interface Props {
   createList: (title: string) => void;
@@ -53,9 +53,9 @@ const CreateListButton: React.FC<Props> = (props) => {
   hooks.useScrollOnFocus(wrapperRef, focused);
 
   return (
-    <Wrapper ref={wrapperRef} focused={focused} onClick={handleBlockClick}>
+    <Wrapper ref={wrapperRef}>
       {focused ? (
-        <Fragment>
+        <InputBlockWrapper>
           <Input
             autoFocus
             value={value}
@@ -68,7 +68,7 @@ const CreateListButton: React.FC<Props> = (props) => {
             onCloseClick={handleClose}
             onProceedClick={handleProceed}
           />
-        </Fragment>
+        </InputBlockWrapper>
       ) : (
         <Button
           text="Create list"

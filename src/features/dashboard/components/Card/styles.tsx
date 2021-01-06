@@ -26,5 +26,5 @@ export const Title = styled.span`
 `;
 
 export const BadgesWrapper = styled.div`
-  margin-top: ${metrics.spacing}px;
+  margin-top: ${metrics.spacing * 0.5}px;
 `;
