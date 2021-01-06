@@ -5,6 +5,8 @@ import { DragDropContext, Droppable, DropResult } from 'react-beautiful-dnd';
 import bg from '../../../assets/images/temp-bg.jpg';
 import { RootState } from '../../../store/entities';
 import { Row } from '../../../components';
+import { mainService } from '../../../api';
+import { BOARDS } from '../api/constants';
 import List from '../components/List';
 import CreateListButton from '../components/CreateListButton';
 import {
@@ -76,7 +78,10 @@ const Dashboard: React.FC = () => {
 
   useEffect(() => {
     if (!id) {
-      dispatch(fetchBoardAction({ id: '5fea5896e3eba044de59349d' }));
+      // FIXME
+      mainService.get(BOARDS).then(({ data: boards }) => {
+        dispatch(fetchBoardAction({ id: boards[0].id }));
+      });
     }
   }, []);
 
