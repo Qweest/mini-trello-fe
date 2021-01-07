@@ -1,10 +1,8 @@
 import React, { useRef } from 'react';
 import { HiOutlineX } from 'react-icons/hi';
-import { useDispatch } from 'react-redux';
 
 import { hooks } from '../../../../utils';
 import { REMOVE_LIST_TIMEOUT } from '../../constants';
-import { actions } from '../../slice';
 import {
   Wrapper,
   Content,
@@ -24,13 +22,7 @@ interface Props {
 
 const ListActions: React.FC<Props> = (props) => {
   const { opened, close, setCreateCardFlag, onRemoveClick } = props;
-  const dispatch = useDispatch();
   const contentRef = useRef<HTMLDivElement>(null);
-
-  const handleCreateList = () => {
-    dispatch(actions.setCreateListFlag({ flag: true }));
-    close();
-  };
 
   const handleCreateCard = () => {
     setCreateCardFlag(true);
@@ -47,7 +39,7 @@ const ListActions: React.FC<Props> = (props) => {
           <CloseIcon onClick={close} Icon={<HiOutlineX size={18} />} />
         </TitleWrapper>
         <Separator />
-        <Action onClick={handleCreateList}>Create list</Action>
+        <Action onClick={() => {}}>Copy list</Action>
         <Action onClick={handleCreateCard}>Create card</Action>
         <Separator />
         <Action onClick={() => {}}>Some action</Action>

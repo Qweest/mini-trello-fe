@@ -12,7 +12,7 @@ export interface Tokens {
 }
 
 export interface Auth {
-  user?: User;
+  user: User | null;
   pending: boolean;
   error: string;
 }

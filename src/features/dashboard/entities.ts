@@ -3,7 +3,6 @@ export interface Board {
   name: string;
   lists: List[];
   cards: Card[];
-  flags: Flags;
 }
 
 export interface List {
@@ -48,11 +47,3 @@ export type MovePending<T> = T & {
   position: number;
   adjacentIndex: number;
 };
-
-export interface Flags {
-  createListFlag: boolean;
-}
-
-export interface FlagAction {
-  flag: boolean;
-}

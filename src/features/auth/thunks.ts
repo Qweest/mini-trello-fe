@@ -1,6 +1,5 @@
 import { AppThunk } from '../../store';
 import { SignInRequest, SignUpRequest } from './api/entities';
-import { ACCESS_TOKEN, REFRESH_TOKEN } from './constants';
 import { signUp, signIn, fetchMe } from './api';
 import { actions } from './slice';
 
@@ -11,12 +10,9 @@ export const signUpAction = (signUpRequest: SignUpRequest): AppThunk => async (
     dispatch(actions.authPending());
 
     const { data } = await signUp(signUpRequest);
-    const { accessToken, refreshToken } = data;
+    const { user } = data;
 
-    localStorage.setItem(ACCESS_TOKEN, accessToken);
-    localStorage.setItem(REFRESH_TOKEN, refreshToken);
-
-    dispatch(actions.authSuccess(data));
+    dispatch(actions.authSuccess(user));
   } catch (e) {
     dispatch(actions.authFailure());
     throw e;
@@ -30,12 +26,9 @@ export const signInAction = (signInRequest: SignInRequest): AppThunk => async (
     dispatch(actions.authPending());
 
     const { data } = await signIn(signInRequest);
-    const { accessToken, refreshToken } = data;
+    const { user } = data;
 
-    localStorage.setItem(ACCESS_TOKEN, accessToken);
-    localStorage.setItem(REFRESH_TOKEN, refreshToken);
-
-    dispatch(actions.authSuccess(data));
+    dispatch(actions.authSuccess(user));
   } catch (e) {
     dispatch(actions.authFailure());
     throw e;

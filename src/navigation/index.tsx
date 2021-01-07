@@ -1,32 +1,32 @@
-import React, { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { Redirect, Route, Switch, useHistory } from 'react-router-dom';
+import React from 'react';
+import { Redirect, Route, Switch } from 'react-router-dom';
 
-import { ACCESS_TOKEN } from '../features/auth/constants';
-import { fetchMeAction } from '../features/auth/thunks';
+import LoadingPage from '../components/LoadingPage';
 import Dashboard from '../features/dashboard';
-import { RootState } from '../store/entities';
 import Auth from '../features/auth';
+import { hooks } from '../utils';
 import { ROUTE_PATHS } from './constants';
 
 const Navigation: React.FC = () => {
-  const dispatch = useDispatch();
-  const history = useHistory();
-  const { user } = useSelector((state: RootState) => state.auth);
+  const [hasToken, hasUser] = hooks.useAuth();
 
-  useEffect(() => {
-    const accessToken = localStorage.getItem(ACCESS_TOKEN);
-
-    if (accessToken) {
-      dispatch(fetchMeAction());
-    } else {
-      history.push(ROUTE_PATHS.SIGN_IN);
-    }
-  }, []);
+  if (hasToken && !hasUser) {
+    return <LoadingPage />;
+  }
 
   return (
     <Switch>
-      {!user ? (
+      {hasToken ? (
+        <React.Fragment>
+          <Route path={ROUTE_PATHS.DASHBOARD}>
+            <Dashboard />
+          </Route>
+
+          <Route path={ROUTE_PATHS.ROOT}>
+            <Redirect to={ROUTE_PATHS.DASHBOARD} />
+          </Route>
+        </React.Fragment>
+      ) : (
         <React.Fragment>
           <Route path={ROUTE_PATHS.SIGN_UP}>
             <Auth.SignUp />
@@ -38,16 +38,6 @@ const Navigation: React.FC = () => {
 
           <Route path={ROUTE_PATHS.ROOT}>
             <Redirect to={ROUTE_PATHS.SIGN_IN} />
-          </Route>
-        </React.Fragment>
-      ) : (
-        <React.Fragment>
-          <Route path={ROUTE_PATHS.DASHBOARD}>
-            <Dashboard />
-          </Route>
-
-          <Route path={ROUTE_PATHS.ROOT}>
-            <Redirect to={ROUTE_PATHS.DASHBOARD} />
           </Route>
         </React.Fragment>
       )}

@@ -1,4 +1,24 @@
 import { RefObject, useCallback, useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+
+import { ACCESS_TOKEN } from '../features/auth/constants';
+import { fetchMeAction } from '../features/auth/thunks';
+import { RootState } from '../store/entities';
+
+export const useAuth = (): boolean[] => {
+  const dispatch = useDispatch();
+  const { user } = useSelector((state: RootState) => state.auth);
+  const hasToken = !!localStorage.getItem(ACCESS_TOKEN);
+  const hasUser = !!user;
+
+  useEffect(() => {
+    if (hasToken) {
+      dispatch(fetchMeAction());
+    }
+  }, []);
+
+  return [hasToken, hasUser];
+};
 
 export const useOutsideClick = (
   ref: RefObject<HTMLElement>,

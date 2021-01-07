@@ -9,15 +9,7 @@ import {
   CardResponse,
   RemoveListRequest,
 } from './api/entities';
-import {
-  Board,
-  List,
-  Card,
-  MovePending,
-  Move,
-  MoveCard,
-  FlagAction,
-} from './entities';
+import { Board, List, Card, MovePending, Move, MoveCard } from './entities';
 import { getListSortedCards, sortByPosition } from './helpers';
 
 export const initialState: Board = {
@@ -25,9 +17,6 @@ export const initialState: Board = {
   name: '',
   lists: [],
   cards: [],
-  flags: {
-    createListFlag: false,
-  },
 };
 
 const slice = createSlice({
@@ -155,10 +144,6 @@ const slice = createSlice({
     },
     moveCardSuccess() {},
     moveCardFailure() {},
-
-    setCreateListFlag(state, action: PayloadAction<FlagAction>) {
-      state.flags.createListFlag = action.payload.flag;
-    },
   },
 });
 

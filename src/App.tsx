@@ -7,11 +7,13 @@ import store from './store';
 
 const App: React.FC = () => {
   return (
-    <BrowserRouter>
-      <Provider store={store}>
-        <Navigation />
-      </Provider>
-    </BrowserRouter>
+    <React.StrictMode>
+      <BrowserRouter>
+        <Provider store={store}>
+          <Navigation />
+        </Provider>
+      </BrowserRouter>
+    </React.StrictMode>
   );
 };
 

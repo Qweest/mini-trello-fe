@@ -1,12 +1,8 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef } from 'react';
 import { HiOutlinePlus } from 'react-icons/hi';
-import { useDispatch, useSelector } from 'react-redux';
 
 import { DefaultControls } from '../../../../components';
-import { RootState } from '../../../../store/entities';
 import { hooks, validation } from '../../../../utils';
-import { Flags } from '../../entities';
-import { actions } from '../../slice';
 import { Wrapper, Button, InputBlockWrapper, Input } from './styles';
 
 interface Props {
@@ -15,10 +11,6 @@ interface Props {
 
 const CreateListButton: React.FC<Props> = (props) => {
   const { createList } = props;
-  const dispatch = useDispatch();
-  const { createListFlag } = useSelector<RootState, Flags>(
-    (state) => state.dashboard.flags,
-  );
   const wrapperRef = useRef<HTMLDivElement>(null);
   const [value, setValue] = useState('');
   const [focused, setFocused] = useState(false);
@@ -41,13 +33,6 @@ const CreateListButton: React.FC<Props> = (props) => {
   const handleTextChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setValue(e.target.value);
   };
-
-  useEffect(() => {
-    if (createListFlag) {
-      setFocused(true);
-      dispatch(actions.setCreateListFlag({ flag: false }));
-    }
-  }, [createListFlag]);
 
   hooks.useOutsideClick(wrapperRef, handleClose, focused);
   hooks.useScrollOnFocus(wrapperRef, focused);

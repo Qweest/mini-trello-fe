@@ -1,4 +1,5 @@
 import { Tokens, User } from '../entities';
+
 export interface SignUpRequest {
   email: string;
   username: string;
