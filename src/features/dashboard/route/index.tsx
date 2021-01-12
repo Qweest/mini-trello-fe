@@ -5,8 +5,6 @@ import { DragDropContext, Droppable, DropResult } from 'react-beautiful-dnd';
 import bg from '../../../assets/images/temp-bg.jpg';
 import { RootState } from '../../../store/entities';
 import { Row } from '../../../components';
-import { mainService } from '../../../api';
-import { BOARDS } from '../api/constants';
 import List from '../components/List';
 import CreateListButton from '../components/CreateListButton';
 import {
@@ -18,6 +16,7 @@ import {
 import { List as ListEntity } from '../entities';
 import { DROPPABLE_TYPES } from '../constants';
 import { Wrapper, GradientWrapper } from './styles';
+import { fetchBoards } from '../../home/api';
 
 // eslint-disable-next-line react/display-name
 const Lists = React.memo((props: { lists: ListEntity[] }): any => {
@@ -79,7 +78,7 @@ const Dashboard: React.FC = () => {
   useEffect(() => {
     if (!id) {
       // FIXME
-      mainService.get(BOARDS).then(({ data: boards }) => {
+      fetchBoards().then(({ data: boards }) => {
         dispatch(fetchBoardAction({ id: boards[0].id }));
       });
     }

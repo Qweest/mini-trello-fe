@@ -35,4 +35,5 @@ export default {
   danger: '#E13700',
   shuttleGray: '#5e6c84',
   dangerA: 'rgba(225, 55, 0, 0.25)',
+  cerulean: '#026aa7',
 };

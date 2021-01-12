@@ -6,6 +6,7 @@ import Dashboard from '../features/dashboard';
 import Auth from '../features/auth';
 import { hooks } from '../utils';
 import { ROUTE_PATHS } from './constants';
+import Boards from '../features/home/route';
 
 const Navigation: React.FC = () => {
   const [hasToken, hasUser] = hooks.useAuth();
@@ -18,12 +19,16 @@ const Navigation: React.FC = () => {
     <Switch>
       {hasToken ? (
         <React.Fragment>
-          <Route path={ROUTE_PATHS.DASHBOARD}>
-            <Dashboard />
+          <Route path={ROUTE_PATHS.ROOT}>
+            <Redirect to={ROUTE_PATHS.BOARDS} />
           </Route>
 
-          <Route path={ROUTE_PATHS.ROOT}>
-            <Redirect to={ROUTE_PATHS.DASHBOARD} />
+          <Route path={ROUTE_PATHS.BOARDS}>
+            <Boards />
+          </Route>
+
+          <Route path={ROUTE_PATHS.DASHBOARD}>
+            <Dashboard />
           </Route>
         </React.Fragment>
       ) : (

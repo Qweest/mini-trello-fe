@@ -7,6 +7,11 @@ export interface BoardResponse {
   name: string;
   lists: ListResponse[];
   cards: CardResponse[];
+  users: string[];
+  settings: {
+    backgroundImage: string;
+    permissionLevel: 'private' | 'group';
+  };
 }
 
 export interface MoveRequest {
