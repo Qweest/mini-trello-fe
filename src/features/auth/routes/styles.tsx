@@ -2,7 +2,12 @@ import styled from 'styled-components';
 import { Link as UnstyledLink } from 'react-router-dom';
 
 import { ReactComponent as TrelloLogo } from '../../../assets/images/trello-logo-blue.svg';
-import { Button, Card, FormInput, Row } from '../../../components';
+import {
+  Card,
+  FormInput as UnstyledFormInput,
+  FormSubmit as UnstyledFormSubmit,
+  Row,
+} from '../../../components';
 import { colors, metrics } from '../../../styles';
 
 export const Wrapper = styled.div`
@@ -35,7 +40,7 @@ export const Title = styled.span`
   margin-bottom: ${metrics.spacing}px;
 `;
 
-export const Input = styled(FormInput)`
+export const FormInput = styled(UnstyledFormInput)`
   width: 100%;
   font-size: ${metrics.fontSize.medium}px;
   padding: ${metrics.spacing * 0.75}px;
@@ -50,7 +55,7 @@ export const Input = styled(FormInput)`
   }
 `;
 
-export const SubmitButton = styled(Button)`
+export const FormSubmit = styled(UnstyledFormSubmit)`
   display: flex;
   align-items: center;
   justify-content: center;

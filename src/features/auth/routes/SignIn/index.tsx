@@ -2,19 +2,19 @@ import React, { useState } from 'react';
 import { GoogleLogin } from 'react-google-login';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { required, email, length } from '../../../../utils/formValidation';
 import { ROUTE_PATHS } from '../../../../navigation/constants';
 import { RootState } from '../../../../store/entities';
 import { Form } from '../../../../components';
 import { GOOGLE_CLIENT_ID } from '../../constants';
+import { signInValidator } from '../../validators';
 import { signInAction } from '../../thunks';
 import {
   Wrapper,
   Logo,
   Title,
   Content,
-  Input,
-  SubmitButton,
+  FormInput,
+  FormSubmit,
   LinkBlock,
   Link,
   DividerWrapper,
@@ -36,28 +36,19 @@ const SignIn: React.FC = () => {
       <Logo />
       <Content>
         <Title>Sign in for your account</Title>
-        <Form values={values} setValues={setValues}>
-          <Input
+        <Form
+          values={values}
+          setValues={setValues}
+          formValidator={signInValidator}
+        >
+          <FormInput
             name="email"
             type="email"
             inputMode="email"
             placeholder="Email"
-            validations={[required('The email field is required'), email()]}
           />
-          <Input
-            name="password"
-            type="password"
-            placeholder="Password"
-            validations={[
-              required('The password field is required'),
-              length('Invalid password length', 8, 20),
-            ]}
-          />
-          <SubmitButton
-            onClick={handleSubmit}
-            text="Sign in"
-            pending={pending}
-          />
+          <FormInput name="password" type="password" placeholder="Password" />
+          <FormSubmit onClick={handleSubmit} text="Sign in" pending={pending} />
         </Form>
         <LinkBlock>
           {"Don't have an account yet?"}

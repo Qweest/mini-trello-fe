@@ -1,22 +1,20 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext } from 'react';
 
-import {
-  ErrorMessageFunction,
-  getErrorMessage,
-} from '../../utils/formValidation';
+import { validateField } from '../../utils/formValidation';
 import { Props as InputProps } from '../Input';
 import { FormContext } from '../Form';
 import { Wrapper, Input, Error } from './styles';
 
 interface Props extends InputProps {
   name: string;
-  validations?: ErrorMessageFunction<string>[];
 }
 
 const FormInput: React.FC<Props> = (props) => {
-  const { name, validations, ref, ...inputProps } = props;
-  const { values, setValues } = useContext(FormContext);
-  const [error, setError] = useState('');
+  const { name, ref, ...inputProps } = props;
+  const { values, setValues, errors, setErrors, formValidator } = useContext(
+    FormContext,
+  );
+  const error = errors[name];
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = e.target;
@@ -26,18 +24,31 @@ const FormInput: React.FC<Props> = (props) => {
       [name]: value,
     });
 
-    setError('');
+    const { [name]: toRemove, ...nextErrors } = errors;
+
+    setErrors(nextErrors);
   };
 
   const handleBlur = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (!validations?.length) {
+    if (!formValidator) {
+      return;
+    }
+
+    const fieldValidators = formValidator[name];
+
+    if (!fieldValidators) {
       return;
     }
 
     const { value } = e.target;
-    const errorMessage = getErrorMessage(value, validations);
+    const errorMessage = validateField(value, fieldValidators);
 
-    setError(errorMessage);
+    if (errorMessage) {
+      setErrors({
+        ...errors,
+        [name]: errorMessage,
+      });
+    }
   };
 
   return (

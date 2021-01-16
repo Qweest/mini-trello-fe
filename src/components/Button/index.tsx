@@ -4,7 +4,7 @@ import { useLongPress } from '../../utils/hooks';
 import Row from '../Row';
 import { Wrapper, IconWrapper } from './styles';
 
-interface Props {
+export interface Props {
   text?: string;
   Icon?: ReactElement;
   className?: string;

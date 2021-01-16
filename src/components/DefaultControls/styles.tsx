@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-import { colors, metrics } from '../../styles';
+import { colors } from '../../styles';
 import { Button } from '../index';
 
 interface ProceedProps {
