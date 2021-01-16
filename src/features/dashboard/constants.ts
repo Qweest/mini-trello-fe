@@ -1,6 +1,6 @@
 export const DROPPABLE_TYPES = {
-  list: 'list',
-  card: 'card',
+  LIST: 'list',
+  CARD: 'card',
 };
 
 export const REMOVE_LIST_TIMEOUT = 600;

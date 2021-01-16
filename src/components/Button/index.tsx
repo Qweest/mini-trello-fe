@@ -10,10 +10,19 @@ interface Props {
   className?: string;
   onClick: (e: SyntheticEvent) => void;
   longPressTimeout?: number;
+  pending?: boolean;
 }
 
 const Button: React.FC<Props> = (props) => {
-  const { children, text, Icon, className, onClick, longPressTimeout } = props;
+  const {
+    children,
+    text,
+    Icon,
+    className,
+    onClick,
+    longPressTimeout,
+    pending,
+  } = props;
   const [longPressed, setLongPressed] = useState(false);
 
   const handleLongPressed = () => {
@@ -25,7 +34,7 @@ const Button: React.FC<Props> = (props) => {
   };
 
   const handleClick = (e: SyntheticEvent) => {
-    if (longPressTimeout && !longPressed) {
+    if ((longPressTimeout && !longPressed) || pending) {
       return;
     }
 
@@ -40,7 +49,12 @@ const Button: React.FC<Props> = (props) => {
   );
 
   return (
-    <Wrapper className={className} onClick={handleClick} {...longPressProps}>
+    <Wrapper
+      className={className}
+      onClick={handleClick}
+      pending={pending}
+      {...longPressProps}
+    >
       {children || (
         <Row marginMultiplier={text && Icon ? 0.25 : 0}>
           <IconWrapper>{Icon}</IconWrapper>

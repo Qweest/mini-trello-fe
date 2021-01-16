@@ -44,7 +44,7 @@ const Dashboard: React.FC = () => {
       return;
     }
 
-    if (type === DROPPABLE_TYPES.list) {
+    if (type === DROPPABLE_TYPES.LIST) {
       dispatch(
         moveListAction({
           id: draggableId,
@@ -92,7 +92,7 @@ const Dashboard: React.FC = () => {
           <Droppable
             droppableId="board"
             direction="horizontal"
-            type={DROPPABLE_TYPES.list}
+            type={DROPPABLE_TYPES.LIST}
           >
             {(providedDroppable) => {
               return (

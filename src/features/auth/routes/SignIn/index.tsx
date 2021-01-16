@@ -1,65 +1,78 @@
 import React, { useState } from 'react';
 import { GoogleLogin } from 'react-google-login';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
-import { ReactComponent as TrelloLogo } from '../../../../assets/images/trello-logo-blue.svg';
+import { required, email, length } from '../../../../utils/formValidation';
+import { ROUTE_PATHS } from '../../../../navigation/constants';
+import { RootState } from '../../../../store/entities';
+import { Form } from '../../../../components';
 import { GOOGLE_CLIENT_ID } from '../../constants';
 import { signInAction } from '../../thunks';
 import {
-  Form,
   Wrapper,
+  Logo,
   Title,
-  Input,
-  Button,
-  SocialLogin,
-  TextDivider,
   Content,
-  Header,
+  Input,
+  SubmitButton,
+  LinkBlock,
+  Link,
+  DividerWrapper,
+  Line,
+  SocialLogin,
 } from '../styles';
 
 const SignIn: React.FC = () => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-
   const dispatch = useDispatch();
+  const { pending } = useSelector((state: RootState) => state.auth);
+  const [values, setValues] = useState({ email: '', password: '' });
 
-  const handleInputChange = (
-    setValue: React.Dispatch<React.SetStateAction<string>>,
-  ) => (e: React.ChangeEvent<HTMLInputElement>) => {
-    setValue(e.target.value);
-  };
-
-  const onSubmit = () => {
-    dispatch(signInAction({ email, password }));
+  const handleSubmit = () => {
+    dispatch(signInAction(values));
   };
 
   return (
     <Wrapper>
-      <Header>
-        <TrelloLogo width="180" height="100" />
-      </Header>
+      <Logo />
       <Content>
-        <Title>Sign up for your account</Title>
-        <Form>
+        <Title>Sign in for your account</Title>
+        <Form values={values} setValues={setValues}>
           <Input
-            value={email}
-            onChange={handleInputChange(setEmail)}
-            placeholder={'Enter email'}
+            name="email"
+            type="email"
+            inputMode="email"
+            placeholder="Email"
+            validations={[required('The email field is required'), email()]}
           />
           <Input
+            name="password"
             type="password"
-            value={password}
-            onChange={handleInputChange(setPassword)}
-            placeholder={'Create password'}
+            placeholder="Password"
+            validations={[
+              required('The password field is required'),
+              length('Invalid password length', 8, 20),
+            ]}
           />
-          <Button onClick={onSubmit}>Sign In</Button>
+          <SubmitButton
+            onClick={handleSubmit}
+            text="Sign in"
+            pending={pending}
+          />
         </Form>
-        <TextDivider>OR</TextDivider>
+        <LinkBlock>
+          {"Don't have an account yet?"}
+          <Link to={ROUTE_PATHS.SIGN_UP}>Sign up</Link>
+        </LinkBlock>
+        <DividerWrapper>
+          <Line />
+          <span>OR</span>
+          <Line />
+        </DividerWrapper>
         <SocialLogin>
           <GoogleLogin
             clientId={GOOGLE_CLIENT_ID}
-            buttonText={'Continue with Google'}
-            cookiePolicy={'single_host_origin'}
+            buttonText="Sign in with Google"
+            cookiePolicy="single_host_origin"
           />
         </SocialLogin>
       </Content>

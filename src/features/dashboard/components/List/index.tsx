@@ -88,7 +88,7 @@ const List: React.FC<Props> = (props) => {
               Icon={<HiOutlineDotsHorizontal />}
             />
           </Row>
-          <Droppable droppableId={id} type={DROPPABLE_TYPES.card}>
+          <Droppable droppableId={id} type={DROPPABLE_TYPES.CARD}>
             {(providedDroppable) => (
               <ContentWrapper>
                 <DroppableArea
