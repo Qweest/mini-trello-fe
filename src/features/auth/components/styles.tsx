@@ -1,36 +1,12 @@
 import styled from 'styled-components';
 import { Link as UnstyledLink } from 'react-router-dom';
 
-import { ReactComponent as TrelloLogo } from '../../../assets/images/trello-logo-blue.svg';
 import {
-  Card,
   FormInput as UnstyledFormInput,
   FormSubmit as UnstyledFormSubmit,
   Row,
 } from '../../../components';
 import { colors, metrics } from '../../../styles';
-
-export const Wrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  height: 100%;
-  background: linear-gradient(45deg, ${colors.grey2}, ${colors.grey4});
-  user-select: none;
-`;
-
-export const Logo = styled(TrelloLogo)`
-  display: flex;
-  width: 270px;
-  height: 150px;
-`;
-
-export const Content = styled(Card)`
-  display: flex;
-  flex-direction: column;
-  width: 400px;
-  padding: ${metrics.spacing * 3}px;
-`;
 
 export const Title = styled.span`
   text-align: center;
