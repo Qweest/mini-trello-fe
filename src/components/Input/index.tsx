@@ -2,7 +2,7 @@ import React, { DetailedHTMLProps, InputHTMLAttributes } from 'react';
 
 import { Wrapper } from './styles';
 
-interface Props
+export interface Props
   extends DetailedHTMLProps<
     InputHTMLAttributes<HTMLInputElement>,
     HTMLInputElement

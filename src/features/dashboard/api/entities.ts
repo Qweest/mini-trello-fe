@@ -55,3 +55,8 @@ export interface CreateCardRequest {
   title: string;
   position: number;
 }
+
+export interface UpdateCardRequest {
+  id: string;
+  title: string;
+}

@@ -8,6 +8,7 @@ import {
   CreateCardRequest,
   MoveCardRequest,
   RemoveListRequest,
+  UpdateCardRequest,
 } from './entities';
 
 export const fetchBoard = async (boardRequest: BoardRequest) => {
@@ -42,6 +43,12 @@ export const removeList = async (removeListRequest: RemoveListRequest) => {
 
 export const createCard = async (createCardRequest: CreateCardRequest) => {
   return await mainService.post(CARDS, createCardRequest);
+};
+
+export const updateCard = async (updateCardRequest: UpdateCardRequest) => {
+  const { id, title } = updateCardRequest;
+
+  return await mainService.put(CARD(id), { title });
 };
 
 export const moveCard = async (moveCardRequest: MoveCardRequest) => {

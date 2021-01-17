@@ -8,6 +8,7 @@ import {
   CreateCardRequest,
   CardResponse,
   RemoveListRequest,
+  UpdateCardRequest,
 } from './api/entities';
 import { Board, List, Card, MovePending, Move, MoveCard } from './entities';
 import { getListSortedCards, sortByPosition } from './helpers';
@@ -60,9 +61,9 @@ const slice = createSlice({
 
     updateListPending(state, action: PayloadAction<UpdateListRequest>) {
       const { name, id: currentId } = action.payload;
-      const list = state.lists.find(({ id }) => id === currentId)!;
+      const listIndex = state.lists.findIndex(({ id }) => id === currentId)!;
 
-      list.name = name;
+      state.lists[listIndex].name = name;
     },
     updateListSuccess() {},
     updateListFailure() {},
@@ -120,6 +121,15 @@ const slice = createSlice({
       state.cards[cardIndex] = action.payload;
     },
     createCardFailure() {},
+
+    updateCardPending(state, action: PayloadAction<UpdateCardRequest>) {
+      const { id, title } = action.payload;
+      const cardIndex = state.cards.findIndex((it) => it.id === id)!;
+
+      state.cards[cardIndex].title = title;
+    },
+    updateCardSuccess() {},
+    updateCardFailure() {},
 
     moveCardPending(state, action: PayloadAction<MovePending<MoveCard>>) {
       const { id, toListId, position, adjacentIndex } = action.payload;

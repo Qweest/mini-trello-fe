@@ -39,19 +39,9 @@ const Navigation: React.FC = () => {
           <Route>Page Not Found</Route>
         </React.Fragment>
       ) : (
-        <React.Fragment>
-          <Route path={ROUTE_PATHS.SIGN_UP}>
-            <Auth.SignUp />
-          </Route>
-
-          <Route path={ROUTE_PATHS.SIGN_IN}>
-            <Auth.SignIn />
-          </Route>
-
-          <Route path={ROUTE_PATHS.ROOT}>
-            <Redirect to={ROUTE_PATHS.SIGN_IN} />
-          </Route>
-        </React.Fragment>
+        <Route path={ROUTE_PATHS.ROOT}>
+          <Auth />
+        </Route>
       )}
     </Switch>
   );
