@@ -32,12 +32,12 @@ const Cards = React.memo((props: { cards: CardEntity[] }): any => {
 });
 
 const List: React.FC<Props> = (props) => {
-  const { data, index } = props;
-  const { id, name } = data;
   const dispatch = useDispatch();
   const { cards, id: boardId } = useSelector(
     (state: RootState) => state.dashboard,
   );
+  const { data, index } = props;
+  const { id, name } = data;
   const sortedCards = getListSortedCards(cards, id);
   const [actionsOpened, setActionsOpened] = useState(false);
   const [createCardFlag, setCreateCardFlag] = useState(false);

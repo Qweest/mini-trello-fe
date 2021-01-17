@@ -33,5 +33,6 @@ export const TitleArea = styled(TextArea)`
   resize: vertical;
   background-color: ${colors.none};
   min-height: 55px;
+  max-height: 150px;
   border: 0;
 `;

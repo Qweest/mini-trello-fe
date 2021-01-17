@@ -1,12 +1,14 @@
 import React, { useRef, useState } from 'react';
 import { HiOutlineBookOpen } from 'react-icons/hi';
 import { Draggable } from 'react-beautiful-dnd';
+import { useDispatch } from 'react-redux';
 
-import { hooks } from '../../../../utils';
+import { hooks, validation } from '../../../../utils';
 import { colors } from '../../../../styles';
 import { Row } from '../../../../components';
 import { Card as CardEntity } from '../../entities';
 import { CARD_LONG_PRESS_TIMEOUT } from '../../constants';
+import { updateCardAction } from '../../thunks';
 import { Wrapper, Title, BadgesWrapper, TitleInput } from './styles';
 
 interface Props {
@@ -15,6 +17,7 @@ interface Props {
 }
 
 const Card: React.FC<Props> = ({ data, index }) => {
+  const dispatch = useDispatch();
   const { id, title, description } = data;
   const inputRef = useRef<HTMLInputElement>(null);
   const [value, setValue] = useState(title);
@@ -27,10 +30,16 @@ const Card: React.FC<Props> = ({ data, index }) => {
   };
 
   const handleInputOutsideClick = () => {
+    if (title !== value && !validation.isEmpty(value)) {
+      dispatch(updateCardAction({ id, title: value }));
+    } else {
+      setValue(title);
+    }
+
     setFocused(false);
   };
 
-  const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleTitleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setValue(e.target.value);
   };
 
@@ -39,7 +48,7 @@ const Card: React.FC<Props> = ({ data, index }) => {
     CARD_LONG_PRESS_TIMEOUT,
   );
 
-  hooks.useOutsideClick(inputRef, handleInputOutsideClick, focused);
+  hooks.useOutsideClick(inputRef, handleInputOutsideClick, focused, [value]);
 
   return (
     <Draggable draggableId={id} index={index}>

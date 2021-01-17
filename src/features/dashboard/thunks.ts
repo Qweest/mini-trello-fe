@@ -7,6 +7,7 @@ import {
   CreateCardRequest,
   MoveCardRequest,
   RemoveListRequest,
+  UpdateCardRequest,
 } from './api/entities';
 import {
   fetchBoard,
@@ -16,6 +17,7 @@ import {
   createCard,
   moveCard,
   removeList,
+  updateCard,
 } from './api';
 import { actions } from './slice';
 import {
@@ -139,6 +141,19 @@ export const createCardAction = (
     dispatch(actions.createCardSuccess(data));
   } catch (e) {
     dispatch(actions.createCardFailure());
+    throw e;
+  }
+};
+
+export const updateCardAction = (
+  updateCardRequest: UpdateCardRequest,
+): AppThunk => async (dispatch) => {
+  try {
+    dispatch(actions.updateCardPending(updateCardRequest));
+    await updateCard(updateCardRequest);
+    dispatch(actions.updateCardSuccess());
+  } catch (e) {
+    dispatch(actions.updateCardFailure());
     throw e;
   }
 };
