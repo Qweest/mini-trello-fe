@@ -1,7 +1,7 @@
-import { BoardResponse } from '../dashboard/api/entities';
+import { BoardsResponse } from './api/entities';
 
 export interface Home {
-  boards: BoardResponse[];
+  boards: BoardsResponse;
   pending: boolean;
   error: string;
 }
