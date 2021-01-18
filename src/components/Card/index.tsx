@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { DetailedHTMLProps, HTMLAttributes } from 'react';
 
 import { Wrapper } from './styles';
 
-interface Props {
+interface Props
+  extends DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDivElement> {
   className?: string;
   innerRef?: any;
 }

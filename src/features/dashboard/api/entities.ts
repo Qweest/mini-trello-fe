@@ -40,11 +40,16 @@ export interface RemoveListRequest {
   id: string;
 }
 
+export interface CardRequest {
+  id: string;
+}
+
 export interface CardResponse {
   boardId: string;
   listId: string;
   id: string;
   title: string;
+  description: string;
   position: number;
 }
 
@@ -57,5 +62,6 @@ export interface CreateCardRequest {
 
 export interface UpdateCardRequest {
   id: string;
-  title: string;
+  title?: string;
+  description?: string;
 }

@@ -14,10 +14,15 @@ import {
 import { DROPPABLE_TYPES } from '../../constants';
 import { getListSortedCards } from '../../helpers';
 import Card from '../Card';
-import ListName from '../ListName';
 import CreateCardButton from '../CreateCardButton';
 import ListActions from '../ListActions';
-import { Wrapper, ActionIcon, ContentWrapper, DroppableArea } from './styles';
+import {
+  Wrapper,
+  ActionIcon,
+  ContentWrapper,
+  DroppableArea,
+  Title,
+} from './styles';
 
 interface Props {
   data: ListEntity;
@@ -82,7 +87,11 @@ const List: React.FC<Props> = (props) => {
             onRemoveClick={handleRemoveList}
           />
           <Row marginMultiplier={0.5} {...providedDraggable.dragHandleProps}>
-            <ListName name={name} updateName={updateList} />
+            <Title
+              value={name}
+              onSubmit={updateList}
+              placeholder="Enter list name..."
+            />
             <ActionIcon
               onClick={openActions}
               Icon={<HiOutlineDotsHorizontal />}

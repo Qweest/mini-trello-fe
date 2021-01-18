@@ -1,11 +1,12 @@
-import React, { useRef, useState } from 'react';
-import { HiOutlineBookOpen } from 'react-icons/hi';
+import React, { useEffect, useRef, useState } from 'react';
+import { HiOutlineMenuAlt2 } from 'react-icons/hi';
 import { Draggable } from 'react-beautiful-dnd';
 import { useDispatch } from 'react-redux';
 
 import { hooks, validation } from '../../../../utils';
 import { colors } from '../../../../styles';
 import { Row } from '../../../../components';
+import { actions } from '../../slice';
 import { Card as CardEntity } from '../../entities';
 import { CARD_LONG_PRESS_TIMEOUT } from '../../constants';
 import { updateCardAction } from '../../thunks';
@@ -23,6 +24,12 @@ const Card: React.FC<Props> = ({ data, index }) => {
   const [value, setValue] = useState(title);
   const [focused, setFocused] = useState(false);
   const showBadges = !!description; // FIXME
+
+  const handleClick = () => {
+    if (!focused) {
+      dispatch(actions.selectCard(id));
+    }
+  };
 
   const handleLongPressed = () => {
     setFocused(true);
@@ -48,6 +55,10 @@ const Card: React.FC<Props> = ({ data, index }) => {
     CARD_LONG_PRESS_TIMEOUT,
   );
 
+  useEffect(() => {
+    setValue(title);
+  }, [title]);
+
   hooks.useOutsideClick(inputRef, handleInputOutsideClick, focused, [value]);
 
   return (
@@ -60,6 +71,7 @@ const Card: React.FC<Props> = ({ data, index }) => {
           focused={focused}
           innerRef={providedDraggable.innerRef}
           isDragging={snapshot.isDragging}
+          onClick={handleClick}
         >
           {focused ? (
             <TitleInput
@@ -75,7 +87,7 @@ const Card: React.FC<Props> = ({ data, index }) => {
             <BadgesWrapper>
               <Row>
                 {description && (
-                  <HiOutlineBookOpen
+                  <HiOutlineMenuAlt2
                     title="This card has a description"
                     color={colors.grey}
                   />

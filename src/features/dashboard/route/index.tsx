@@ -4,17 +4,19 @@ import { DragDropContext, Droppable, DropResult } from 'react-beautiful-dnd';
 
 import bg from '../../../assets/images/temp-bg.jpg';
 import { RootState } from '../../../store/entities';
-import { Row } from '../../../components';
+import { Modal, Row } from '../../../components';
 import { mainService } from '../../../api';
 import { BOARDS } from '../api/constants';
 import List from '../components/List';
 import CreateListButton from '../components/CreateListButton';
+import CardModalContent from '../components/CardModalContent';
 import {
   fetchBoardAction,
   moveListAction,
   createListAction,
   moveCardAction,
 } from '../thunks';
+import { actions } from '../slice';
 import { List as ListEntity } from '../entities';
 import { DROPPABLE_TYPES } from '../constants';
 import { Wrapper, GradientWrapper } from './styles';
@@ -28,7 +30,13 @@ const Lists = React.memo((props: { lists: ListEntity[] }): any => {
 
 const Dashboard: React.FC = () => {
   const dispatch = useDispatch();
-  const { lists, id } = useSelector((state: RootState) => state.dashboard);
+  const { id, lists, cards, selectedCard } = useSelector(
+    (state: RootState) => state.dashboard,
+  );
+
+  const handleModalClose = () => {
+    dispatch(actions.selectCard(''));
+  };
 
   const handleOnDragEnd = (result: DropResult) => {
     const { destination, source, type, draggableId } = result;
@@ -110,6 +118,13 @@ const Dashboard: React.FC = () => {
           </Droppable>
         </DragDropContext>
         <CreateListButton createList={createList} />
+        <Modal opened={!!selectedCard} close={handleModalClose}>
+          <CardModalContent
+            cards={cards}
+            lists={lists}
+            selectedCard={selectedCard}
+          />
+        </Modal>
       </GradientWrapper>
     </Wrapper>
   );

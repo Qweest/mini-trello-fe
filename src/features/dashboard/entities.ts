@@ -3,6 +3,7 @@ export interface Board {
   name: string;
   lists: List[];
   cards: Card[];
+  selectedCard: string;
 }
 
 export interface List {
