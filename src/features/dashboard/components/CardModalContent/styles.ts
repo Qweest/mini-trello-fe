@@ -84,15 +84,16 @@ export const AddAttachment = styled(Button)`
 export const RemoveButton = styled(Button)`
   align-self: flex-end;
   margin-top: ${metrics.spacing * 2}px;
-  color: ${colors.danger};
+  color: ${colors.grey};
   background-color: ${colors.none};
   &:hover {
+    color: ${colors.danger};
     background: linear-gradient(
       90deg,
       ${colors.dangerA} 50%,
-      ${colors.grey2} 50%
+      ${colors.none} 50%
     );
-    background-size: 200% 100%;
+    background-size: 201% 100%;
     background-position: right;
   }
   &:active {
