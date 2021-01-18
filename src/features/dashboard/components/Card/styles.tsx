@@ -21,7 +21,7 @@ const longPressStyles = css`
   }
   &:active {
     background-position: left;
-    transition: all ${CARD_LONG_PRESS_TIMEOUT}ms linear;
+    transition: all ${CARD_LONG_PRESS_TIMEOUT}ms cubic-bezier(0.83, 0, 0.17, 1);
   }
 `;
 
