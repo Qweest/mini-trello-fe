@@ -36,7 +36,7 @@ const Card: React.FC<Props> = ({ data, index }) => {
     inputRef.current?.select();
   };
 
-  const handleInputOutsideClick = () => {
+  const submit = () => {
     if (title !== value && !validation.isEmpty(value)) {
       dispatch(updateCardAction({ id, title: value }));
     } else {
@@ -59,7 +59,7 @@ const Card: React.FC<Props> = ({ data, index }) => {
     setValue(title);
   }, [title]);
 
-  hooks.useOutsideClick(inputRef, handleInputOutsideClick, focused, [value]);
+  hooks.useOutsideClick(inputRef, submit, focused, [value]);
 
   return (
     <Draggable draggableId={id} index={index}>
@@ -79,6 +79,7 @@ const Card: React.FC<Props> = ({ data, index }) => {
               value={value}
               innerRef={inputRef}
               onChange={handleTitleChange}
+              onEnterDown={submit}
             />
           ) : (
             <Title>{value}</Title>

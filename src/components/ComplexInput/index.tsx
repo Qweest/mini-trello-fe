@@ -48,8 +48,8 @@ const ComplexInput: React.FC<Props> = (props) => {
     setValue(e.target.value);
   };
 
-  const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
-    if (e.key === 'Enter' && submitOnEnter) {
+  const handleEnterDown = () => {
+    if (submitOnEnter) {
       submit();
     }
   };
@@ -61,8 +61,8 @@ const ComplexInput: React.FC<Props> = (props) => {
   };
 
   const handleCloseClick = () => {
-    blur();
     setValue(initialValue);
+    blur();
   };
 
   useEffect(() => {
@@ -78,7 +78,7 @@ const ComplexInput: React.FC<Props> = (props) => {
         value={value}
         innerRef={inputArea}
         onChange={handleChange}
-        onKeyDown={handleKeyDown}
+        onEnterDown={handleEnterDown}
         placeholder={placeholder}
       />
       {useControls && focused ? (
