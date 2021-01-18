@@ -5,10 +5,16 @@ import {
   HiOutlineMenuAlt2,
   HiOutlinePaperClip,
   HiOutlineUpload,
+  HiOutlineTrash,
 } from 'react-icons/hi';
 
+import { CARD_REMOVE_TIMEOUT } from '../../constants';
 import { Card, List } from '../../entities';
-import { fetchCardAction, updateCardAction } from '../../thunks';
+import {
+  fetchCardAction,
+  removeCardAction,
+  updateCardAction,
+} from '../../thunks';
 import {
   Wrapper,
   TitleWrapper,
@@ -19,17 +25,19 @@ import {
   Description,
   Attachments,
   AddAttachment,
+  RemoveButton,
 } from './styles';
 
 interface Props {
   cards: Card[];
   lists: List[];
   selectedCard: string;
+  close: () => void;
 }
 
 const CardModalContent: React.FC<Props> = (props) => {
   const dispatch = useDispatch();
-  const { cards, lists, selectedCard } = props;
+  const { cards, lists, selectedCard, close } = props;
   const { card, list } = useMemo(() => {
     const card = cards.find((it) => it.id === selectedCard)!;
     const list = lists.find((it) => it.id === card.listId)!;
@@ -48,6 +56,11 @@ const CardModalContent: React.FC<Props> = (props) => {
         [field]: value,
       }),
     );
+  };
+
+  const removeCard = () => {
+    dispatch(removeCardAction({ id: selectedCard }));
+    close();
   };
 
   useEffect(() => {
@@ -91,6 +104,13 @@ const CardModalContent: React.FC<Props> = (props) => {
         />
       </TextIconWrapper>
       <Attachments>Nothing here yet...</Attachments>
+
+      <RemoveButton
+        onClick={removeCard}
+        Icon={<HiOutlineTrash />}
+        text="Remove this card"
+        longPressTimeout={CARD_REMOVE_TIMEOUT}
+      />
     </Wrapper>
   );
 };

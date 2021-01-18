@@ -120,6 +120,7 @@ const Dashboard: React.FC = () => {
         <CreateListButton createList={createList} />
         <Modal opened={!!selectedCard} close={handleModalClose}>
           <CardModalContent
+            close={handleModalClose}
             cards={cards}
             lists={lists}
             selectedCard={selectedCard}

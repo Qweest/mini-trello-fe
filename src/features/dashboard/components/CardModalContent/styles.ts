@@ -4,6 +4,8 @@ import { ComplexInput, Row, Button } from '../../../../components';
 import { colors, metrics } from '../../../../styles';
 
 export const Wrapper = styled.div`
+  display: flex;
+  flex-direction: column;
   width: 600px;
 `;
 
@@ -76,5 +78,25 @@ export const AddAttachment = styled(Button)`
   }
   &:active {
     background-color: ${colors.blackA3};
+  }
+`;
+
+export const RemoveButton = styled(Button)`
+  align-self: flex-end;
+  margin-top: ${metrics.spacing * 2}px;
+  color: ${colors.danger};
+  background-color: ${colors.none};
+  &:hover {
+    background: linear-gradient(
+      90deg,
+      ${colors.dangerA} 50%,
+      ${colors.grey2} 50%
+    );
+    background-size: 200% 100%;
+    background-position: right;
+  }
+  &:active {
+    background-position: left;
+    transition: all ${({ longPressTimeout }) => longPressTimeout}ms ease-in;
   }
 `;

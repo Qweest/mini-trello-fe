@@ -8,7 +8,7 @@ import { colors } from '../../../../styles';
 import { Row } from '../../../../components';
 import { actions } from '../../slice';
 import { Card as CardEntity } from '../../entities';
-import { CARD_LONG_PRESS_TIMEOUT } from '../../constants';
+import { CARD_RENAME_TIMEOUT } from '../../constants';
 import { updateCardAction } from '../../thunks';
 import { Wrapper, Title, BadgesWrapper, TitleInput } from './styles';
 
@@ -52,7 +52,7 @@ const Card: React.FC<Props> = ({ data, index }) => {
 
   const longPressProps = hooks.useLongPress(
     handleLongPressed,
-    CARD_LONG_PRESS_TIMEOUT,
+    CARD_RENAME_TIMEOUT,
   );
 
   useEffect(() => {

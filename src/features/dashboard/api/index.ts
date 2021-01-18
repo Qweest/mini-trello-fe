@@ -58,6 +58,12 @@ export const updateCard = async (updateCardRequest: UpdateCardRequest) => {
   return await mainService.put(CARD(id), body);
 };
 
+export const removeCard = async (removeCardRequest: CardRequest) => {
+  const { id } = removeCardRequest;
+
+  return await mainService.delete(CARD(id));
+};
+
 export const moveCard = async (moveCardRequest: MoveCardRequest) => {
   const { position, id, listId } = moveCardRequest;
 

@@ -9,6 +9,7 @@ import {
   CardResponse,
   RemoveListRequest,
   UpdateCardRequest,
+  CardRequest,
 } from './api/entities';
 import { Board, List, Card, MovePending, Move, MoveCard } from './entities';
 import { getListSortedCards, sortByPosition } from './helpers';
@@ -144,6 +145,16 @@ const slice = createSlice({
     },
     updateCardSuccess() {},
     updateCardFailure() {},
+
+    removeCardPending(state, action: PayloadAction<CardRequest>) {
+      const { id } = action.payload;
+      const { cards } = state;
+      const cardIndex = cards.findIndex((it) => it.id === id);
+
+      cards.splice(cardIndex, 1);
+    },
+    removeCardSuccess() {},
+    removeCardFailure() {},
 
     moveCardPending(state, action: PayloadAction<MovePending<MoveCard>>) {
       const { id, toListId, position, adjacentIndex } = action.payload;

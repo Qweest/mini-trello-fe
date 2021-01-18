@@ -20,6 +20,7 @@ import {
   removeList,
   updateCard,
   fetchCard,
+  removeCard,
 } from './api';
 import { actions } from './slice';
 import {
@@ -168,6 +169,19 @@ export const updateCardAction = (
     dispatch(actions.updateCardSuccess());
   } catch (e) {
     dispatch(actions.updateCardFailure());
+    throw e;
+  }
+};
+
+export const removeCardAction = (
+  removeCardRequest: CardRequest,
+): AppThunk => async (dispatch) => {
+  try {
+    dispatch(actions.removeCardPending(removeCardRequest));
+    await removeCard(removeCardRequest);
+    dispatch(actions.removeCardSuccess());
+  } catch (e) {
+    dispatch(actions.removeCardFailure());
     throw e;
   }
 };
