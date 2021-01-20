@@ -7,6 +7,7 @@ import Dashboard from '../features/dashboard';
 import Auth from '../features/auth';
 import { hooks } from '../utils';
 import { ROUTE_PATHS } from './constants';
+import Header from '../components/Header';
 
 const Navigation: React.FC = () => {
   const [hasToken, hasUser] = hooks.useAuth();
@@ -19,6 +20,8 @@ const Navigation: React.FC = () => {
     <Switch>
       {hasToken ? (
         <React.Fragment>
+          <Header />
+
           <Route exact path={ROUTE_PATHS.ROOT}>
             <Redirect to={ROUTE_PATHS.HOME} />
           </Route>

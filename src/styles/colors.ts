@@ -38,4 +38,7 @@ export default {
   shuttleGray: '#5e6c84',
   opal: '#9BC1BC',
   ocean: '#015871',
+  seagull: '#80b4d3',
+  seagullA1: 'rgba(128, 180, 211, 0.8)',
+  seagullA2: ' rgba(128, 180, 211, 0.6);',
 };
