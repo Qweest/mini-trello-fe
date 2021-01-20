@@ -9,6 +9,7 @@ import {
   MoveCardRequest,
   RemoveListRequest,
   UpdateCardRequest,
+  CardRequest,
 } from './entities';
 
 export const fetchBoard = async (boardRequest: BoardRequest) => {
@@ -41,14 +42,26 @@ export const removeList = async (removeListRequest: RemoveListRequest) => {
   return await mainService.delete(LIST(id));
 };
 
+export const fetchCard = async (cardRequest: CardRequest) => {
+  const { id } = cardRequest;
+
+  return await mainService.get(CARD(id));
+};
+
 export const createCard = async (createCardRequest: CreateCardRequest) => {
   return await mainService.post(CARDS, createCardRequest);
 };
 
 export const updateCard = async (updateCardRequest: UpdateCardRequest) => {
-  const { id, title } = updateCardRequest;
+  const { id, ...body } = updateCardRequest;
 
-  return await mainService.put(CARD(id), { title });
+  return await mainService.put(CARD(id), body);
+};
+
+export const removeCard = async (removeCardRequest: CardRequest) => {
+  const { id } = removeCardRequest;
+
+  return await mainService.delete(CARD(id));
 };
 
 export const moveCard = async (moveCardRequest: MoveCardRequest) => {

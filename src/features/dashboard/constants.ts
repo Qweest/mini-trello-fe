@@ -3,5 +3,6 @@ export const DROPPABLE_TYPES = {
   CARD: 'card',
 };
 
-export const REMOVE_LIST_TIMEOUT = 600;
-export const CARD_LONG_PRESS_TIMEOUT = 350;
+export const LIST_REMOVE_TIMEOUT = 600;
+export const CARD_RENAME_TIMEOUT = 350;
+export const CARD_REMOVE_TIMEOUT = 600;

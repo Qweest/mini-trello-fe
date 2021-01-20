@@ -1,7 +1,9 @@
 import styled from 'styled-components';
 
-import { Button, Input as UnstyledInput } from '../../../../components';
-import { colors, metrics } from '../../../../styles';
+import { colors, metrics } from '../../styles';
+import Button from '../Button';
+import TextArea from '../TextArea';
+import DefaultControls from '../DefaultControls';
 
 export interface Props {
   focused: boolean;
@@ -28,11 +30,16 @@ export const InputCover = styled(Button)<Props>`
   }
 `;
 
-export const Input = styled(UnstyledInput)`
+export const InputArea = styled(TextArea)`
   width: 100%;
+  resize: none;
   padding: ${metrics.spacing * 0.25}px ${metrics.spacing * 0.5}px;
   background-color: ${colors.none};
   &:focus {
     background-color: ${colors.white};
   }
+`;
+
+export const Controls = styled(DefaultControls)`
+  margin-top: ${metrics.spacing * 0.5}px;
 `;

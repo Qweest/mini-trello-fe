@@ -2,7 +2,7 @@ import styled, { css } from 'styled-components';
 
 import { Card, TextArea } from '../../../../components';
 import { colors, metrics } from '../../../../styles';
-import { CARD_LONG_PRESS_TIMEOUT } from '../../constants';
+import { CARD_RENAME_TIMEOUT } from '../../constants';
 
 interface WrapperProps {
   isDragging: boolean;
@@ -21,7 +21,7 @@ const longPressStyles = css`
   }
   &:active {
     background-position: left;
-    transition: all ${CARD_LONG_PRESS_TIMEOUT}ms linear;
+    transition: all ${CARD_RENAME_TIMEOUT}ms cubic-bezier(0.83, 0, 0.17, 1);
   }
 `;
 

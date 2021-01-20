@@ -2,7 +2,7 @@ import React, { useRef } from 'react';
 import { HiOutlineX } from 'react-icons/hi';
 
 import { hooks } from '../../../../utils';
-import { REMOVE_LIST_TIMEOUT } from '../../constants';
+import { LIST_REMOVE_TIMEOUT } from '../../constants';
 import {
   Wrapper,
   Content,
@@ -47,7 +47,7 @@ const ListActions: React.FC<Props> = (props) => {
         <Separator />
         <DangerAction
           onClick={onRemoveClick}
-          longPressTimeout={REMOVE_LIST_TIMEOUT}
+          longPressTimeout={LIST_REMOVE_TIMEOUT}
         >
           Remove list
         </DangerAction>

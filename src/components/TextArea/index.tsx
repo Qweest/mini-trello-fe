@@ -9,12 +9,28 @@ interface Props
   > {
   value?: string;
   innerRef?: any;
+  maxRows?: number;
+  onEnterDown?: () => void;
 }
 
 const TextArea: React.FC<Props> = (props) => {
-  const { value, innerRef, ...rest } = props;
+  const { innerRef, value, maxRows, onEnterDown, ...rest } = props;
 
-  return <Wrapper value={value} ref={innerRef} {...rest} />;
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
+    if (e.key === 'Enter' && onEnterDown) {
+      onEnterDown();
+    }
+  };
+
+  return (
+    <Wrapper
+      ref={innerRef}
+      value={value}
+      maxRows={maxRows}
+      onKeyDown={handleKeyDown}
+      {...rest}
+    />
+  );
 };
 
 export default TextArea;

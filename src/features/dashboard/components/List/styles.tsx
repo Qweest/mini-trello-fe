@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
 import { colors, metrics } from '../../../../styles';
-import { Button } from '../../../../components';
+import { Button, ComplexInput } from '../../../../components';
 
 interface WrapperProps {
   isDragging: boolean;
@@ -32,6 +32,12 @@ export const DroppableArea = styled.div`
   width: 100%;
   height: 100vh;
   z-index: -1;
+`;
+
+export const Title = styled(ComplexInput)`
+  & > textarea {
+    font-size: ${metrics.fontSize.regular}px;
+  }
 `;
 
 export const ActionIcon = styled(Button)`

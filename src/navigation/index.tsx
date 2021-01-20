@@ -1,13 +1,12 @@
 import React from 'react';
 import { Redirect, Route, Switch } from 'react-router-dom';
 
-import LoadingPage from '../components/LoadingPage';
 import Home from '../features/home/route';
 import Dashboard from '../features/dashboard';
 import Auth from '../features/auth';
+import { LoadingPage, Header } from '../components';
 import { hooks } from '../utils';
 import { ROUTE_PATHS } from './constants';
-import Header from '../components/Header';
 
 const Navigation: React.FC = () => {
   const [hasToken, hasUser] = hooks.useAuth();

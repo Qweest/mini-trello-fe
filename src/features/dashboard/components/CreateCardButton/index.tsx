@@ -56,6 +56,7 @@ const CreateCardButton: React.FC<Props> = (props) => {
             <TitleArea
               value={value}
               onChange={handleTextChange}
+              onEnterDown={handleProceed}
               placeholder="Enter card title..."
               autoFocus
             />
