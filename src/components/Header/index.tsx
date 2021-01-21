@@ -31,7 +31,7 @@ const Header: React.FC = () => {
           <span>Boards</span>
         </Button>
       </Content>
-      <TrelloLogo color={colors.seagull} size={24} />
+      <TrelloLogo color="hsla(0, 0%, 100%, 0.4)" size={24} />
       <Content position="right">
         <Button>
           <HiPlus {...iconProps} />

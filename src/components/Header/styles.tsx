@@ -32,16 +32,16 @@ export const Button = styled.button`
   align-items: center;
   height: ${metrics.spacing * 2}px;
   border-radius: ${metrics.spacing * 0.25}px;
-  background-color: ${colors.seagull};
+  background-color: hsla(0, 0%, 100%, 0.3);
   border: none;
   margin-right: ${metrics.spacing * 0.25}px;
   cursor: pointer;
   &:hover {
-    background-color: ${colors.seagullA1};
+    background-color: hsla(0, 0%, 100%, 0.2);
   }
   &:focus {
     outline: none;
-    background-color: ${colors.seagullA2};
+    background-color: hsla(0, 0%, 100%, 0.1);
   }
   span {
     margin-left: ${metrics.spacing * 0.5}px;
