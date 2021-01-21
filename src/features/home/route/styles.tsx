@@ -12,6 +12,7 @@ export const Wrapper = styled.div`
 
 export const AllBoards = styled.div`
   display: flex;
+  width: 100%;
   flex-direction: column;
   align-items: center;
   margin-top: ${metrics.spacing * 2}px;

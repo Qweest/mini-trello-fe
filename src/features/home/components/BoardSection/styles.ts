@@ -5,6 +5,7 @@ import { metrics } from '../../../../styles';
 
 export const Wrapper = styled.div`
   display: flex;
+  width: 100%;
   flex-direction: column;
   max-width: 1150px;
   margin-bottom: ${metrics.spacing * 1.5}px;

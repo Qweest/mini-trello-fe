@@ -1,15 +1,22 @@
-import React from 'react';
+import React, { useMemo } from 'react';
+import { useSelector } from 'react-redux';
 import { FaTrello } from 'react-icons/fa';
 import { CgMenuGridO } from 'react-icons/cg';
 import { HiOutlineHome, HiPlus, HiOutlineBell } from 'react-icons/hi';
 import { AiOutlineInfoCircle } from 'react-icons/ai';
 
 import { colors } from '../../styles';
-import { Wrapper, Content, Button, MemberButton } from './styles';
+import { RootState } from '../../store/entities';
+import { Wrapper, Content, Button, MemberButton, TrelloLogo } from './styles';
 
 const iconProps = { size: 20, color: colors.white };
 
 const Header: React.FC = () => {
+  const user = useSelector((state: RootState) => state.auth.user);
+  const initials = useMemo(() => user?.username.charAt(0).toUpperCase(), [
+    user?.username,
+  ]);
+
   return (
     <Wrapper>
       <Content position="left">
@@ -24,7 +31,7 @@ const Header: React.FC = () => {
           <span>Boards</span>
         </Button>
       </Content>
-      <FaTrello color={colors.seagull} size={24} />
+      <TrelloLogo color={colors.seagull} size={24} />
       <Content position="right">
         <Button>
           <HiPlus {...iconProps} />
@@ -35,7 +42,7 @@ const Header: React.FC = () => {
         <Button>
           <HiOutlineBell {...iconProps} />
         </Button>
-        <MemberButton></MemberButton>
+        <MemberButton>{initials}</MemberButton>
       </Content>
     </Wrapper>
   );

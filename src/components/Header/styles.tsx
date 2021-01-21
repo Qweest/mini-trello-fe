@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { FaTrello } from 'react-icons/fa';
 
 import { metrics, colors } from '../../styles';
 
@@ -32,9 +33,9 @@ export const Button = styled.button`
   height: ${metrics.spacing * 2}px;
   border-radius: ${metrics.spacing * 0.25}px;
   background-color: ${colors.seagull};
-  cursor: pointer;
   border: none;
   margin-right: ${metrics.spacing * 0.25}px;
+  cursor: pointer;
   &:hover {
     background-color: ${colors.seagullA1};
   }
@@ -51,9 +52,20 @@ export const Button = styled.button`
 `;
 
 export const MemberButton = styled.div`
+  display: flex;
   height: 32px;
   width: 32px;
   border-radius: 16px;
   background-color: ${colors.blue1};
+  color: ${colors.white};
+  justify-content: center;
+  align-items: center;
   cursor: pointer;
+`;
+
+export const TrelloLogo = styled(FaTrello)`
+  cursor: pointer;
+  &:hover {
+    color: ${colors.white} !important;
+  }
 `;

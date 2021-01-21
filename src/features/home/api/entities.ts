@@ -4,7 +4,7 @@ export interface Board {
   id: string;
   name: string;
   users: string[];
-  viewed_at: Date;
+  viewedAt: Date;
   settings: BoardSettings;
 }
 
