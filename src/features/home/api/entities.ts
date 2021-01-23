@@ -4,8 +4,8 @@ export interface Board {
   id: string;
   name: string;
   users: string[];
-  viewedAt: Date;
   settings: BoardSettings;
+  lastView?: string;
 }
 
 export interface BoardSettings {
