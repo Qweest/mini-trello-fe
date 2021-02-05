@@ -1,5 +1,5 @@
 export const PORT = 8080;
-export const BASE_URL = `http://localhost:${PORT}/api`;
+export const BASE_URL = `https://mini-trello-be.herokuapp.com/api`;
 export const SECURE = '/secure';
 export const AUTH = '/auth';
 export const STATUS_CODES = {
