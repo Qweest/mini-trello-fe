@@ -39,9 +39,11 @@ export const Button = styled.button`
   &:hover {
     background-color: hsla(0, 0%, 100%, 0.2);
   }
+  &:active {
+    background-color: hsla(0, 0%, 100%, 0.1);
+  }
   &:focus {
     outline: none;
-    background-color: hsla(0, 0%, 100%, 0.1);
   }
   span {
     margin-left: ${metrics.spacing * 0.5}px;
