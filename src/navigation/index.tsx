@@ -37,8 +37,8 @@ const Navigation: React.FC = () => {
             <Redirect to={ROUTE_PATHS.HOME} />
           </Route>
 
-          {/* TODO: add default page */}
-          <Route>Page Not Found</Route>
+          {/*Default path*/}
+          <Redirect to={ROUTE_PATHS.HOME} />
         </React.Fragment>
       ) : (
         <Route path={ROUTE_PATHS.ROOT}>
