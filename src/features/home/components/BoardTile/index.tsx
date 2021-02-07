@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Wrapper, Text } from './styles';
+import { Wrapper, Text, Fade, Details } from './styles';
 
 interface Props {
   name: string;
@@ -11,7 +11,10 @@ interface Props {
 const BoardTile: React.FC<Props> = ({ name, img, onClick }) => {
   return (
     <Wrapper img={img} onClick={onClick}>
-      <Text>{name}</Text>
+      <Fade />
+      <Details>
+        <Text>{name}</Text>
+      </Details>
     </Wrapper>
   );
 };
