@@ -17,26 +17,28 @@ const Header: React.FC = () => {
     user?.username,
   ]);
 
+  const stubFunc = () => ({});
+
   return (
     <Wrapper>
       <Content position="left">
-        <Button onClick={() => {}} Icon={<CgMenuGridO {...iconProps} />} />
-        <Button onClick={() => {}} Icon={<HiOutlineHome {...iconProps} />} />
+        <Button onClick={stubFunc} Icon={<CgMenuGridO {...iconProps} />} />
+        <Button onClick={stubFunc} Icon={<HiOutlineHome {...iconProps} />} />
         <Button
-          onClick={() => {}}
+          onClick={stubFunc}
           Icon={<FaTrello {...iconProps} size={18} />}
           text="Boards"
         />
       </Content>
       <TrelloLogo color="hsla(0, 0%, 100%, 0.4)" size={24} />
       <Content position="right">
-        <Button onClick={() => {}} Icon={<HiPlus {...iconProps} />} />
+        <Button onClick={stubFunc} Icon={<HiPlus {...iconProps} />} />
         <Button
-          onClick={() => {}}
+          onClick={stubFunc}
           Icon={<AiOutlineInfoCircle {...iconProps} />}
         />
-        <Button onClick={() => {}} Icon={<HiOutlineBell {...iconProps} />} />
-        <MemberButton onClick={() => {}}>{initials}</MemberButton>
+        <Button onClick={stubFunc} Icon={<HiOutlineBell {...iconProps} />} />
+        <MemberButton onClick={stubFunc}>{initials}</MemberButton>
       </Content>
     </Wrapper>
   );
