@@ -20,29 +20,23 @@ const Header: React.FC = () => {
   return (
     <Wrapper>
       <Content position="left">
-        <Button>
-          <CgMenuGridO {...iconProps} />
-        </Button>
-        <Button>
-          <HiOutlineHome {...iconProps} />
-        </Button>
-        <Button>
-          <FaTrello {...iconProps} size={18} />
-          <span>Boards</span>
-        </Button>
+        <Button onClick={() => {}} Icon={<CgMenuGridO {...iconProps} />} />
+        <Button onClick={() => {}} Icon={<HiOutlineHome {...iconProps} />} />
+        <Button
+          onClick={() => {}}
+          Icon={<FaTrello {...iconProps} size={18} />}
+          text="Boards"
+        />
       </Content>
       <TrelloLogo color="hsla(0, 0%, 100%, 0.4)" size={24} />
       <Content position="right">
-        <Button>
-          <HiPlus {...iconProps} />
-        </Button>
-        <Button>
-          <AiOutlineInfoCircle {...iconProps} />
-        </Button>
-        <Button>
-          <HiOutlineBell {...iconProps} />
-        </Button>
-        <MemberButton>{initials}</MemberButton>
+        <Button onClick={() => {}} Icon={<HiPlus {...iconProps} />} />
+        <Button
+          onClick={() => {}}
+          Icon={<AiOutlineInfoCircle {...iconProps} />}
+        />
+        <Button onClick={() => {}} Icon={<HiOutlineBell {...iconProps} />} />
+        <MemberButton onClick={() => {}}>{initials}</MemberButton>
       </Content>
     </Wrapper>
   );

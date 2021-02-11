@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { Button as UnstyledButton } from '../../components';
 import { FaTrello } from 'react-icons/fa';
 
 import { metrics, colors } from '../../styles';
@@ -26,29 +27,20 @@ export const Content = styled.div<ContentProps>`
   }}
 `;
 
-export const Button = styled.button`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  height: ${metrics.spacing * 2}px;
+export const Button = styled(UnstyledButton)`
+  padding: ${metrics.spacing * 0.375}px;
   border-radius: ${metrics.spacing * 0.25}px;
   background-color: hsla(0, 0%, 100%, 0.3);
-  border: none;
   margin-right: ${metrics.spacing * 0.25}px;
-  cursor: pointer;
+  user-select: none;
   &:hover {
     background-color: hsla(0, 0%, 100%, 0.2);
   }
   &:active {
     background-color: hsla(0, 0%, 100%, 0.1);
   }
-  &:focus {
-    outline: none;
-  }
   span {
-    margin-left: ${metrics.spacing * 0.5}px;
     color: ${colors.white};
-    font-size: ${metrics.fontSize.medium}px;
     font-weight: 700;
   }
 `;
