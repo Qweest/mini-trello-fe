@@ -33,12 +33,13 @@ const Navigation: React.FC = () => {
             <Dashboard />
           </Route>
 
-          <Route exact path={ROUTE_PATHS.DASHBOARD}>
+          <Route exact path={ROUTE_PATHS.SIGN_IN}>
             <Redirect to={ROUTE_PATHS.HOME} />
           </Route>
 
-          {/*Default path*/}
-          <Redirect to={ROUTE_PATHS.HOME} />
+          <Route exact path={ROUTE_PATHS.SIGN_UP}>
+            <Redirect to={ROUTE_PATHS.HOME} />
+          </Route>
         </React.Fragment>
       ) : (
         <Route path={ROUTE_PATHS.ROOT}>
