@@ -29,7 +29,7 @@ const Navigation: React.FC = () => {
             <Home />
           </Route>
 
-          <Route path={ROUTE_PATHS.DASHBOARD}>
+          <Route path={ROUTE_PATHS.DIST_DASHBOARD}>
             <Dashboard />
           </Route>
 
