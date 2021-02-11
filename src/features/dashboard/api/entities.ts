@@ -7,6 +7,7 @@ export interface BoardResponse {
   name: string;
   lists: ListResponse[];
   cards: CardResponse[];
+  users: string[];
 }
 
 export interface MoveRequest {

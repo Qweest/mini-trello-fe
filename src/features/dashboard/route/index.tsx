@@ -1,12 +1,11 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { DragDropContext, Droppable, DropResult } from 'react-beautiful-dnd';
+import { useParams } from 'react-router-dom';
 
 import bg from '../../../assets/images/temp-bg.jpg';
 import { RootState } from '../../../store/entities';
 import { Modal, Row } from '../../../components';
-import { mainService } from '../../../api';
-import { BOARDS } from '../api/constants';
 import List from '../components/List';
 import CreateListButton from '../components/CreateListButton';
 import CardModalContent from '../components/CardModalContent';
@@ -30,6 +29,7 @@ const Lists = React.memo((props: { lists: ListEntity[] }): any => {
 
 const Dashboard: React.FC = () => {
   const dispatch = useDispatch();
+  const { id: paramId } = useParams<{ id: string }>();
   const { id, lists, cards, selectedCard } = useSelector(
     (state: RootState) => state.dashboard,
   );
@@ -85,13 +85,8 @@ const Dashboard: React.FC = () => {
   };
 
   useEffect(() => {
-    if (!id) {
-      // FIXME
-      mainService.get(BOARDS).then(({ data: boards }) => {
-        dispatch(fetchBoardAction({ id: boards[0].id }));
-      });
-    }
-  }, []);
+    dispatch(fetchBoardAction({ id: paramId }));
+  }, [paramId]);
 
   return (
     <Wrapper background={bg}>

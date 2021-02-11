@@ -10,3 +10,4 @@ export { default as LoadingPage } from './LoadingPage';
 export { default as Modal } from './Modal';
 export { default as Row } from './Row';
 export { default as TextArea } from './TextArea';
+export { default as Header } from './Header';

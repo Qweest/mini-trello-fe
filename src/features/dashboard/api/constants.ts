@@ -3,7 +3,6 @@ interface RouteWithId {
 }
 
 export const BOARD: RouteWithId = (id) => `/boards/${id}`;
-export const BOARDS = '/boards';
 
 export const LIST: RouteWithId = (id) => `/lists/${id}`;
 export const LISTS = '/lists';

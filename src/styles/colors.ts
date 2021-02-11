@@ -34,7 +34,9 @@ export default {
   grass: '#559900',
   danger: '#E13700',
   dangerA: 'rgba(225, 55, 0, 0.25)',
+  cerulean: '#026aa7',
   shuttleGray: '#5e6c84',
   opal: '#9BC1BC',
   ocean: '#015871',
+  seagull: '#80b4d3',
 };
