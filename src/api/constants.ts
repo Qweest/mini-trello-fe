@@ -1,5 +1,6 @@
-export const PORT = 8080;
-export const BASE_URL = `http://localhost:${PORT}/api`;
+const { REACT_APP_API_URL } = process.env;
+
+export const BASE_URL = REACT_APP_API_URL;
 export const SECURE = '/secure';
 export const AUTH = '/auth';
 export const STATUS_CODES = {
