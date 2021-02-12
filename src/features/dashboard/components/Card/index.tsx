@@ -73,7 +73,7 @@ const Card: React.FC<Props> = ({ data, index }) => {
           isDragging={snapshot.isDragging}
           onClick={handleClick}
         >
-          {focused ? (
+          {focused && !snapshot.isDragging ? (
             <TitleInput
               autoFocus
               value={value}
