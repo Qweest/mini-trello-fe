@@ -89,7 +89,7 @@ const Dashboard: React.FC = () => {
   }, [paramId]);
 
   return (
-    <Wrapper background={bg}>
+    <Wrapper background={bg} headerTransparent>
       <GradientWrapper>
         <DragDropContext onDragEnd={handleOnDragEnd}>
           <Droppable

@@ -4,7 +4,7 @@ import { Redirect, Route, Switch } from 'react-router-dom';
 import Home from '../features/home/route';
 import Dashboard from '../features/dashboard';
 import Auth from '../features/auth';
-import { LoadingPage, Header } from '../components';
+import { LoadingPage } from '../components';
 import { hooks } from '../utils';
 import { ROUTE_PATHS } from './constants';
 
@@ -19,12 +19,6 @@ const Navigation: React.FC = () => {
     <Switch>
       {hasToken ? (
         <React.Fragment>
-          <Header />
-
-          <Route exact path={ROUTE_PATHS.ROOT}>
-            <Redirect to={ROUTE_PATHS.HOME} />
-          </Route>
-
           <Route path={ROUTE_PATHS.HOME}>
             <Home />
           </Route>
@@ -33,11 +27,15 @@ const Navigation: React.FC = () => {
             <Dashboard />
           </Route>
 
-          <Route exact path={ROUTE_PATHS.SIGN_IN}>
+          <Route path={ROUTE_PATHS.SIGN_IN}>
             <Redirect to={ROUTE_PATHS.HOME} />
           </Route>
 
-          <Route exact path={ROUTE_PATHS.SIGN_UP}>
+          <Route path={ROUTE_PATHS.SIGN_UP}>
+            <Redirect to={ROUTE_PATHS.HOME} />
+          </Route>
+
+          <Route exact path={ROUTE_PATHS.ROOT}>
             <Redirect to={ROUTE_PATHS.HOME} />
           </Route>
         </React.Fragment>

@@ -8,7 +8,7 @@ import { Wrapper, Ocean, Wave, Logo, Content } from './styles';
 
 const Auth: React.FC = () => {
   return (
-    <Wrapper>
+    <Wrapper withHeader={false}>
       <Logo />
       <Content>
         <Switch>

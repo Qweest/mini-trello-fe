@@ -2,7 +2,7 @@ import styled, { keyframes } from 'styled-components';
 
 import waveSvg from '../../../assets/images/wave.svg';
 import { ReactComponent as TrelloLogo } from '../../../assets/images/trello-logo-blue.svg';
-import { Card } from '../../../components';
+import { Card, MainWrapper } from '../../../components';
 import { colors, metrics } from '../../../styles';
 
 const wave = keyframes`
@@ -23,17 +23,14 @@ const swell = keyframes`
     }
 `;
 
-export const Wrapper = styled.div`
-  display: flex;
+export const Wrapper = styled(MainWrapper)`
   flex-direction: column;
   align-items: center;
-  height: 100%;
   background: radial-gradient(
     ellipse at center,
     ${colors.grey2} 35%,
     ${colors.opal} 100%
   );
-  user-select: none;
 `;
 
 export const Ocean = styled.div`

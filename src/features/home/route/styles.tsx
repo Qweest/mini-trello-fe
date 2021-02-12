@@ -1,11 +1,10 @@
 import styled from 'styled-components';
 
+import { MainWrapper } from '../../../components';
 import { colors, metrics } from '../../../styles';
 
-export const Wrapper = styled.div`
-  display: flex;
+export const Wrapper = styled(MainWrapper)`
   justify-content: center;
-  height: 100%;
   background-color: ${colors.grey4};
   overflow: auto;
 `;

@@ -4,15 +4,26 @@ import { FaTrello } from 'react-icons/fa';
 
 import { metrics, colors } from '../../styles';
 
+interface WrapperProps {
+  transparent: boolean;
+}
+
 interface ContentProps {
   position: 'left' | 'right';
 }
 
-export const Wrapper = styled.div`
+export const Wrapper = styled.div<WrapperProps>`
   display: flex;
   flex-direction: row;
   align-items: center;
-  background-color: ${colors.cerulean};
+  box-sizing: border-box;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 49;
+  background-color: ${({ transparent }) =>
+    transparent ? colors.blackA3 : colors.cerulean};
   padding: ${metrics.spacing * 0.25}px;
 `;
 

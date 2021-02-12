@@ -7,6 +7,7 @@ export { default as FormInput } from './FormInput';
 export { default as FormSubmit } from './FormSubmit';
 export { default as Input } from './Input';
 export { default as LoadingPage } from './LoadingPage';
+export { default as MainWrapper } from './MainWrapper';
 export { default as Modal } from './Modal';
 export { default as Row } from './Row';
 export { default as TextArea } from './TextArea';

@@ -11,7 +11,12 @@ import { Wrapper, Content, Button, MemberButton, TrelloLogo } from './styles';
 
 const iconProps = { size: 20, color: colors.white };
 
-const Header: React.FC = () => {
+interface Props {
+  transparent?: boolean;
+}
+
+const Header: React.FC<Props> = (props) => {
+  const { transparent = false } = props;
   const user = useSelector((state: RootState) => state.auth.user);
   const initials = useMemo(() => user?.username.charAt(0).toUpperCase(), [
     user?.username,
@@ -20,7 +25,7 @@ const Header: React.FC = () => {
   const stubFunc = () => ({});
 
   return (
-    <Wrapper>
+    <Wrapper transparent={transparent}>
       <Content position="left">
         <Button onClick={stubFunc} Icon={<CgMenuGridO {...iconProps} />} />
         <Button onClick={stubFunc} Icon={<HiOutlineHome {...iconProps} />} />
