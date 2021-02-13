@@ -7,9 +7,10 @@ import {
 import { colors, metrics } from '../../../../styles';
 
 export const Wrapper = styled.div`
-  min-width: 250px;
+  min-width: 266px;
   box-sizing: border-box;
   height: fit-content;
+  padding-right: ${metrics.spacing}px;
 `;
 
 export const Button = styled(UnstyledButton)`

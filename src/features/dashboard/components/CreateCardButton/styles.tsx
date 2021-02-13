@@ -8,7 +8,7 @@ import {
 import { colors, metrics } from '../../../../styles';
 
 export const Wrapper = styled.div`
-  margin-top: ${metrics.spacing * 0.5}px;
+  margin-top: ${metrics.spacing * 0.25}px;
   cursor: default;
 `;
 

@@ -19,9 +19,9 @@ import ListActions from '../ListActions';
 import {
   Wrapper,
   ActionIcon,
-  ContentWrapper,
   DroppableArea,
   Title,
+  CardsWrapper,
 } from './styles';
 
 interface Props {
@@ -99,19 +99,21 @@ const List: React.FC<Props> = (props) => {
           </Row>
           <Droppable droppableId={id} type={DROPPABLE_TYPES.CARD}>
             {(providedDroppable) => (
-              <ContentWrapper>
+              <React.Fragment>
                 <DroppableArea
                   ref={providedDroppable.innerRef}
                   {...providedDroppable.droppableProps}
                 />
-                <Cards cards={sortedCards} />
-                {providedDroppable.placeholder}
+                <CardsWrapper>
+                  <Cards cards={sortedCards} />
+                  {providedDroppable.placeholder}
+                </CardsWrapper>
                 <CreateCardButton
                   createCard={createCard}
                   createCardFlag={createCardFlag}
                   setCreateCardFlag={setCreateCardFlag}
                 />
-              </ContentWrapper>
+              </React.Fragment>
             )}
           </Droppable>
         </Wrapper>

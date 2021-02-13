@@ -22,16 +22,17 @@ export const Wrapper = styled.div<WrapperProps>`
     ${({ isDragging }) => (isDragging ? colors.blackA2 : colors.none)};
 `;
 
-export const ContentWrapper = styled.div`
-  position: relative;
-  width: 100%;
-`;
-
 export const DroppableArea = styled.div`
   position: absolute;
   width: 100%;
   height: 100vh;
   z-index: -1;
+`;
+
+export const CardsWrapper = styled.div`
+  width: 100%;
+  overflow-y: auto;
+  padding-bottom: ${metrics.spacing * 0.25}px;
 `;
 
 export const Title = styled(ComplexInput)`
