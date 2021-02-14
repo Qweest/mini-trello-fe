@@ -91,6 +91,7 @@ const List: React.FC<Props> = (props) => {
               value={name}
               onSubmit={updateList}
               placeholder="Enter list name..."
+              maxRows={1}
             />
             <ActionIcon
               onClick={openActions}

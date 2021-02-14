@@ -39,6 +39,9 @@ export const CardsWrapper = styled.div`
 export const Title = styled(ComplexInput)`
   & > textarea {
     font-size: ${metrics.fontSize.regular}px;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
   }
 `;
 

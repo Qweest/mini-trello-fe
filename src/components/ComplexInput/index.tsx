@@ -12,6 +12,7 @@ interface Props {
   saveEmpty?: boolean;
   useControls?: boolean;
   className?: string;
+  maxRows?: number;
 }
 
 const ComplexInput: React.FC<Props> = (props) => {
@@ -23,6 +24,7 @@ const ComplexInput: React.FC<Props> = (props) => {
     saveEmpty,
     useControls,
     placeholder,
+    maxRows,
   } = props;
   const wrapper = useRef<HTMLDivElement>(null);
   const inputArea = useRef<HTMLTextAreaElement>(null);
@@ -80,6 +82,7 @@ const ComplexInput: React.FC<Props> = (props) => {
         onChange={handleChange}
         onEnterDown={handleEnterDown}
         placeholder={placeholder}
+        maxRows={maxRows}
       />
       {useControls && focused ? (
         <Controls
