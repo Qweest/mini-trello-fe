@@ -24,8 +24,9 @@ export const Wrapper = styled.div<WrapperProps>`
 
 export const DroppableArea = styled.div`
   position: absolute;
+  top: 38px;
   width: 100%;
-  height: 100vh;
+  height: calc(100vh - ${metrics.spacing * 7}px);
   z-index: -1;
 `;
 

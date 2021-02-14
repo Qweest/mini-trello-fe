@@ -15,7 +15,7 @@ export const Wrapper = styled.div<WrapperProps>`
   overflow: hidden;
   visibility: ${({ opened }) => (opened ? 'visible' : 'hidden')};
   width: 100%;
-  height: 100vh;
+  height: calc(100vh - ${metrics.spacing * 4.5}px);
   top: 0;
   left: 0;
 `;
