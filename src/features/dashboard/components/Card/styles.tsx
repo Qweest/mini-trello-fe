@@ -53,7 +53,7 @@ export const TitleInput = styled(TextArea)`
   color: ${colors.black1};
   resize: none;
   border: none;
-  box-shadow: 0 0 0 2px ${colors.blueberry};
+  box-shadow: inset 0 0 0 2px ${colors.blueberry};
 `;
 
 export const BadgesWrapper = styled.div`
